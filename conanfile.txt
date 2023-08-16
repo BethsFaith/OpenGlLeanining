@@ -1,0 +1,10 @@
+[requires]
+opengl/system
+glad/0.1.36
+glfw/3.3.8
+
+[generators]
+cmake
+
+[options]
+*:shared=False
