@@ -5,8 +5,8 @@
 #ifndef INC_2_SHADERS_PROGRAM1_HPP
 #define INC_2_SHADERS_PROGRAM1_HPP
 
+#include "figures/shaders/ShaderSources.hpp"
 #include "figures/Drawer.hpp"
-#include "figures/Triangles.hpp"
 #include "figures/Triangle.hpp"
 
 class Program1 {
