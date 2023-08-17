@@ -23,6 +23,8 @@ public:
 
     unsigned int getUid() const;
 protected:
+    void setVertexAttribute(const int& index, const int& size, void* offset);
+
     const int vertex_number;
 
     unsigned int VBO{};

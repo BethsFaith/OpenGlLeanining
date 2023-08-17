@@ -18,6 +18,9 @@ public:
 
 private:
     Drawer* drawer;
+
+    std::shared_ptr<ShaderProgram> shader_program;
+    std::shared_ptr<ShaderProgram> color_shader_program;
 };
 
 #endif    //INC_2_SHADERS_PROGRAM1_HPP
