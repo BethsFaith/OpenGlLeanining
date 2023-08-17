@@ -4,48 +4,54 @@
 
 #include "Primitive.hpp"
 
-Primitive::Primitive(std::shared_ptr<ShaderProgram> shader_program, const int& vertex_number_) : shader_program(shader_program), vertex_number(vertex_number_) {
+Primitive::Primitive(std::shared_ptr<ShaderProgram> shader_program, const int& vertex_number_)
+    : shader_program(shader_program),
+      vertex_number(vertex_number_) {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
 
-    drawCallback = [](){};
+    drawCallback = []() {};
 }
 
 void Primitive::setDrawCallback(std::function<void()> function) {
     drawCallback = std::move(function);
 }
 
-void Primitive::bindVerticesToCoordinates(std::vector<float> coordinates,  const Settings& settings) {
-    if (coordinates.size() > vertex_number * 3)
-        throw std::exception(std::format("Wrong number of coordinates: {} when need {}\n", coordinates.size(), vertex_number *3).c_str());
+void Primitive::bindVerticesToCoordinates(std::vector<float> coordinates, const Settings& settings) {
+    int coordinates_number = vertex_number * 3;
+
+    if (settings.with_color) {
+        coordinates_number += vertex_number * 3;
+    }
+    if (settings.with_texture) {
+        coordinates_number += vertex_number * settings.dimension;
+    }
+
+    if (coordinates.size() != coordinates_number) {
+        throw std::exception(
+            std::format("Wrong number of coordinates: {} when need {}\n", coordinates.size(), coordinates_number)
+                .c_str());
+    }
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertex_number * 3 * sizeof(float), coordinates.data(), bind_flag);
+    glBufferData(GL_ARRAY_BUFFER, coordinates_number * sizeof(float), coordinates.data(), settings.bind_flag);
 
-    glVertexAttribPointer(0, vertex_number, GL_FLOAT, GL_FALSE, vertex_number * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-}
-
-void Primitive::bindVerticesToCoordinatesAndColor(std::vector<float> coordinates, const unsigned int& bind_flag) {
-    int elements_count = vertex_number * 3 * 2;
-    if (coordinates.size() > elements_count)
-        throw std::exception(std::format("Wrong number of coordinates: {} when need {}\n", coordinates.size(), elements_count).c_str());
-
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertex_number * 3 * 2 * sizeof(float), coordinates.data(), bind_flag);
-
-    // Координатный атрибут
-    glVertexAttribPointer(0, vertex_number, GL_FLOAT, GL_FALSE, vertex_number * 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    // Цветовой атрибут
-    glVertexAttribPointer(1,
-                          vertex_number, GL_FLOAT, GL_FALSE,
-                          vertex_number * 2 * sizeof(float), (void*)(vertex_number * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    if (!settings.with_color && !settings.with_texture) {
+        setVertexAttribute(0, vertex_number * sizeof(float), (void*)0);
+    } else if (settings.with_color) {
+        // Координатный атрибут
+        setVertexAttribute(0, vertex_number * 2 * sizeof(float), (void*)0);
+        // Цветовой атрибут
+        setVertexAttribute(1, vertex_number * 2 * sizeof(float), (void*)(vertex_number * sizeof(float)));
+    }
 }
 
 unsigned int Primitive::getUid() const {
     return VBO;
+}
+
+void Primitive::setVertexAttribute(const int& index, const int& size, void* offset) {
+    glVertexAttribPointer(index, vertex_number, GL_FLOAT, GL_FALSE, size, offset);
+    glEnableVertexAttribArray(index);
 }

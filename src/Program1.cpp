@@ -5,8 +5,8 @@
 #include "Program1.hpp"
 
 Program1::Program1() {
-    std::shared_ptr<ShaderProgram> shader_program = std::make_shared<ShaderProgram>(ShaderSources::vertex_shader_source, ShaderSources::uniform_fragment_shader_source);
-    std::shared_ptr<ShaderProgram> color_shader_program = std::make_shared<ShaderProgram>(ShaderSources::color_vertex_shader_source, ShaderSources::color_fragment_shader_source);
+    shader_program = std::make_shared<ShaderProgram>(ShaderSources::vertex_shader_source, ShaderSources::uniform_fragment_shader_source);
+    color_shader_program = std::make_shared<ShaderProgram>(ShaderSources::color_vertex_shader_source, ShaderSources::color_fragment_shader_source);
 
     auto triangle = std::make_shared<Triangle>(shader_program);
     auto color_triangle = std::make_shared<Triangle>(color_shader_program);
@@ -23,15 +23,15 @@ Program1::Program1() {
             0.1f,
             0.0f,    // нижняя левая вершина
         },
-        GL_STATIC_DRAW);
-    color_triangle->bindVerticesToCoordinatesAndColor({
-                                                          // координаты        // цвета
-                                                          -0.2f, -0.3f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
-                                                          -0.9f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,   // нижняя левая вершина
-                                                          -0.5f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f    // верхняя вершина
-                                                      },GL_STATIC_DRAW);
+        Settings{.bind_flag = GL_STATIC_DRAW});
+    color_triangle->bindVerticesToCoordinates({
+                                                  // координаты        // цвета
+                                                  -0.2f, -0.3f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
+                                                  -0.9f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,   // нижняя левая вершина
+                                                  -0.5f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f    // верхняя вершина
+                                                      }, Settings{.bind_flag = GL_STATIC_DRAW, .with_color = true});
 
-    triangle->setDrawCallback([&](){
+    triangle->setDrawCallback([this](){
         // Обновление шейдерных uniform-переменных
         float timeValue = glfwGetTime();
         float greenValue = sin(timeValue) / 2.0f + 0.5f;
