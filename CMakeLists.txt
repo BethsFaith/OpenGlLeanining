@@ -19,6 +19,12 @@ conan_cmake_run(CONANFILE conanfile.txt
 
 add_executable(2_shaders
         src/main.cpp
-        src/main.cpp src/figures/shaders/ShaderProgram.cpp src/figures/shaders/ShaderProgram.hpp src/figures/Triangles.cpp src/figures/Triangles.hpp src/figures/Triangles.hpp src/figures/Primitive.cpp src/figures/Primitive.hpp src/figures/Primitive.hpp src/figures/Triangle.cpp src/figures/Triangle.hpp src/figures/Triangle.hpp src/figures/Drawer.cpp src/figures/Drawer.hpp src/Program1.cpp src/Program1.hpp src/Program1.hpp src/figures/Settings.hpp src/figures/Settings.hpp)
+        src/figures/shaders/ShaderProgram.cpp
+        src/figures/Primitive.cpp
+        src/figures/Triangle.cpp
+        src/figures/Drawer.cpp
+        src/Program1.cpp
+        src/Program2.cpp
+        )
 
 target_link_libraries(2_shaders ${CONAN_LIBS})
