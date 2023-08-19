@@ -22,6 +22,11 @@ add_executable(2_shaders
         src/figures/shaders/ShaderProgram.cpp
         src/figures/Primitive.cpp
         src/figures/Triangle.cpp
+        src/figures/Rectangle.cpp
+        src/figures/buffers/RaiiBuffer.cpp
+        src/figures/buffers/Vao.cpp
+        src/figures/buffers/Vbo.cpp
+        src/figures/buffers/Ebo.cpp
         src/figures/Drawer.cpp
         src/Program1.cpp
         src/Program2.cpp

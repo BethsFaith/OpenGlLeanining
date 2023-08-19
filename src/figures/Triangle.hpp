@@ -5,11 +5,12 @@
 #ifndef INC_2_SHADERS_TRIANGLE_HPP
 #define INC_2_SHADERS_TRIANGLE_HPP
 
+#include "buffers/Vbo.hpp"
 #include "Primitive.hpp"
 
 class Triangle : public Primitive {
 public:
-    explicit Triangle(std::shared_ptr<ShaderProgram> shader_program);
+    explicit Triangle(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coordinates);
 
     void draw() override;
 };
