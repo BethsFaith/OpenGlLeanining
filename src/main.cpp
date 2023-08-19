@@ -2,9 +2,7 @@
 #include <iostream>
 
 #include "Program1.hpp"
-#include "figures/Drawer.hpp"
-#include "figures/Triangles.hpp"
-#include "figures/Triangle.hpp"
+#include "Program2.hpp"
 
 void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -41,7 +39,7 @@ int main() {
         return -1;
     }
 
-    auto* program1 = new Program1;
+    auto* program = new Program2;
 
     // Цикл рендеринга
     while (!glfwWindowShouldClose(window)) {
@@ -51,14 +49,14 @@ int main() {
         glClearColor(0.35f, 0.44f, 0.44f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        program1->run();
+        program->run();
 
         // glfw: обмен содержимым front- и back-буферов. Отслеживание событий ввода/вывода (была ли нажата/отпущена кнопка, перемещен курсор мыши и т.п.)
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    delete program1;
+    delete program;
 
     // glfw: завершение, освобождение всех ранее задействованных GLFW-ресурсов
     glfwTerminate();

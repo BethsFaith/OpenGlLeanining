@@ -8,33 +8,36 @@
 #include <functional>
 #include <vector>
 #include <format>
+#include <algorithm>
 
 #include "shaders/ShaderProgram.hpp"
 #include "Settings.hpp"
+#include "buffers/Vao.hpp"
 
 class Primitive {
 public:
-    explicit Primitive(std::shared_ptr<ShaderProgram> shader_program, const int& vertex_number);
+    explicit Primitive(const std::shared_ptr<ShaderProgram>& shader_program, const int& vertex_number);
 
     virtual void setDrawCallback(std::function<void()> function);
 
-    virtual void bindVerticesToCoordinates(std::vector<float> coordinates, const Settings& settings);
-    virtual void draw() = 0;
+    virtual void bind(const Settings& settings);
+    virtual void draw();
 
-    unsigned int getUid() const;
+    [[nodiscard]] unsigned int getUid() const;
 protected:
-    void setVertexAttribute(const int& index, const int& size, void* offset);
+    void add(std::shared_ptr<RaiiBuffer> raii_buffer);
+
+    virtual void setVertexAttribute(const int& index, const int& number, const int& size, void* offset);
 
     const int vertex_number;
 
-    unsigned int VBO{};
-    unsigned int VAO{};
+    std::vector<std::shared_ptr<RaiiBuffer>> buffers{};
 
     std::shared_ptr<ShaderProgram> shader_program;
     std::function<void()> drawCallback;
 
+    int vertices_attribute_numbers;
 private:
-    int *size;
 };
 
 #endif    //INC_2_SHADERS_PRIMITIVE_HPP
