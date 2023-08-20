@@ -27,7 +27,7 @@ public:
 protected:
     void add(std::shared_ptr<RaiiBuffer> raii_buffer);
 
-    virtual void setVertexAttribute(const int& index, const int& number, const int& size, void* offset);
+    virtual void setVertexAttribute(const int& index, const int& size, const int& stride, void* offset);
 
     const int vertex_number;
 

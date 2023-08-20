@@ -55,7 +55,6 @@ int main() {
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
     delete program;
 
     // glfw: завершение, освобождение всех ранее задействованных GLFW-ресурсов
