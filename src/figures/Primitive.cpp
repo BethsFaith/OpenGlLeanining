@@ -24,24 +24,33 @@ void Primitive::bind(const Settings& settings) {
         buffer->bind(settings.bind_flag);
     }
 
-    if (!settings.with_color && !settings.with_texture) {
-        setVertexAttribute(0,
-                           vertices_attribute_numbers,
-                           (int)(vertices_attribute_numbers * sizeof(float)),
-                           (void*)nullptr);
-    } else if (settings.with_color) {
-        // Координатный атрибут
-        setVertexAttribute(0,
-                           vertices_attribute_numbers,
-                           (int)(vertices_attribute_numbers * 2 * sizeof(float)),
-                           (void*)nullptr);
-        // Цветовой атрибут
-        setVertexAttribute(1,
-                           vertices_attribute_numbers,
-                           (int)(vertices_attribute_numbers * 2 * sizeof(float)),
-                           (void*)(vertex_number * sizeof(float)));
-    } else if (settings.with_texture) {
+    int number = vertices_attribute_numbers;
+    if (settings.with_color) {
+        number += 3;
+    }
+    if (settings.with_texture) {
+        number += 2;
+    }
 
+    int index = 0;
+    // Координатный атрибут
+    setVertexAttribute(index++,
+                       3,
+                       (int)(number * sizeof(float)),
+                       (void*)nullptr);
+
+    if (settings.with_color) {
+        // Цветовой атрибут
+        setVertexAttribute(index++,
+                           3,
+                           (int)(number * sizeof(float)),
+                           (void*)(vertices_attribute_numbers * sizeof(float)));
+    }
+    if (settings.with_texture) {
+        setVertexAttribute(index++,
+                           2,
+                           (int)(number * sizeof(float)),
+                           (void*)(vertices_attribute_numbers * 2 * sizeof(float)));
     }
 }
 
@@ -49,8 +58,8 @@ unsigned int Primitive::getUid() const {
     return buffers[0]->get();
 }
 
-void Primitive::setVertexAttribute(const int& index, const int& number, const int& size, void* offset) {
-    glVertexAttribPointer(index, number, GL_FLOAT, GL_FALSE, size, offset);
+void Primitive::setVertexAttribute(const int& index, const int& size, const int& stride, void* offset) {
+    glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, offset);
     glEnableVertexAttribArray(index);
 }
 
