@@ -5,17 +5,17 @@
 #ifndef INC_2_SHADERS_PROGRAM1_HPP
 #define INC_2_SHADERS_PROGRAM1_HPP
 
-#include "figures/shaders/ShaderSources.hpp"
-#include "figures/Drawer.hpp"
+#include "Program.hpp"
 #include "figures/Triangle.hpp"
 
-class Program1 {
+class Program1 : public Program {
 public:
     Program1();
-    ~Program1();
+    ~Program1() override;
 
-    void run();
+    void run() override;
 
+    void processUserInput(GLFWwindow* window) override;
 private:
     Drawer* drawer;
 

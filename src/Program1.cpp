@@ -39,10 +39,16 @@ Program1::Program1() {
     triangle.reset();
 }
 
+Program1::~Program1() {
+    delete drawer;
+}
+
 void Program1::run() {
     drawer->draw();
 }
 
-Program1::~Program1() {
-    delete drawer;
+void Program1::processUserInput(GLFWwindow* window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, true);
+    }
 }

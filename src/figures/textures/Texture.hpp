@@ -11,12 +11,21 @@
 #define GLFW
 #endif
 
+#include <vector>
 #include <stb_image.h>
 #include <iostream>
 
 class Texture {
 public:
+    struct Param{
+        GLenum target;
+        GLenum name;
+        GLint value;
+    };
+
     explicit Texture(unsigned int id);
+
+    void addParam(Param param);
 
     bool bind2d(const char source[]) const;
 
@@ -24,6 +33,8 @@ public:
 private:
     unsigned int _texture{};
     unsigned int _id{};
+
+    std::vector<Param> _params{};
 };
 
 #endif    //INC_2_SHADERS_TEXTURE_HPP
