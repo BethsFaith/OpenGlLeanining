@@ -16,8 +16,8 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // glfw: создание окна
-    GLFWwindow* window = glfwCreateWindow(2560, 1440, "MyWindow", nullptr, nullptr);
-//    GLFWwindow* window = glfwCreateWindow(800, 600, "MyWindow", nullptr, nullptr);
+//    GLFWwindow* window = glfwCreateWindow(2560, 1440, "MyWindow", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "MyWindow", nullptr, nullptr);
 
     if (window == nullptr) {
         glfwTerminate();
