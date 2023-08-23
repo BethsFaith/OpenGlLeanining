@@ -8,12 +8,6 @@ void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
-void processUserInput(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
-    }
-}
-
 int main() {
     // glfw: инициализация и конфигурирование
     glfwInit();
@@ -23,6 +17,7 @@ int main() {
 
     // glfw: создание окна
     GLFWwindow* window = glfwCreateWindow(2560, 1440, "MyWindow", nullptr, nullptr);
+//    GLFWwindow* window = glfwCreateWindow(800, 600, "MyWindow", nullptr, nullptr);
 
     if (window == nullptr) {
         glfwTerminate();
@@ -44,14 +39,15 @@ int main() {
     // Цикл рендеринга
     while (!glfwWindowShouldClose(window)) {
         // Обработка ввода
-        processUserInput(window);
+        program->processUserInput(window);
 
         glClearColor(0.35f, 0.44f, 0.44f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         program->run();
 
-        // glfw: обмен содержимым front- и back-буферов. Отслеживание событий ввода/вывода (была ли нажата/отпущена кнопка, перемещен курсор мыши и т.п.)
+        // glfw: обмен содержимым front- и back-буферов. Отслеживание событий ввода/вывода
+        // (была ли нажата/отпущена кнопка, перемещен курсор мыши и т.п.)
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
