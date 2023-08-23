@@ -31,7 +31,7 @@ add_executable(2_shaders
         src/Program1.cpp
         src/Program2.cpp
         src/figures/textures/Texture.cpp
-        src/stb_image.cpp
-        )
+        src/lib_headears/stb_image.cpp
+        src/lib_headears/glm.hpp src/lib_headears/glfw.hpp)
 
 target_link_libraries(2_shaders ${CONAN_LIBS})

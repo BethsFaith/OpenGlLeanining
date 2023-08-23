@@ -6,6 +6,8 @@
 #define INC_2_SHADERS_PROGRAM2_HPP
 
 #include <filesystem>
+
+#include "lib_headears/glm.hpp"
 #include "Program.hpp"
 #include "figures/Rectangle.hpp"
 #include "figures/textures/Texture.hpp"
@@ -20,6 +22,7 @@ public:
     void processUserInput(GLFWwindow* window) override;
 private:
     void setMixValue(float x);
+    void setTransform(glm::mat4 trans);
 
     std::shared_ptr<ShaderProgram> _shader_program;
     Drawer _drawer{};

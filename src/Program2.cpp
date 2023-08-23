@@ -35,11 +35,30 @@ Program2::Program2() {
     _shader_program->setInt("texture1",0);
     _shader_program->setInt("texture2", 1);
     _shader_program->setFloat("mix_value", _mix_value);
+
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+    setTransform(trans);
 }
 
 void Program2::run() {
     _texture1.bind();
     _texture2.bind();
+
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+    trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+    setTransform(trans);
+
+    _drawer.draw();
+
+    glm::mat4 trans2 = glm::mat4(1.0f);
+    trans2 = glm::translate(trans2, glm::vec3(-0.5f, +0.5f, 0.0f));
+    float scaleAmount = glm::sin((float)glfwGetTime());
+    trans2 = glm::scale(trans2, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
+    setTransform(trans2);
+
     _drawer.draw();
 }
 
@@ -61,4 +80,8 @@ void Program2::processUserInput(GLFWwindow* window) {
             setMixValue(_mix_value);
         }
     }
+}
+
+void Program2::setTransform(glm::mat4 trans) {
+    _shader_program->set4FloatMat("transform", glm::value_ptr(trans));
 }
