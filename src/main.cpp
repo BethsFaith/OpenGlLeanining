@@ -1,59 +1,17 @@
 #include <cmath>
 #include <iostream>
 
+#include "GlfwWindow.hpp"
 #include "Program1.hpp"
 #include "Program2.hpp"
 
-void frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
-}
-
 int main() {
-    // glfw: инициализация и конфигурирование
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    GlfwWindow window(2560, 1440, "MyWindow");
+    window.setClearColor(0.35f, 0.44f, 0.44f, 1.0f);
 
-    // glfw: создание окна
-//    GLFWwindow* window = glfwCreateWindow(2560, 1440, "MyWindow", nullptr, nullptr);
-    GLFWwindow* window = glfwCreateWindow(800, 600, "MyWindow", nullptr, nullptr);
+    window.setProgram(new Program2);
 
-    if (window == nullptr) {
-        glfwTerminate();
-        return -1;
-    }
+    window.run();
 
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, frameBufferSizeCallback);
-
-    // glad: загрузка всех указателей на OpenGL-функции
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
-
-    auto* program = new Program2;
-
-    // Цикл рендеринга
-    while (!glfwWindowShouldClose(window)) {
-        // Обработка ввода
-        program->processUserInput(window);
-
-        glClearColor(0.35f, 0.44f, 0.44f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        program->run();
-
-        // glfw: обмен содержимым front- и back-буферов. Отслеживание событий ввода/вывода
-        // (была ли нажата/отпущена кнопка, перемещен курсор мыши и т.п.)
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-    delete program;
-
-    // glfw: завершение, освобождение всех ранее задействованных GLFW-ресурсов
-    glfwTerminate();
     return 0;
 }

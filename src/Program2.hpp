@@ -12,7 +12,7 @@
 #include "figures/Rectangle.hpp"
 #include "figures/textures/Texture.hpp"
 
-class Program2 : Program{
+class Program2 : public Program{
 public:
     Program2();
     ~Program2() override = default;
