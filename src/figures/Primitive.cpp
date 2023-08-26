@@ -41,16 +41,18 @@ void Primitive::bind(const Settings& settings) {
 
     if (settings.with_color) {
         // Цветовой атрибут
-        setVertexAttribute(index++,
+        setVertexAttribute(index,
                            3,
                            (int)(number * sizeof(float)),
-                           (void*)(vertices_attribute_numbers * sizeof(float)));
+                           (void*)(index * vertices_attribute_numbers * sizeof(float)));
+        ++index;
     }
     if (settings.with_texture) {
-        setVertexAttribute(index++,
+        setVertexAttribute(index,
                            2,
                            (int)(number * sizeof(float)),
-                           (void*)(vertices_attribute_numbers * 2 * sizeof(float)));
+                           (void*)(index * vertices_attribute_numbers * sizeof(float)));
+        ++index;
     }
 }
 

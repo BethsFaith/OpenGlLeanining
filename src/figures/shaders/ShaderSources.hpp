@@ -8,6 +8,8 @@
 namespace ShaderSources {
     static const char* vertex_shader_source = "D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/shaders/src/shader.vert";
 
+    static const char* thirdd_vertex_shader_source = "D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/shaders/src/thirdd_uniform_shader.vert";
+
     static const char* color_vertex_shader_source = "D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/shaders/src/color_shader.vert";
 
     static const char* inverted_vertex_shader_source = "D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/shaders/src/inverted.vert";
