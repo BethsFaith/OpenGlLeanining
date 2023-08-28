@@ -8,6 +8,7 @@
 #include "Program.hpp"
 #include "lib_headears/glm.hpp"
 #include "figures/Rectangle.hpp"
+#include "figures/Cube.hpp"
 #include "figures/textures/Texture.hpp"
 
 class Program3 : public Program{

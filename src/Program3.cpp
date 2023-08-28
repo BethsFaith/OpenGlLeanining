@@ -7,16 +7,60 @@
 Program3::Program3() {
     _shader_program = std::make_shared<ShaderProgram>(ShaderSources::thirdd_vertex_shader_source, ShaderSources::texture_fragment_shader_source);
 
-    auto rectangle = std::make_shared<Rectangle>(_shader_program, std::vector<float>{
-                                                                      // координаты        // текстурные координаты
-                                                                      0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // верхняя правая вершина
-                                                                      0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // нижняя правая вершина
-                                                                      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // нижняя левая вершина
-                                                                      -0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // верхняя левая вершина
-                                                                  });
-    rectangle->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = false});
+//    auto rectangle = std::make_shared<Rectangle>(_shader_program, std::vector<float>{
+//                                                                      // координаты        // текстурные координаты
+//                                                                      0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // верхняя правая вершина
+//                                                                      0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // нижняя правая вершина
+//                                                                      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // нижняя левая вершина
+//                                                                      -0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // верхняя левая вершина
+//                                                                  });
+//    rectangle->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = false});
 
-    _drawer.addPrimitive(rectangle);
+    auto cube = std::make_shared<Cube>(_shader_program, std::vector<float>{// координаты        // текстурные координаты
+                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+                                                                           0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+                                                                           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+                                                                           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+                                                                           -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+                                                                           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+                                                                           -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+                                                                           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+                                                                           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+                                                                           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+                                                                           0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+                                                                           0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+                                                                           -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+                                                        });
+    cube->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = false});
+    _drawer.addPrimitive(cube);
 
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_S, .value = GL_CLAMP_TO_EDGE});
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_T, .value = GL_CLAMP_TO_EDGE});
@@ -39,7 +83,8 @@ Program3::Program3() {
     glm::mat4 view = glm::mat4(1.0f);
     glm::mat4 projection = glm::mat4(1.0f);
 
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+//    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
 
@@ -57,6 +102,10 @@ void Program3::processUserInput(GLFWwindow* window) {
 void Program3::run() {
     _texture1.bind();
     _texture2.bind();
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+    _shader_program->set4FloatMat("model", glm::value_ptr(model));
 
     _drawer.draw();
 }

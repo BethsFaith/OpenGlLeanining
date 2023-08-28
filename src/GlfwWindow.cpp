@@ -22,6 +22,8 @@ GlfwWindow::GlfwWindow(const int& width, const int& height, const char* title) {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
     }
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 GlfwWindow::~GlfwWindow() {
@@ -49,7 +51,7 @@ void GlfwWindow::setClearColor(float r, float g, float b, float a) {
 
 void GlfwWindow::clearColor() {
     glClearColor(_clear_color.x, _clear_color.y, _clear_color.z, _clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GlfwWindow::setProgram(Program* program) {

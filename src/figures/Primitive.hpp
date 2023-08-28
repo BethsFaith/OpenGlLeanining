@@ -17,6 +17,7 @@
 class Primitive {
 public:
     explicit Primitive(const std::shared_ptr<ShaderProgram>& shader_program, const int& vertex_number);
+    virtual ~Primitive() = default;
 
     virtual void setDrawCallback(std::function<void()> function);
 
