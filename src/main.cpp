@@ -5,8 +5,7 @@
 #include "Program3.hpp"
 
 int main() {
-//    GlfwWindow window(2560, 1440, "MyWindow");
-    GlfwWindow window(800, 600, "MyWindow");
+    GlfwWindow window(2560, 1440, "MyWindow");
 
     window.setClearColor(0.35f, 0.44f, 0.44f, 1.0f);
 
