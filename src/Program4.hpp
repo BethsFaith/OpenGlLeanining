@@ -1,9 +1,9 @@
 //
-// Created by VerOchka on 26.08.2023.
+// Created by VerOchka on 07.09.2023.
 //
 
-#ifndef INC_2_SHADERS_PROGRAM3_HPP
-#define INC_2_SHADERS_PROGRAM3_HPP
+#ifndef INC_2_SHADERS_PROGRAM4_HPP
+#define INC_2_SHADERS_PROGRAM4_HPP
 
 #include "Program.hpp"
 #include "tools/objects/figures/Cube.hpp"
@@ -11,15 +11,18 @@
 #include "tools/objects/figures/textures/Texture.hpp"
 #include "tools/objects/figures/textures/TextureSources.hpp"
 #include "tools/objects/libHeadears/glm.hpp"
-#include "tools/objects/Camera.hpp"
+#include "tools/CameraController.hpp"
 
-class Program3 : public Program{
+class Program4 : public Program {
 public:
-    Program3();
-    ~Program3() override = default;
+    Program4();
+    ~Program4() override = default;
 
     void run() override;
     void processUserInput(GLFWwindow* window) override;
+
+protected:
+    virtual void updateView();
 
 private:
     std::shared_ptr<Figures::ShaderProgram> _shader_program;
@@ -27,6 +30,9 @@ private:
     Figures::Drawer _drawer{};
     Figures::Texture _texture1{GL_TEXTURE0};
     Figures::Texture _texture2{GL_TEXTURE1};
+
+    std::shared_ptr<Objects::Camera> _camera;
+    std::shared_ptr<Tools::CameraController> _camera_controller;
 };
 
-#endif    //INC_2_SHADERS_PROGRAM3_HPP
+#endif    //INC_2_SHADERS_PROGRAM4_HPP
