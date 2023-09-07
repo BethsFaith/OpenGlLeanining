@@ -17,10 +17,10 @@ public:
 
     void processUserInput(GLFWwindow* window) override;
 private:
-    Drawer* drawer;
+    Figures::Drawer* drawer;
 
-    std::shared_ptr<ShaderProgram> _shader_program;
-    std::shared_ptr<ShaderProgram> _color_shader_program;
+    std::shared_ptr<Figures::ShaderProgram> _shader_program;
+    std::shared_ptr<Figures::ShaderProgram> _color_shader_program;
 };
 
 #endif    //INC_2_SHADERS_PROGRAM1_HPP

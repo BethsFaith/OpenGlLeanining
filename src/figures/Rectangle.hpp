@@ -10,14 +10,15 @@
 
 #include "Primitive.hpp"
 
-class Rectangle : public Primitive {
-public:
-    explicit Rectangle(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coords);
-    ~Rectangle() = default;
-    void draw() override;
+namespace Figures {
+    class Rectangle : public Primitive {
+    public:
+        explicit Rectangle(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coords);
+        ~Rectangle() = default;
+        void draw() override;
 
-private:
-
-};
+    private:
+    };
+}
 
 #endif    //INC_2_SHADERS_RECTANGLE_HPP

@@ -7,6 +7,8 @@
 #include "figures/buffers/Vbo.hpp"
 
 Program1::Program1() {
+    using namespace Figures;
+
     _shader_program = std::make_shared<ShaderProgram>(ShaderSources::vertex_shader_source, ShaderSources::uniform_fragment_shader_source);
     _color_shader_program = std::make_shared<ShaderProgram>(ShaderSources::color_vertex_shader_source, ShaderSources::color_fragment_shader_source);
 

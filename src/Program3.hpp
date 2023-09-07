@@ -10,6 +10,7 @@
 #include "figures/Rectangle.hpp"
 #include "figures/Cube.hpp"
 #include "figures/textures/Texture.hpp"
+#include "figures/textures/TextureSources.hpp"
 
 class Program3 : public Program{
 public:
@@ -20,11 +21,11 @@ public:
     void processUserInput(GLFWwindow* window) override;
 
 private:
-    std::shared_ptr<ShaderProgram> _shader_program;
+    std::shared_ptr<Figures::ShaderProgram> _shader_program;
 
-    Drawer _drawer{};
-    Texture _texture1{GL_TEXTURE0};
-    Texture _texture2{GL_TEXTURE1};
+    Figures::Drawer _drawer{};
+    Figures::Texture _texture1{GL_TEXTURE0};
+    Figures::Texture _texture2{GL_TEXTURE1};
 };
 
 #endif    //INC_2_SHADERS_PROGRAM3_HPP

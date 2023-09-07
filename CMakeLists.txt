@@ -37,6 +37,6 @@ add_executable(2_shaders
         src/Program3.cpp
         src/Program3.hpp
         src/figures/Cube.cpp
-        )
+        src/figures/textures/TextureSources.hpp)
 
 target_link_libraries(2_shaders ${CONAN_LIBS})

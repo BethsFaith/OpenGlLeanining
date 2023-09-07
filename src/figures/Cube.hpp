@@ -9,12 +9,14 @@
 #include "buffers/Vbo.hpp"
 #include "Primitive.hpp"
 
-class Cube : public Primitive{
-public:
-    explicit Cube(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coords);
-    ~Cube() override = default;
+namespace Figures {
+    class Cube : public Primitive {
+    public:
+        explicit Cube(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coords);
+        ~Cube() override = default;
 
-    void draw() override;
-};
+        void draw() override;
+    };
+}
 
 #endif    //INC_2_SHADERS_CUBE_HPP
