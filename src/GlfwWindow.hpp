@@ -22,11 +22,17 @@ public:
 
     void setClearColor(float r, float g, float b, float a);
     void setProgram(Program* program);
-private:
+
+protected:
     static void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
 
     bool shouldClose();
-    void clearColor();
+    void clearColor() const;
+private:
+    void updateDeltaTime();
+
+    float _delta_time = 0.0f;	// время между текущим и последним кадрами
+    float _last_frame = 0.0f;   // время последнего кадра
 
     GLFWwindow* _window;
     Program* _program;

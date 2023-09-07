@@ -5,10 +5,10 @@
 #ifndef CREATING_WINDOW_SHADERSOURCES_HPP
 #define CREATING_WINDOW_SHADERSOURCES_HPP
 
-#include "../../../../ProjectConstants.hpp"
+#include "../../../../ProgramData.hpp"
 
 namespace Figures::ShaderSources {
-    static std::string path = ProjectConstants::getProjectValue<std::string>("path");
+    static std::string path = ProgramData::getValue<std::string>("path");
 
     static const std::string vertex_shader_source = path+"/src/tools/objects/figures/shaders/rsrc/shader.vert";
 
