@@ -4,7 +4,7 @@
 
 #include "ShaderProgram.hpp"
 
-ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath) {
+ShaderProgram::ShaderProgram(const std::string& vertexPath, const std::string& fragmentPath) {
     // Этап №1: Получение исходного кода вершинного/фрагментного шейдера из переменной filePath
     std::string vertexCode;
     std::string fragmentCode;

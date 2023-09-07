@@ -4,6 +4,7 @@ glad/0.1.36
 glfw/3.3.8
 stb/cci.20220909
 glm/cci.20230113
+jsoncpp/1.9.5
 
 [generators]
 cmake

@@ -15,7 +15,7 @@
 class ShaderProgram {
 public:
     // Конструктор считывает данные и выполняет построение шейдера
-    ShaderProgram(const char* vertexPath, const char* fragmentPath);
+    ShaderProgram(const std::string& vertexPath, const std::string& fragmentPath);
 
     // Использование/активация шейдера
     void use();
