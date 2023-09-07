@@ -6,9 +6,9 @@
 
 int main() {
     int width, height;
-    ProjectConstants::pullDesktopResolution(width, height);
+    ProgramData::pullDesktopResolution(width, height);
 
-    std::cout << ProjectConstants::getProjectValue<std::string>("path") << std::endl;
+    std::cout << ProgramData::getValue<std::string>("path") << std::endl;
 
     GlfwWindow window(width, height, "MyWindow");
 

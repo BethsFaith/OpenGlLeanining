@@ -77,7 +77,7 @@ Program4::Program4() {
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
     int width, height;
-    ProjectConstants::pullDesktopResolution(width, height);
+    ProgramData::pullDesktopResolution(width, height);
     projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
     _camera = std::make_shared<Objects::Camera>(glm::vec3(0.0f, 0.0f,  3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f,  0.0f));
@@ -134,7 +134,9 @@ void Program4::processUserInput(GLFWwindow* window) {
 }
 
 void Program4::updateView() {
-    _camera_controller->updateDeltaTime();
-
     _shader_program->set4FloatMat("view",  glm::value_ptr(_camera->getView()));
+}
+
+void Program4::setDeltaTime(const float& delta_time) {
+    _camera_controller->setDeltaTime(delta_time);
 }

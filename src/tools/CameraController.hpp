@@ -20,15 +20,14 @@ namespace Tools {
         void left();
         void back();
 
-        void updateDeltaTime();
-
         void setCamera(const std::shared_ptr<Objects::Camera>& camera);
         void setCameraSpeed(float camera_speed);
-    protected:
-        [[nodiscard]] float getSpeed();
+        void setDeltaTime(float delta_time);
 
-        float deltaTime = 0.0f;	// время между текущим и последним кадрами
-        float lastFrame = 0.0f; // время последнего кадра
+    protected:
+        [[nodiscard]] float getSpeed() const;
+
+        float deltaTime = 0.0f;
     private:
         std::shared_ptr<Objects::Camera> _camera;
 

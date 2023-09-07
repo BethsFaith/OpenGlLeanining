@@ -5,10 +5,10 @@
 #ifndef INC_2_SHADERS_TEXTURESOURCES_HPP
 #define INC_2_SHADERS_TEXTURESOURCES_HPP
 
-#include "../../../../ProjectConstants.hpp"
+#include "../../../../ProgramData.hpp"
 
 namespace TextureSources {
-    static std::string path = ProjectConstants::getProjectValue<std::string>("path");
+    static std::string path = ProgramData::getValue<std::string>("path");
 
     static std::string face_path = path+"/src/tools/objects/figures/textures/rsrc/awesomeface.png";
 

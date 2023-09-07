@@ -11,14 +11,6 @@ namespace Tools {
 
     CameraController::CameraController(std::shared_ptr<Objects::Camera> camera) : CameraController(std::move(camera), 0.05f){}
 
-    void CameraController::setCamera(const std::shared_ptr<Objects::Camera>& camera) {
-        _camera = camera;
-    }
-
-    void CameraController::setCameraSpeed(float camera_speed) {
-        _camera_speed = camera_speed;
-    }
-
     void CameraController::forward() {
         auto camera_pos = _camera->getPosition();
 
@@ -51,14 +43,19 @@ namespace Tools {
         _camera->setPosition(camera_pos);
     }
 
-    void CameraController::updateDeltaTime() {
-        auto currentFrame = (float)glfwGetTime();
-
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+    float CameraController::getSpeed() const{
+        return _camera_speed * deltaTime;
     }
 
-    float CameraController::getSpeed(){
-        return _camera_speed * deltaTime;
+    void CameraController::setCamera(const std::shared_ptr<Objects::Camera>& camera) {
+        _camera = camera;
+    }
+
+    void CameraController::setCameraSpeed(float camera_speed) {
+        _camera_speed = camera_speed;
+    }
+
+    void CameraController::setDeltaTime(float delta_time) {
+        deltaTime = delta_time;
     }
 }    //namespace Tools

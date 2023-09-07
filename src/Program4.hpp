@@ -20,6 +20,7 @@ public:
 
     void run() override;
     void processUserInput(GLFWwindow* window) override;
+    void setDeltaTime(const float& delta_time) override;
 
 protected:
     virtual void updateView();
