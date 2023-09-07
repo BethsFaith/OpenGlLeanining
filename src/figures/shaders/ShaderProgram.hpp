@@ -12,24 +12,25 @@
 #include <sstream>
 #include <iostream>
 
-class ShaderProgram {
-public:
-    // Конструктор считывает данные и выполняет построение шейдера
-    ShaderProgram(const std::string& vertexPath, const std::string& fragmentPath);
+namespace Figures {
+    class ShaderProgram {
+    public:
+        // Конструктор считывает данные и выполняет построение шейдера
+        ShaderProgram(const std::string& vertexPath, const std::string& fragmentPath);
 
-    // Использование/активация шейдера
-    void use();
+        // Использование/активация шейдера
+        void use();
 
-    // Полезные uniform-функции
-    void setBool(const std::string &name, bool value) const;
-    void setInt(const std::string &name, int value) const;
-    void setFloat(const std::string &name, float value) const;
-    void set4FloatVector(const std::string& name, float c1, float c2, float c3, float c4) const;
-    void set4FloatMat(const std::string& name, const GLfloat *value) const;
+        // Полезные uniform-функции
+        void setBool(const std::string& name, bool value) const;
+        void setInt(const std::string& name, int value) const;
+        void setFloat(const std::string& name, float value) const;
+        void set4FloatVector(const std::string& name, float c1, float c2, float c3, float c4) const;
+        void set4FloatMat(const std::string& name, const GLfloat* value) const;
 
-    // ID - идентификатор программы
-    unsigned int ID;
-};
-
+        // ID - идентификатор программы
+        unsigned int ID;
+    };
+}
 
 #endif    //INC_2_SHADERS_SHADERPROGRAM_HPP

@@ -24,10 +24,10 @@ private:
     void setMixValue(float x);
     void setTransform(glm::mat4 trans);
 
-    std::shared_ptr<ShaderProgram> _shader_program;
-    Drawer _drawer{};
-    Texture _texture1{GL_TEXTURE0};
-    Texture _texture2{GL_TEXTURE1};
+    std::shared_ptr<Figures::ShaderProgram> _shader_program;
+    Figures::Drawer _drawer{};
+    Figures::Texture _texture1{GL_TEXTURE0};
+    Figures::Texture _texture2{GL_TEXTURE1};
 
     float _mix_value = 0.2;
 };

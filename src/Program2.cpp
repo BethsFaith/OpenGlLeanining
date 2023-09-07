@@ -5,9 +5,11 @@
 #include "Program2.hpp"
 
 Program2::Program2() {
+    using namespace Figures;
+
     _shader_program = std::make_shared<ShaderProgram>(ShaderSources::texture_vertex_shader_source, ShaderSources::texture_fragment_shader_source);
 
-    auto rectangle = std::make_shared<Rectangle>(_shader_program, std::vector<float>{
+    auto rectangle = std::make_shared<Figures::Rectangle>(_shader_program, std::vector<float>{
                                                                       // координаты        // цвета            // текстурные координаты
                                                                       0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // верхняя правая
                                                                       0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // нижняя правая

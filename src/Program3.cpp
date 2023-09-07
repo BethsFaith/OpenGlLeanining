@@ -5,6 +5,7 @@
 #include "Program3.hpp"
 
 Program3::Program3() {
+    using namespace Figures;
     _shader_program = std::make_shared<ShaderProgram>(ShaderSources::thirdd_vertex_shader_source, ShaderSources::texture_fragment_shader_source);
 
 //    auto rectangle = std::make_shared<Rectangle>(_shader_program, std::vector<float>{
@@ -72,8 +73,8 @@ Program3::Program3() {
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
 
-    _texture1.bind2d("D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/textures/src/container.jpg");
-    _texture2.bind2d("D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/textures/src/awesomeface.png");
+    _texture1.bind2d(TextureSources::container_path.c_str());
+    _texture2.bind2d(TextureSources::face_path.c_str());
 
     _shader_program->use();
     _shader_program->setInt("texture1",0);
@@ -84,9 +85,12 @@ Program3::Program3() {
     glm::mat4 projection = glm::mat4(1.0f);
 
 //    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    int width, height;
+    ProjectConstants::pullDesktopResolution(width, height);
+
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    projection = glm::perspective(glm::radians(45.0f), (float)2560 / (float)1440, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
     _shader_program->set4FloatMat("model", glm::value_ptr(model));
     _shader_program->set4FloatMat("view",  glm::value_ptr(view));
