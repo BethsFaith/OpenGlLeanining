@@ -5,7 +5,7 @@
 #ifndef INC_2_SHADERS_SHADERPROGRAM_HPP
 #define INC_2_SHADERS_SHADERPROGRAM_HPP
 
-#include "../../lib_headears/glfw.hpp"
+#include "../../libHeadears/glfw.hpp"
 
 #include <string>
 #include <fstream>

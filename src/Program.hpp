@@ -5,8 +5,8 @@
 #ifndef INC_2_SHADERS_PROGRAM_HPP
 #define INC_2_SHADERS_PROGRAM_HPP
 
-#include "figures/shaders/ShaderSources.hpp"
-#include "figures/Drawer.hpp"
+#include "tools/objects/figures/shaders/ShaderSources.hpp"
+#include "tools/objects/figures/Drawer.hpp"
 
 class Program {
 public:

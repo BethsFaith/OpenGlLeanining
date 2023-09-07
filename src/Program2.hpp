@@ -7,10 +7,10 @@
 
 #include <filesystem>
 
-#include "lib_headears/glm.hpp"
+#include "tools/objects/libHeadears/glm.hpp"
 #include "Program.hpp"
-#include "figures/Rectangle.hpp"
-#include "figures/textures/Texture.hpp"
+#include "tools/objects/figures/Rectangle.hpp"
+#include "tools/objects/figures/textures/Texture.hpp"
 
 class Program2 : public Program{
 public:

@@ -6,7 +6,7 @@
 #define INC_2_SHADERS_PROGRAM1_HPP
 
 #include "Program.hpp"
-#include "figures/Triangle.hpp"
+#include "tools/objects/figures/Triangle.hpp"
 
 class Program1 : public Program {
 public:

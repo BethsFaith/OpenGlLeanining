@@ -4,7 +4,7 @@
 
 #include "Program1.hpp"
 
-#include "figures/buffers/Vbo.hpp"
+#include "tools/objects/figures/buffers/Vbo.hpp"
 
 Program1::Program1() {
     using namespace Figures;

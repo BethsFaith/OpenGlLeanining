@@ -19,24 +19,26 @@ conan_cmake_run(CONANFILE conanfile.txt
 
 add_executable(2_shaders
         src/main.cpp
-        src/figures/shaders/ShaderProgram.cpp
-        src/figures/Primitive.cpp
-        src/figures/Triangle.cpp
-        src/figures/Rectangle.cpp
-        src/figures/buffers/RaiiBuffer.cpp
-        src/figures/buffers/Vao.cpp
-        src/figures/buffers/Vbo.cpp
-        src/figures/buffers/Ebo.cpp
-        src/figures/Drawer.cpp
+        src/GlfwWindow.cpp
         src/Program1.cpp
         src/Program2.cpp
-        src/figures/textures/Texture.cpp
-        src/lib_headears/stb_image.cpp
-        src/lib_headears/glm.hpp
-        src/GlfwWindow.cpp
         src/Program3.cpp
         src/Program3.hpp
-        src/figures/Cube.cpp
-        src/figures/textures/TextureSources.hpp)
+        src/Program4.cpp
+        src/tools/objects/figures/shaders/ShaderProgram.cpp
+        src/tools/objects/figures/Primitive.cpp
+        src/tools/objects/figures/Triangle.cpp
+        src/tools/objects/figures/Rectangle.cpp
+        src/tools/objects/figures/buffers/RaiiBuffer.cpp
+        src/tools/objects/figures/buffers/Vao.cpp
+        src/tools/objects/figures/buffers/Vbo.cpp
+        src/tools/objects/figures/buffers/Ebo.cpp
+        src/tools/objects/figures/Drawer.cpp
+        src/tools/objects/figures/textures/Texture.cpp
+        src/tools/objects/libHeadears/stb_image.cpp
+        src/tools/objects/figures/Cube.cpp
+        src/tools/objects/Camera.cpp
+        src/tools/CameraController.cpp
+        )
 
 target_link_libraries(2_shaders ${CONAN_LIBS})

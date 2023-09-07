@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "GlfwWindow.hpp"
-#include "Program3.hpp"
+#include "Program4.hpp"
 
 int main() {
     int width, height;
@@ -14,7 +14,7 @@ int main() {
 
     window.setClearColor(0.35f, 0.44f, 0.44f, 1.0f);
 
-    window.setProgram(new Program3);
+    window.setProgram(new Program4);
 
     window.run();
 

@@ -7,8 +7,8 @@
 
 #include <iostream>
 
-#include "lib_headears/glfw.hpp"
-#include "lib_headears/glm.hpp"
+#include "tools/objects/libHeadears/glfw.hpp"
+#include "tools/objects/libHeadears/glm.hpp"
 #include "Program.hpp"
 
 class GlfwWindow {
