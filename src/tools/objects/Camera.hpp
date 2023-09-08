@@ -15,15 +15,14 @@ namespace Objects {
         ~Camera() = default;
 
         [[nodiscard]] const glm::mat4& getView() const;
-
-        void setPosition(const glm::vec3& position);
-        void setUp(const glm::vec3& up);
-        void setFront(const glm::vec3& front);
-
         [[nodiscard]] const glm::vec3& getPosition() const;
         [[nodiscard]] const glm::vec3& getUp() const;
         [[nodiscard]] const glm::vec3& getFront() const;
         [[nodiscard]] const float& getZoom() const;
+
+        void setPosition(const glm::vec3& position);
+        void setUp(const glm::vec3& up);
+        void setFront(const glm::vec3& front);
         void setZoom(float zoom);
 
     private:
