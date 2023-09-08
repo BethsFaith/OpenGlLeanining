@@ -27,8 +27,6 @@ protected:
     float last_x{};
     float last_y{};
 
-    float fov = 49.0f;
-
     bool first_mouse = true;
 };
 

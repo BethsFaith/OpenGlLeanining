@@ -20,9 +20,11 @@ namespace Objects {
         void setUp(const glm::vec3& up);
         void setFront(const glm::vec3& front);
 
-        const glm::vec3& getPosition() const;
-        const glm::vec3& getUp() const;
-        const glm::vec3& getFront() const;
+        [[nodiscard]] const glm::vec3& getPosition() const;
+        [[nodiscard]] const glm::vec3& getUp() const;
+        [[nodiscard]] const glm::vec3& getFront() const;
+        [[nodiscard]] const float& getZoom() const;
+        void setZoom(float zoom);
 
     private:
         void updateView();
@@ -36,6 +38,7 @@ namespace Objects {
         glm::vec3 _right_direction{};
 
         glm::mat4 _view{};
+        float _zoom = 45.0f;
     };
 }    //namespace Tools
 

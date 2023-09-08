@@ -21,8 +21,7 @@ namespace Tools {
         void back();
 
         void rotate(float x_offset, float y_offset);
-        void yaw(float offset);
-        void pitch(float offset);
+        void zoom(float y_offset);
 
         void setCamera(const std::shared_ptr<Objects::Camera>& camera);
         void setCameraSpeed(float camera_speed);
@@ -30,6 +29,9 @@ namespace Tools {
 
     protected:
         [[nodiscard]] float getSpeed() const;
+
+        void yaw(float offset);
+        void pitch(float offset);
         void rotate();
 
         float deltaTime = 0.0f;
@@ -37,6 +39,7 @@ namespace Tools {
         std::shared_ptr<Objects::Camera> _camera;
 
         float _camera_speed;
+
         float _yaw = -90.0f;
         float _pitch = 0;
     };

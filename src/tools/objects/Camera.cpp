@@ -31,6 +31,10 @@ namespace Objects {
         return _front;
     }
 
+    const float& Camera::getZoom() const {
+        return _zoom;
+    }
+
     void Camera::setPosition(const glm::vec3& position) {
         _position = position;
         updateView();
@@ -44,6 +48,10 @@ namespace Objects {
     void Camera::setFront(const glm::vec3& front) {
         _front = front;
         updateView();
+    }
+
+    void Camera::setZoom(float zoom) {
+        _zoom = zoom;
     }
 
     void Camera::updateView() {

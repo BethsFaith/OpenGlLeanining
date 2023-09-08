@@ -59,7 +59,6 @@ Program4::Program4() {
     ProgramData::pullDesktopResolution(width, height);
     last_x = (float)width / 2;
     last_y = (float)height / 2;
-
     projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
     _camera = std::make_shared<Objects::Camera>(glm::vec3(0.0f, 0.0f, 3.0f),
@@ -102,6 +101,17 @@ void Program4::run() {
     }
 }
 
+void Program4::updateView() {
+    int width, height;
+    ProgramData::pullDesktopResolution(width, height);
+
+    auto projection = glm::perspective(glm::radians(_camera->getZoom()), (float)width / (float)height, 0.1f, 100.0f);
+
+    _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
+
+    _shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
+}
+
 void Program4::processKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
@@ -133,7 +143,9 @@ void Program4::processMouseInput(double x_pos, double y_pos) {
     }
 
     float x_offset = x_pos - last_x;
-    float y_offset = last_y - y_pos;    // уменьшаемое и вычитаемое поменяны местами, так как диапазон y-координаты определяется снизу вверх
+    float y_offset =
+        last_y
+        - y_pos;    // уменьшаемое и вычитаемое поменяны местами, так как диапазон y-координаты определяется снизу вверх
 
     last_x = x_pos;
     last_y = y_pos;
@@ -146,26 +158,7 @@ void Program4::processMouseInput(double x_pos, double y_pos) {
 }
 
 void Program4::processMouseScroll(double x_offset, double y_offset) {
-    if (fov > 1.0f && fov <= 45.0f) {
-        fov -= (float)y_offset;
-    }
-    if (fov <= 1.0f) {
-        fov = 1.0f;
-    }
-    if (fov >= 45.0f) {
-        fov = 45.0f;
-    }
-
-    int width, height;
-    ProgramData::pullDesktopResolution(width, height);
-
-    auto projection = glm::perspective(glm::radians(fov), (float)width/(float)height, 0.1f, 100.0f);
-
-    _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
-}
-
-void Program4::updateView() {
-    _shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
+    _camera_controller->zoom((float)y_offset);
 }
 
 void Program4::setDeltaTime(const float& delta_time) {
