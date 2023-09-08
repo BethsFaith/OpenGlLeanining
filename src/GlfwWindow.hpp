@@ -13,10 +13,9 @@
 
 class GlfwWindow {
 public:
-    GlfwWindow(const int& width, const int& height, const char* title);
-    ~GlfwWindow();
+    static void init(const int& width, const int& height, const char* title);
 
-    [[nodiscard]] GLFWwindow* get() const;
+    [[nodiscard]] static GlfwWindow* get() ;
 
     void run();
 
@@ -25,19 +24,26 @@ public:
 
 protected:
     static void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
+    static void mouseCallback(GLFWwindow* window, double xpos, double ypos);
+    static void scrollCallback(GLFWwindow* window, double x_offset, double y_offset);
 
     bool shouldClose();
     void clearColor() const;
 private:
+    GlfwWindow(const int& width, const int& height, const char* title);
+    ~GlfwWindow();
+
     void updateDeltaTime();
 
     float _delta_time = 0.0f;	// время между текущим и последним кадрами
     float _last_frame = 0.0f;   // время последнего кадра
 
-    GLFWwindow* _window;
-    Program* _program;
+    static GlfwWindow* _instance;
 
-    glm::vec4 _clear_color;
+    GLFWwindow* _window = nullptr;
+    Program* _program = nullptr;
+
+    glm::vec4 _clear_color{};
 };
 
 #endif    //INC_2_SHADERS_GLFWWINDOW_HPP

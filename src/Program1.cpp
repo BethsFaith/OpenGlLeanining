@@ -49,7 +49,7 @@ void Program1::run() {
     drawer->draw();
 }
 
-void Program1::processUserInput(GLFWwindow* window) {
+void Program1::processKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }

@@ -10,13 +10,15 @@ int main() {
 
     std::cout << ProgramData::getValue<std::string>("path") << std::endl;
 
-    GlfwWindow window(width, height, "MyWindow");
+    GlfwWindow::init(width, height, "MyWindow");
 
-    window.setClearColor(0.35f, 0.44f, 0.44f, 1.0f);
+    auto window = GlfwWindow::get();
 
-    window.setProgram(new Program4);
+    window->setClearColor(0.35f, 0.44f, 0.44f, 1.0f);
 
-    window.run();
+    window->setProgram(new Program4);
+
+    window->run();
 
     return 0;
 }

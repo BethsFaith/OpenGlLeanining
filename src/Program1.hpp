@@ -15,7 +15,7 @@ public:
 
     void run() override;
 
-    void processUserInput(GLFWwindow* window) override;
+    void processKeyboardInput(GLFWwindow* window) override;
 private:
     Figures::Drawer* drawer;
 

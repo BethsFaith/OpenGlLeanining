@@ -68,7 +68,7 @@ void Program2::setMixValue(float x) {
     _shader_program->setFloat("mix_value", x);
 }
 
-void Program2::processUserInput(GLFWwindow* window) {
+void Program2::processKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     } else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {

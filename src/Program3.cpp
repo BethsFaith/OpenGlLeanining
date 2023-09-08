@@ -97,7 +97,7 @@ Program3::Program3() {
     _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
 }
 
-void Program3::processUserInput(GLFWwindow* window) {
+void Program3::processKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }

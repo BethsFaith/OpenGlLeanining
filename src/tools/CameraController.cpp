@@ -43,6 +43,34 @@ namespace Tools {
         _camera->setPosition(camera_pos);
     }
 
+    void CameraController::rotate(float x_offset, float y_offset) {
+        yaw(x_offset);
+        pitch(y_offset);
+        rotate();
+    }
+
+    void CameraController::yaw(float offset) {
+        _yaw += offset;
+    }
+
+    void CameraController::pitch(float offset) {
+        _pitch += offset;
+
+        if (_pitch > 89.0f)
+            _pitch = 89.0f;
+        if (_pitch < -89.0f)
+            _pitch = -89.0f;
+    }
+
+    void CameraController::rotate() {
+        glm::vec3 direction;
+        direction.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+        direction.y = sin(glm::radians(_pitch));
+        direction.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+
+        _camera->setFront(glm::normalize(direction));
+    }
+
     float CameraController::getSpeed() const{
         return _camera_speed * deltaTime;
     }

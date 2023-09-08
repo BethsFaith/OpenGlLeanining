@@ -19,7 +19,7 @@ public:
     ~Program3() override = default;
 
     void run() override;
-    void processUserInput(GLFWwindow* window) override;
+    void processKeyboardInput(GLFWwindow* window) override;
 
 private:
     std::shared_ptr<Figures::ShaderProgram> _shader_program;
