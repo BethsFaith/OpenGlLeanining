@@ -14,6 +14,8 @@ namespace Figures {
     class Rectangle : public Primitive {
     public:
         explicit Rectangle(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coords);
+        explicit Rectangle(const std::shared_ptr<ShaderProgram>& shader_program, std::shared_ptr<VBO> vbo);
+
         ~Rectangle() = default;
         void draw() override;
 

@@ -6,8 +6,10 @@
 
 namespace Figures {
     Triangle::Triangle(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coordinates)
-        : Primitive(shader_program, 3) {
-        add(std::make_shared<VBO>(coordinates));
+        : Triangle(shader_program, std::make_shared<VBO>(coordinates)) {}
+
+    Triangle::Triangle(const std::shared_ptr<ShaderProgram>& shader_program, std::shared_ptr<VBO> vbo)  : Primitive(shader_program, 3) {
+        add(std::move(vbo));
     }
 
     void Triangle::draw() {

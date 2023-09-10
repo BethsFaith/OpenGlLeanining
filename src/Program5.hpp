@@ -23,6 +23,8 @@ public:
 
 private:
     std::shared_ptr<Figures::ShaderProgram> _shader_program;
+
+    Figures::Drawer _drawer{};
 };
 
 #endif    //INC_2_SHADERS_PROGRAM5_HPP

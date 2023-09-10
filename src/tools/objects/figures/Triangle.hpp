@@ -12,6 +12,7 @@ namespace Figures {
     class Triangle : public Primitive {
     public:
         explicit Triangle(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coordinates);
+        explicit Triangle(const std::shared_ptr<ShaderProgram>& shader_program, std::shared_ptr<VBO> vbo);
 
         void draw() override;
     };

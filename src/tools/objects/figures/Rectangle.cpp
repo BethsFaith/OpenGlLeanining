@@ -6,11 +6,13 @@
 
 namespace Figures {
     Rectangle::Rectangle(const std::shared_ptr<ShaderProgram>& shader_program, const std::vector<float>& coords)
-        : Primitive(shader_program, 4) {
+        : Rectangle(shader_program, std::make_shared<VBO>(coords)) {}
+
+    Rectangle::Rectangle(const std::shared_ptr<ShaderProgram>& shader_program, std::shared_ptr<VBO> vbo) : Primitive(shader_program, 4) {
         auto ebo = std::make_shared<EBO>(std::vector<unsigned int>{{0, 1, 3, 1, 2, 3}});
 
-        add(std::make_shared<VBO>(coords));
-        add(ebo);
+        add(std::move(vbo));
+        add(std::move(ebo));
 
         vertices_attribute_numbers = 3;
     }
