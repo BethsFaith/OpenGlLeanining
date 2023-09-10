@@ -16,6 +16,7 @@ namespace Constants {
             TEXTURE_FRAG,
             THIRDD_UNIF_TEXTURE_VERT,
             THIRDD_UNIF_VERT,
+            THIRDD_LIGHT_FRAG,
             UNIF_FRAG,
             COLOR_VERT,
             COLOR_FRAG,
