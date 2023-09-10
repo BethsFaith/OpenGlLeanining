@@ -107,4 +107,8 @@ namespace Figures {
     void ShaderProgram::set4FloatMat(const std::string& name, const GLfloat* value) const {
         glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, value);
     }
+
+    void ShaderProgram::set3FloatVector(const std::string& name, float c1, float c2, float c3) const {
+        glUniform3f(glGetUniformLocation(ID, name.c_str()), c1, c2, c3);
+    }
 }

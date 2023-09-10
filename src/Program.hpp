@@ -18,9 +18,9 @@ public:
 
     virtual void processKeyboardInput(GLFWwindow* window) = 0;
 
-    virtual void processMouseInput(double xpos, double ypos) = 0;
+    virtual void processMouseInput(double x_pos, double y_pos) = 0;
 
-    virtual void processMouseScroll(double xpos, double ypos) = 0;
+    virtual void processMouseScroll(double x_pos, double y_pos) = 0;
 
     virtual void setDeltaTime(const float& delta_time) = 0;
 

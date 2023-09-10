@@ -21,7 +21,8 @@ namespace Constants {
             COLOR_VERT,
             COLOR_FRAG,
             SIMPLE_VERT,
-            SIMPLE_FRAG
+            SIMPLE_FRAG,
+            STATIC_LIGHT_FRAG
         };
 
         [[maybe_unused]] static std::string getPath(Sources name);

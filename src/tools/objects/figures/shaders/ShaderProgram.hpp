@@ -26,6 +26,7 @@ namespace Figures {
         void setInt(const std::string& name, int value) const;
         void setFloat(const std::string& name, float value) const;
         void set4FloatVector(const std::string& name, float c1, float c2, float c3, float c4) const;
+        void set3FloatVector(const std::string& name, float c1, float c2, float c3) const;
         void set4FloatMat(const std::string& name, const GLfloat* value) const;
 
         // ID - идентификатор программы
