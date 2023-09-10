@@ -6,12 +6,11 @@
 #define INC_2_SHADERS_PROGRAM3_HPP
 
 #include "Program.hpp"
+#include "tools/objects/Camera.hpp"
 #include "tools/objects/figures/Cube.hpp"
 #include "tools/objects/figures/Rectangle.hpp"
 #include "tools/objects/figures/textures/Texture.hpp"
-#include "tools/objects/figures/textures/TextureSources.hpp"
 #include "tools/objects/libHeadears/glm.hpp"
-#include "tools/objects/Camera.hpp"
 
 class Program3 : public Program{
 public:

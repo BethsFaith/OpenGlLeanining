@@ -1,0 +1,28 @@
+//
+// Created by VerOchka on 10.09.2023.
+//
+
+#include "Shaders.hpp"
+
+namespace Constants {
+    std::map<Shaders::Sources, std::string> Shaders::paths = {
+        {Shaders::Sources::INVERTED_VERT, "inverted.vert"},
+        {Shaders::Sources::THIRDD_UNIF_TEXTURE_VERT, "thirdd_uniform_texture.vert"},
+        {Shaders::Sources::COLOR_VERT, "color_shader.vert"},
+        {Shaders::Sources::TEXTURE_VERT, "texture_shader.vert"},
+        {Shaders::Sources::UNIF_FRAG, "uniform_shader.frag"},
+        {Shaders::Sources::COLOR_FRAG, "color_shader.frag"},
+        {Shaders::Sources::TEXTURE_FRAG, "texture_shader.frag"},
+        {Shaders::Sources::SIMPLE_VERT, "shader.vert"},
+        {Shaders::Sources::SIMPLE_FRAG, "shader.frag"}};
+
+    std::string Shaders::shaders_path = ProgramData::getValue<std::string>("shaders");
+
+    [[maybe_unused]] std::string Shaders::getPath(Shaders::Sources name) {
+        using namespace ProgramData;
+
+        auto s = path + separator + shaders_path + separator + paths[name];
+        std::cout << s << std::endl;
+        return s;
+    }
+}

@@ -8,9 +8,13 @@
 
 Program1::Program1() {
     using namespace Figures;
+    using namespace Constants;
 
-    _shader_program = std::make_shared<ShaderProgram>(ShaderSources::vertex_shader_source, ShaderSources::uniform_fragment_shader_source);
-    _color_shader_program = std::make_shared<ShaderProgram>(ShaderSources::color_vertex_shader_source, ShaderSources::color_fragment_shader_source);
+    _shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::SIMPLE_VERT),
+                                                      Shaders::getPath(Shaders::Sources::UNIF_FRAG));
+
+    _color_shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::COLOR_VERT),
+                                                      Shaders::getPath(Shaders::Sources::COLOR_FRAG));
 
     auto triangle = std::make_shared<Triangle>(_shader_program, std::vector<float>{
                                                                                                         0.6f, 0.8f, 0.0f,    // верхняя вершина

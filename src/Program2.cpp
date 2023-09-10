@@ -6,8 +6,10 @@
 
 Program2::Program2() {
     using namespace Figures;
+    using namespace Constants;
 
-    _shader_program = std::make_shared<ShaderProgram>(ShaderSources::texture_vertex_shader_source, ShaderSources::texture_fragment_shader_source);
+    _shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::TEXTURE_VERT),
+                                                      Shaders::getPath(Shaders::Sources::TEXTURE_FRAG));
 
     auto rectangle = std::make_shared<Figures::Rectangle>(_shader_program, std::vector<float>{
                                                                       // координаты        // цвета            // текстурные координаты

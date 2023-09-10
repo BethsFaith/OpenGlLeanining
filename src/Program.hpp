@@ -5,7 +5,8 @@
 #ifndef INC_2_SHADERS_PROGRAM_HPP
 #define INC_2_SHADERS_PROGRAM_HPP
 
-#include "tools/objects/figures/shaders/ShaderSources.hpp"
+#include "constants/Shaders.hpp"
+#include "constants/Textures.hpp"
 #include "tools/objects/figures/Drawer.hpp"
 
 class Program {

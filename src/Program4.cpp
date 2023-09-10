@@ -6,8 +6,10 @@
 
 Program4::Program4() {
     using namespace Figures;
-    _shader_program = std::make_shared<ShaderProgram>(ShaderSources::thirdd_vertex_shader_source,
-                                                      ShaderSources::texture_fragment_shader_source);
+    using namespace Constants;
+
+    _shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_TEXTURE_VERT),
+                                                      Shaders::getPath(Shaders::Sources::TEXTURE_FRAG));
 
     auto cube = std::make_shared<Cube>(
         _shader_program,
@@ -43,8 +45,8 @@ Program4::Program4() {
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
 
-    _texture1.bind2d(TextureSources::container_path.c_str());
-    _texture2.bind2d(TextureSources::face_path.c_str());
+    _texture1.bind2d(Textures::getPath(Textures::Sources::CONTAINER).c_str());
+    _texture2.bind2d(Textures::getPath(Textures::Sources::FACE).c_str());
 
     _shader_program->use();
     _shader_program->setInt("texture1", 0);

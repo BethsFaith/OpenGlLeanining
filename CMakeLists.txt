@@ -25,6 +25,9 @@ add_executable(2_shaders
         src/Program3.cpp
         src/Program3.hpp
         src/Program4.cpp
+        src/Program5.cpp
+        src/constants/Shaders.cpp
+        src/constants/Textures.cpp
         src/tools/objects/figures/shaders/ShaderProgram.cpp
         src/tools/objects/figures/Primitive.cpp
         src/tools/objects/figures/Triangle.cpp
