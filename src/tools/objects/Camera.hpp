@@ -26,6 +26,7 @@ namespace Objects {
         void setZoom(float zoom);
 
     private:
+        void lookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up);
         void updateView();
 
         glm::vec3 _position;
