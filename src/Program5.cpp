@@ -136,7 +136,9 @@ void Program5::processMouseInput(double x_pos, double y_pos) {
     _camera_controller->rotate(x_offset, y_offset);
 }
 
-void Program5::processMouseScroll(double x_pos, double y_pos) {}
+void Program5::processMouseScroll(double x_offset, double y_offset) {
+    _camera_controller->zoom((float)y_offset);
+}
 
 void Program5::setDeltaTime(const float& delta_time) {
     _camera_controller->setDeltaTime(delta_time);
@@ -144,6 +146,8 @@ void Program5::setDeltaTime(const float& delta_time) {
 
 void Program5::updateView() {
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+    float moveAmount = glm::sin((float)glfwGetTime());
+    lightPos.x += moveAmount;
 
     glm::mat4 model = glm::mat4(1.0f);    // сначала инициализируем единичную матрицу
 
@@ -156,6 +160,7 @@ void Program5::updateView() {
     _lighting_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
     _lighting_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
     _lighting_shader_program->set3FloatVector("lightPos", lightPos.x, lightPos.y, lightPos.z);
+    _lighting_shader_program->set3FloatVector("viewPos", _camera->getPosition().x, _camera->getPosition().y, _camera->getPosition().z);
 
     _light_source_shader_program->use();
     _light_source_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
