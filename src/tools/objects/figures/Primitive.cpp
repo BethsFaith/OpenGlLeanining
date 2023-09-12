@@ -15,21 +15,20 @@ namespace Figures {
         add(std::make_shared<VAO>());
     }
 
-    void Primitive::setDrawCallback(std::function<void()> function) {
-        drawCallback = std::move(function);
-    }
-
     void Primitive::bind(const Settings& settings) {
         for (auto& buffer : buffers) {
             buffer->bind(settings.bind_flag);
         }
 
-        int number = vertices_attribute_numbers;
+        int number = vertices_attribute_numbers + settings.offset;
         if (settings.with_color) {
             number += 3;
         }
         if (settings.with_texture) {
             number += 2;
+        }
+        if (settings.with_normal_vectors) {
+            number += 3;
         }
 
         int index = 0;
@@ -51,15 +50,13 @@ namespace Figures {
                                (void*)(index * vertices_attribute_numbers * sizeof(float)));
             ++index;
         }
-    }
-
-    unsigned int Primitive::getUid() const {
-        return buffers[0]->get();
-    }
-
-    void Primitive::setVertexAttribute(const int& index, const int& size, const int& stride, void* offset) {
-        glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, offset);
-        glEnableVertexAttribArray(index);
+        if (settings.with_normal_vectors) {
+            setVertexAttribute(index,
+                               3,
+                               (int)(number * sizeof(float)),
+                               (void*)(index * vertices_attribute_numbers * sizeof(float)));
+            ++index;
+        }
     }
 
     void Primitive::add(std::shared_ptr<RaiiBuffer> raii_buffer) {
@@ -78,5 +75,18 @@ namespace Figures {
         shader_program->use();
 
         drawCallback();
+    }
+
+    void Primitive::setVertexAttribute(const int& index, const int& size, const int& stride, void* offset) {
+        glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, offset);
+        glEnableVertexAttribArray(index);
+    }
+
+    void Primitive::setDrawCallback(std::function<void()> function) {
+        drawCallback = std::move(function);
+    }
+
+    unsigned int Primitive::getUid() const {
+        return buffers[0]->get();
     }
 }

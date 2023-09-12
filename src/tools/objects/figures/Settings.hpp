@@ -10,6 +10,8 @@ namespace Figures {
         const unsigned int& bind_flag;
         bool with_texture = false;
         bool with_color = false;
+        bool with_normal_vectors;
+        int offset = 0;
         int dimension = 2;
     };
 }
