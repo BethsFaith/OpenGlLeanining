@@ -17,7 +17,8 @@ namespace Constants {
         {Shaders::Sources::SIMPLE_FRAG, "shader.frag"},
         {Shaders::Sources::THIRDD_UNIF_VERT, "thirdd_uniform.vert"},
         {Shaders::Sources::THIRDD_LIGHT_FRAG, "thirdd_light.frag"},
-        {Shaders::Sources::STATIC_LIGHT_FRAG, "static_light.frag"}};
+        {Shaders::Sources::STATIC_LIGHT_FRAG, "static_light.frag"},
+        {Shaders::Sources::THIRDD_LIGHT_MAT_FRAG, "thirdd_uniform_material.frag"}};
 
     std::string Shaders::shaders_path = ProgramData::getValue<std::string>("shaders");
 

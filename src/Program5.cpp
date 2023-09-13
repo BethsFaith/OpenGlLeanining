@@ -11,7 +11,7 @@ Program5::Program5() {
     _light_source_shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_VERT),
                                                            Shaders::getPath(Shaders::Sources::STATIC_LIGHT_FRAG));
     _lighting_shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_VERT),
-                                                      Shaders::getPath(Shaders::Sources::THIRDD_LIGHT_FRAG));
+                                                      Shaders::getPath(Shaders::Sources::THIRDD_LIGHT_MAT_FRAG));
 
     std::vector<float> coords = {-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
                                  0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -71,14 +71,20 @@ Program5::Program5() {
                                                 glm::vec3(0.0f, 1.0f, 0.0f));
     _camera_controller = std::make_shared<Tools::CameraController>(_camera, 4.0f);
 
+    _lighting_shader_program->use();
+
+//    _lighting_shader_program->set3FloatVector("material.ambient", 0.1f, 0.1f, 0.1f);
+//    _lighting_shader_program->set3FloatVector("material.diffuse", 1.0f, 0.5f, 0.31f);
+//    _lighting_shader_program->set3FloatVector("material.specular", 0.5f, 0.5f, 0.5f);
+    _lighting_shader_program->set3FloatVector("material.ambient", 0.05375f, 0.05f, 0.06625f);
+    _lighting_shader_program->set3FloatVector("material.diffuse", 0.18725f, 0.17f, 0.22525f);
+    _lighting_shader_program->set3FloatVector("material.specular", 0.332741f, 0.328634f, 0.346435f);
+    _lighting_shader_program->setFloat("material.shininess", 32.0f);
+
     glm::vec3 light_color = {1.0, 1.0, 1.0};
 
-    _lighting_shader_program->use();
-    _lighting_shader_program->set3FloatVector("objectColor", 1.0f, 0.5f, 0.31f);
-    _lighting_shader_program->set3FloatVector("lightColor",  light_color.x, light_color.y, light_color.z);
-
     _light_source_shader_program->use();
-    _light_source_shader_program->set3FloatVector("Color",  light_color.x, light_color.y, light_color.z);
+    _light_source_shader_program->set3FloatVector("Color",  light_color);
 
     int width, height;
     ProgramData::pullDesktopResolution(width, height);
@@ -145,9 +151,9 @@ void Program5::setDeltaTime(const float& delta_time) {
 }
 
 void Program5::updateView() {
-    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+    glm::vec3 light_pos(1.2f, 1.0f, 2.0f);
     float moveAmount = glm::sin((float)glfwGetTime());
-    lightPos.x += moveAmount;
+    light_pos.x += moveAmount;
 
     glm::mat4 model = glm::mat4(1.0f);    // сначала инициализируем единичную матрицу
 
@@ -159,14 +165,27 @@ void Program5::updateView() {
     _lighting_shader_program->set4FloatMat("model", glm::value_ptr(model));
     _lighting_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
     _lighting_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
-    _lighting_shader_program->set3FloatVector("lightPos", lightPos.x, lightPos.y, lightPos.z);
-    _lighting_shader_program->set3FloatVector("viewPos", _camera->getPosition().x, _camera->getPosition().y, _camera->getPosition().z);
+    _lighting_shader_program->set3FloatVector("light.position", light_pos);
+    _lighting_shader_program->set3FloatVector("viewPos", _camera->getPosition());
+
+    glm::vec3 light_color = {1.0, 1.0, 1.0};
+//    light_color.x = sin(glfwGetTime() * 2.0f);
+//    light_color.y = sin(glfwGetTime() * 0.7f);
+//    light_color.z = sin(glfwGetTime() * 1.3f);
+
+    glm::vec3 ambient_color = light_color * glm::vec3(1.0f); // 0.2f
+    glm::vec3 diffuse_color = light_color * glm::vec3(1.0f); // 0.5f
+
+    _lighting_shader_program->set3FloatVector("light.ambient", ambient_color);
+    _lighting_shader_program->set3FloatVector("light.diffuse", diffuse_color);
+    _lighting_shader_program->set3FloatVector("light.specular", glm::vec3(1.0f));
 
     _light_source_shader_program->use();
     _light_source_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
     _light_source_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
+    _light_source_shader_program->set3FloatVector("Color",  light_color);
 
-    model = glm::translate(model, lightPos);
+    model = glm::translate(model, light_pos);
     model = glm::scale(model, glm::vec3(0.2f)); // куб меньшего размера
 
     _light_source_shader_program->set4FloatMat("model", glm::value_ptr(model));

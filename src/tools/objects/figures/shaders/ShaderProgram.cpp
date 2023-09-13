@@ -104,11 +104,19 @@ namespace Figures {
         glUniform4f(glGetUniformLocation(ID, name.c_str()), c1, c2, c3, c4);
     }
 
+    void ShaderProgram::set4FloatVector(const std::string &name, const glm::vec4 &vector) const {
+        glUniform4f(glGetUniformLocation(ID, name.c_str()), vector.x, vector.y, vector.z, vector.w);
+    }
+
     void ShaderProgram::set4FloatMat(const std::string& name, const GLfloat* value) const {
         glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, value);
     }
 
     void ShaderProgram::set3FloatVector(const std::string& name, float c1, float c2, float c3) const {
         glUniform3f(glGetUniformLocation(ID, name.c_str()), c1, c2, c3);
+    }
+
+    void ShaderProgram::set3FloatVector(const std::string &name, const glm::vec3 &vector) const {
+        glUniform3f(glGetUniformLocation(ID, name.c_str()), vector.x, vector.y, vector.z);
     }
 }
