@@ -4,6 +4,7 @@
 
 #include "Program4.hpp"
 
+// движение камеры
 Program4::Program4() {
     using namespace Figures;
     using namespace Constants;

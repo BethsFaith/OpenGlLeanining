@@ -4,6 +4,7 @@
 
 #include "Program5.hpp"
 
+// базовое освещение, материалы
 Program5::Program5() {
     using namespace Figures;
     using namespace Constants;
@@ -73,9 +74,6 @@ Program5::Program5() {
 
     _lighting_shader_program->use();
 
-//    _lighting_shader_program->set3FloatVector("material.ambient", 0.1f, 0.1f, 0.1f);
-//    _lighting_shader_program->set3FloatVector("material.diffuse", 1.0f, 0.5f, 0.31f);
-//    _lighting_shader_program->set3FloatVector("material.specular", 0.5f, 0.5f, 0.5f);
     _lighting_shader_program->set3FloatVector("material.ambient", 0.05375f, 0.05f, 0.06625f);
     _lighting_shader_program->set3FloatVector("material.diffuse", 0.18725f, 0.17f, 0.22525f);
     _lighting_shader_program->set3FloatVector("material.specular", 0.332741f, 0.328634f, 0.346435f);
@@ -169,9 +167,9 @@ void Program5::updateView() {
     _lighting_shader_program->set3FloatVector("viewPos", _camera->getPosition());
 
     glm::vec3 light_color = {1.0, 1.0, 1.0};
-//    light_color.x = sin(glfwGetTime() * 2.0f);
-//    light_color.y = sin(glfwGetTime() * 0.7f);
-//    light_color.z = sin(glfwGetTime() * 1.3f);
+    light_color.x = sin(glfwGetTime() * 2.0f);
+    light_color.y = sin(glfwGetTime() * 0.7f);
+    light_color.z = sin(glfwGetTime() * 1.3f);
 
     glm::vec3 ambient_color = light_color * glm::vec3(1.0f); // 0.2f
     glm::vec3 diffuse_color = light_color * glm::vec3(1.0f); // 0.5f

@@ -93,7 +93,7 @@ Program3::Program3() {
 
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    projection = glm::perspective(glm::radians(45.0f), (float)700 / (float)height, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
     _shader_program->set4FloatMat("model", glm::value_ptr(model));
     _shader_program->set4FloatMat("view",  glm::value_ptr(view));
@@ -143,3 +143,9 @@ void Program3::run() {
 //
 //    _drawer.draw();
 }
+
+void Program3::processMouseInput(double x_pos, double y_pos) {}
+
+void Program3::processMouseScroll(double x_offset, double y_offset) {}
+
+void Program3::setDeltaTime(const float& delta_time) {}

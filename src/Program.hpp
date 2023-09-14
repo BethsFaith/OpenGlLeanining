@@ -20,7 +20,7 @@ public:
 
     virtual void processMouseInput(double x_pos, double y_pos) = 0;
 
-    virtual void processMouseScroll(double x_pos, double y_pos) = 0;
+    virtual void processMouseScroll(double x_offset, double y_offset) = 0;
 
     virtual void setDeltaTime(const float& delta_time) = 0;
 

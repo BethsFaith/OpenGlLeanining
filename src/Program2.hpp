@@ -20,6 +20,10 @@ public:
     void run() override;
 
     void processKeyboardInput(GLFWwindow* window) override;
+    void processMouseInput(double x_pos, double y_pos) override;
+    void processMouseScroll(double x_offset, double y_offset) override;
+    void setDeltaTime(const float& delta_time) override;
+
 private:
     void setMixValue(float x);
     void setTransform(glm::mat4 trans);

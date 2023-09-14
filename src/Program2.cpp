@@ -32,8 +32,8 @@ Program2::Program2() {
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_LINEAR});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_LINEAR});
 
-    _texture1.bind2d("D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/textures/src/container.jpg");
-    _texture2.bind2d("D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/textures/src/awesomeface.png");
+    _texture1.bind2d(Textures::getPath(Textures::Sources::CONTAINER).c_str());
+    _texture2.bind2d(Textures::getPath(Textures::Sources::FACE).c_str());
 
     _shader_program->use();
     _shader_program->setInt("texture1",0);
@@ -89,3 +89,9 @@ void Program2::processKeyboardInput(GLFWwindow* window) {
 void Program2::setTransform(glm::mat4 trans) {
     _shader_program->set4FloatMat("transform", glm::value_ptr(trans));
 }
+
+void Program2::processMouseInput(double x_pos, double y_pos) {}
+
+void Program2::processMouseScroll(double x_offset, double y_offset) {}
+
+void Program2::setDeltaTime(const float& delta_time) {}

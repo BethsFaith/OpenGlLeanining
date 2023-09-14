@@ -58,3 +58,9 @@ void Program1::processKeyboardInput(GLFWwindow* window) {
         glfwSetWindowShouldClose(window, true);
     }
 }
+
+void Program1::processMouseInput(double x_pos, double y_pos) {}
+
+void Program1::processMouseScroll(double x_offset, double y_offset) {}
+
+void Program1::setDeltaTime(const float& delta_time) {}
