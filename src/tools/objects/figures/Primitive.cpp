@@ -21,20 +21,26 @@ namespace Figures {
         }
 
         int number = vertices_attribute_numbers + settings.offset;
+        if (settings.with_normal_vectors) {
+            number += 3;
+        }
         if (settings.with_color) {
             number += 3;
         }
         if (settings.with_texture) {
             number += 2;
         }
-        if (settings.with_normal_vectors) {
-            number += 3;
-        }
-
         int index = 0;
         // Координатный атрибут
         setVertexAttribute(index++, 3, (int)(number * sizeof(float)), (void*)nullptr);
 
+        if (settings.with_normal_vectors) {
+            setVertexAttribute(index,
+                               3,
+                               (int)(number * sizeof(float)),
+                               (void*)(index * vertices_attribute_numbers * sizeof(float)));
+            ++index;
+        }
         if (settings.with_color) {
             // Цветовой атрибут
             setVertexAttribute(index,
@@ -46,13 +52,6 @@ namespace Figures {
         if (settings.with_texture) {
             setVertexAttribute(index,
                                2,
-                               (int)(number * sizeof(float)),
-                               (void*)(index * vertices_attribute_numbers * sizeof(float)));
-            ++index;
-        }
-        if (settings.with_normal_vectors) {
-            setVertexAttribute(index,
-                               3,
                                (int)(number * sizeof(float)),
                                (void*)(index * vertices_attribute_numbers * sizeof(float)));
             ++index;

@@ -18,6 +18,8 @@ namespace Constants {
             THIRDD_UNIF_VERT,
             THIRDD_LIGHT_FRAG,
             THIRDD_LIGHT_MAT_FRAG,
+            THIRDD_LIGHT_TEXT_VERT,
+            THIRDD_LIGHT_TEXT_FRAG,
             UNIF_FRAG,
             COLOR_VERT,
             COLOR_FRAG,
@@ -28,7 +30,7 @@ namespace Constants {
 
         [[maybe_unused]] static std::string getPath(Sources name);
     private:
-        static std::map<Sources, std::string> paths;
+        static std::map<Sources, std::string> files;
         static std::string shaders_path;
     };
 }    //namespace Constants

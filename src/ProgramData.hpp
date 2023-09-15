@@ -40,7 +40,7 @@ namespace ProgramData {
         vertical = desktop.bottom;
     }
 
-    static std::string path = getValue<std::string>("path");
+    static std::string project_path = getValue<std::string>("path");
 
     static char separator = '/';
 }

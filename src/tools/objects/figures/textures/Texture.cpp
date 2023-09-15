@@ -12,8 +12,6 @@ namespace Figures {
     bool Texture::bind2d(const char source[]) const {
         bool res = false;
 
-        glBindTexture(GL_TEXTURE_2D, _texture);
-
         for (const auto& param : _params) {
             glTexParameteri(param.target, param.name, param.value);
         }
@@ -25,6 +23,7 @@ namespace Figures {
         if (data) {
             int flag = (nrChannels == 3 ? GL_RGB : GL_RGBA);
 
+            glBindTexture(GL_TEXTURE_2D, _texture);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, flag, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
 

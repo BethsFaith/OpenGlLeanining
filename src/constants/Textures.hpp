@@ -12,7 +12,9 @@ namespace Constants {
     public:
         enum Sources {
             FACE,
-            CONTAINER
+            CONTAINER,
+            CONTAINER_2,
+            CONTAINER_2_SPECULAR
         };
 
         [[maybe_unused]] static std::string getPath(Sources name);
