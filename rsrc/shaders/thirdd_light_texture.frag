@@ -5,6 +5,7 @@ out vec4 FragColor;
 struct Material {
     sampler2D diffuse;  // цвет поверхности при рассеянном освещении освещении
     sampler2D specular;  // цвет зеркального блика на поверхности
+//    sampler2D emission;
     float shininess; // рассеивание/радиус зеркального блика
 };
 
@@ -38,6 +39,11 @@ void main() {
     vec3 reflectDir = reflect(-lightDir, norm); // -lightDir потому что reflect() предполагает, что первый вектор направлен от источника света(у нас наоборот)
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess); // значение блеска свечения (чем выше - тем больше отражается свет)
     vec3 specular = light.specular * spec * texture(material.specular, TexCoords).rgb;
+
+//    vec3 emissionFactor = step(vec3(1.), vec3(1.) -  vec3(texture(material.specular, TexCoords)));
+//    vec3 emission = emissionFactor *  vec3(texture(material.emission, TexCoords));
+//
+//    vec3 result = (diffuse + ambient + specular) + emission;
 
     // результат
     vec3 result = (ambient + diffuse + specular);

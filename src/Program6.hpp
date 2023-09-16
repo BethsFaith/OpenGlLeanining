@@ -36,6 +36,7 @@ private:
 
     Figures::Texture _texture1{GL_TEXTURE0};
     Figures::Texture _texture2{GL_TEXTURE1};
+//    Figures::Texture _texture3{GL_TEXTURE2};
 
     Figures::Drawer _drawer{};
 };

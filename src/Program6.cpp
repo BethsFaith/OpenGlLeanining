@@ -89,10 +89,12 @@ Program6::Program6() {
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
 
     _texture1.bind2d(Textures::getPath(Textures::Sources::CONTAINER_2).c_str());
-    _texture2.bind2d(Textures::getPath(Textures::Sources::CONTAINER_2_SPECULAR).c_str());
+    _texture2.bind2d(Textures::getPath(Textures::Sources::CONTAINER_2_SPECULAR_RAINBOW).c_str());
+//    _texture3.bind2d(Textures::getPath(Textures::Sources::EMISSION).c_str());
 
     _lighting_shader_program->setInt("material.diffuse", 0);
     _lighting_shader_program->setInt("material.specular", 1);
+//    _lighting_shader_program->setInt("material.emission", 2);
 
     _lighting_shader_program->setFloat("material.shininess", 32.0f);
 
@@ -110,6 +112,7 @@ Program6::Program6() {
 void Program6::run() {
     _texture1.bind();
     _texture2.bind();
+//    _texture3.bind();
 
     updateView();
     _drawer.draw();
@@ -189,8 +192,8 @@ void Program6::updateView() {
 
     glm::vec3 light_color = {1.0, 1.0, 1.0};
 
-    glm::vec3 ambient_color = light_color * glm::vec3(1.0f); // 0.2f
-    glm::vec3 diffuse_color = light_color * glm::vec3(1.0f); // 0.5f
+    glm::vec3 ambient_color = light_color * glm::vec3(0.2f); // 0.2f
+    glm::vec3 diffuse_color = light_color * glm::vec3(0.5f); // 0.5f
 
     _lighting_shader_program->set3FloatVector("light.ambient", ambient_color);
     _lighting_shader_program->set3FloatVector("light.diffuse", diffuse_color);

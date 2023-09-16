@@ -14,7 +14,9 @@ namespace Constants {
             FACE,
             CONTAINER,
             CONTAINER_2,
-            CONTAINER_2_SPECULAR
+            CONTAINER_2_SPECULAR,
+            CONTAINER_2_SPECULAR_RAINBOW,
+            EMISSION
         };
 
         [[maybe_unused]] static std::string getPath(Sources name);
