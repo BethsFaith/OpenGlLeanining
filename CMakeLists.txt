@@ -42,6 +42,7 @@ add_executable(2_shaders
         src/tools/objects/figures/Cube.cpp
         src/tools/objects/Camera.cpp
         src/tools/CameraController.cpp
-        src/Program6.cpp)
+        src/Program6.cpp
+        src/Program7.cpp)
 
 target_link_libraries(2_shaders ${CONAN_LIBS})

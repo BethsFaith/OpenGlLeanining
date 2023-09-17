@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "GlfwWindow.hpp"
-#include "Program6.hpp"
+#include "Program7.hpp"
 
 int main() {
     int width, height;
@@ -17,7 +17,7 @@ int main() {
 //    window->setClearColor(0.35f, 0.44f, 0.44f, 1.0f);
     window->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    window->setProgram(new Program6);
+    window->setProgram(new Program7);
 
     window->run();
 

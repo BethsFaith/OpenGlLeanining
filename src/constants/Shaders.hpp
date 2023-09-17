@@ -20,12 +20,14 @@ namespace Constants {
             THIRDD_LIGHT_MAT_FRAG,
             THIRDD_LIGHT_TEXT_VERT,
             THIRDD_LIGHT_TEXT_FRAG,
+            THIRDD_LIGHT_DIR_TEXT_FRAG,
             UNIF_FRAG,
             COLOR_VERT,
             COLOR_FRAG,
             SIMPLE_VERT,
             SIMPLE_FRAG,
-            STATIC_LIGHT_FRAG
+            STATIC_LIGHT_FRAG,
+            SEARCHLIGHT_FRAG
         };
 
         [[maybe_unused]] static std::string getPath(Sources name);
