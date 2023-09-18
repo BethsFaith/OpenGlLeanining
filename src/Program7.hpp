@@ -29,6 +29,9 @@ protected:
     void updateView();
 
 private:
+    static glm::vec3 cubePositions[10];
+    static glm::vec3 pointLightPositions[4];
+
     std::shared_ptr<Figures::ShaderProgram> _lighting_shader_program;
     std::shared_ptr<Figures::ShaderProgram> _light_source_shader_program;
 
