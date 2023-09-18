@@ -7,9 +7,9 @@
 
 #include "Program.hpp"
 #include "tools/CameraController.hpp"
-#include "tools/objects/figures/Cube.hpp"
-#include "tools/objects/figures/Rectangle.hpp"
-#include "tools/objects/figures/textures/Texture.hpp"
+#include "tools/objects/faces/Cube.hpp"
+#include "tools/objects/faces/Rectangle.hpp"
+#include "tools/objects/textures/TextureWorker.hpp"
 #include "tools/objects/libHeadears/glm.hpp"
 
 class Program4 : public Program {
@@ -27,13 +27,13 @@ protected:
     void updateView();
 
 private:
-    std::shared_ptr<Figures::ShaderProgram> _shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _shader_program;
 
-    Figures::Drawer _drawer{};
-    Figures::Texture _texture1{GL_TEXTURE0};
-    Figures::Texture _texture2{GL_TEXTURE1};
+    Tools::Drawer _drawer{};
+    Tools::Objects::Textures::TextureWorker _texture1{GL_TEXTURE0};
+    Tools::Objects::Textures::TextureWorker _texture2{GL_TEXTURE1};
 
-    std::shared_ptr<Objects::Camera> _camera;
+    std::shared_ptr<Tools::Objects::Camera> _camera;
     std::shared_ptr<Tools::CameraController> _camera_controller;
 };
 

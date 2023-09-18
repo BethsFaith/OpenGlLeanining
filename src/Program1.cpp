@@ -4,31 +4,35 @@
 
 #include "Program1.hpp"
 
-#include "tools/objects/figures/buffers/Vbo.hpp"
-
 Program1::Program1() {
-    using namespace Figures;
+    using namespace Tools;
     using namespace Constants;
 
-    _shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::SIMPLE_VERT),
-                                                      Shaders::getPath(Shaders::Sources::UNIF_FRAG));
+    _shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(
+        Constants::Shaders::getPath(Constants::Shaders::Sources::SIMPLE_VERT),
+        Constants::Shaders::getPath(Constants::Shaders::Sources::UNIF_FRAG));
 
-    _color_shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::COLOR_VERT),
-                                                      Shaders::getPath(Shaders::Sources::COLOR_FRAG));
+    _color_shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(
+        Constants::Shaders::getPath(Constants::Shaders::Sources::COLOR_VERT),
+        Constants::Shaders::getPath(Constants::Shaders::Sources::COLOR_FRAG));
 
-    auto triangle = std::make_shared<Triangle>(_shader_program, std::vector<float>{
-                                                                                                        0.6f, 0.8f, 0.0f,    // верхняя вершина
-                                                                                                        0.6f, -0.5f, 0.0f,    // нижняя правая вершина
-                                                                                                        0.2f, 0.1f, 0.0f,    // нижняя левая вершина
-                                                                                                        });
-    auto color_triangle = std::make_shared<Triangle>(_color_shader_program, std::vector<float>{
-                                                                                -0.2f, -0.3f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
-                                                                                -0.9f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,   // нижняя левая вершина
-                                                                                -0.5f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f    // верхняя вершина
-                                                                            });
+    auto coords = std::vector<float>{
+        0.6f, 0.8f, 0.0f,    // верхняя вершина
+            0.6f, -0.5f, 0.0f,    // нижняя правая вершина
+            0.2f, 0.1f, 0.0f,    // нижняя левая вершина
+    };
+    auto coords2 = std::vector<float>{
+        // координаты       // цвета
+        -0.2f, -0.3f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
+        -0.9f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,   // нижняя левая вершина
+        -0.5f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f    // верхняя вершина
+    };
 
-    triangle->bind(Settings{.bind_flag = GL_STATIC_DRAW});
-    color_triangle->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_color = true});
+    auto triangle = std::make_shared<Objects::Faces::Triangle>();
+    auto color_triangle = std::make_shared<Objects::Faces::Triangle>();
+
+    triangle->bind(GL_STATIC_DRAW);
+    color_triangle->bind(GL_STATIC_DRAW);
 
     triangle->setDrawCallback([this](){
         // Обновление шейдерных uniform-переменных
@@ -38,8 +42,8 @@ Program1::Program1() {
     });
 
     drawer = new Drawer;
-    drawer->addPrimitive(color_triangle);
-    drawer->addPrimitive(triangle);
+    drawer->addPrimitive(color_triangle, _shader_program);
+    drawer->addPrimitive(triangle, _color_shader_program);
 
     color_triangle.reset();
     triangle.reset();

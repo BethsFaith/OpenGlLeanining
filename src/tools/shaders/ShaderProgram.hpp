@@ -5,15 +5,15 @@
 #ifndef INC_2_SHADERS_SHADERPROGRAM_HPP
 #define INC_2_SHADERS_SHADERPROGRAM_HPP
 
-#include "../../libHeadears/glfw.hpp"
-#include "../../libHeadears/glm.hpp"
-
-#include <string>
 #include <fstream>
-#include <sstream>
 #include <iostream>
+#include <sstream>
+#include <string>
 
-namespace Figures {
+#include "../objects/libHeadears/glfw.hpp"
+#include "../objects/libHeadears/glm.hpp"
+
+namespace Tools::Shaders {
     class ShaderProgram {
     public:
         // Конструктор считывает данные и выполняет построение шейдера

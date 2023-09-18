@@ -26,23 +26,25 @@ add_executable(2_shaders
         src/Program3.hpp
         src/Program4.cpp
         src/Program5.cpp
+        src/Program6.cpp
+        src/Program7.cpp
         src/constants/Shaders.cpp
         src/constants/Textures.cpp
-        src/tools/objects/figures/shaders/ShaderProgram.cpp
-        src/tools/objects/figures/Primitive.cpp
-        src/tools/objects/figures/Triangle.cpp
-        src/tools/objects/figures/Rectangle.cpp
-        src/tools/objects/figures/buffers/RaiiBuffer.cpp
-        src/tools/objects/figures/buffers/Vao.cpp
-        src/tools/objects/figures/buffers/Vbo.cpp
-        src/tools/objects/figures/buffers/Ebo.cpp
-        src/tools/objects/figures/Drawer.cpp
-        src/tools/objects/figures/textures/Texture.cpp
+        src/tools/shaders/ShaderProgram.cpp
+        src/tools/objects/faces/BasePrimitive.cpp
+        src/tools/objects/faces/Triangle.cpp
+        src/tools/objects/faces/Rectangle.cpp
+        src/tools/objects/faces/buffers/RaiiBuffer.cpp
+        src/tools/objects/faces/buffers/Vao.cpp
+        src/tools/objects/faces/buffers/Vbo.cpp
+        src/tools/objects/faces/buffers/Ebo.cpp
+        src/tools/Drawer.cpp
+        src/tools/objects/textures/TextureWorker.cpp
         src/tools/objects/libHeadears/stb_image.cpp
-        src/tools/objects/figures/Cube.cpp
+        src/tools/objects/faces/Cube.cpp
         src/tools/objects/Camera.cpp
         src/tools/CameraController.cpp
-        src/Program6.cpp
-        src/Program7.cpp)
+        src/tools/objects/Mesh.cpp
+        src/tools/objects/Mesh.hpp src/tools/objects/faces/AbstractPrimitive.hpp)
 
 target_link_libraries(2_shaders ${CONAN_LIBS})

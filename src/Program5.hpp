@@ -7,8 +7,11 @@
 
 #include "Program.hpp"
 #include "tools/CameraController.hpp"
-#include "tools/objects/figures/Cube.hpp"
+#include "tools/objects/faces/Cube.hpp"
+#include "tools/objects/faces/Rectangle.hpp"
+#include "tools/objects/textures/TextureWorker.hpp"
 #include "tools/objects/libHeadears/glm.hpp"
+
 
 class Program5 : public Program {
 public:
@@ -27,13 +30,13 @@ protected:
     void updateView();
 
 private:
-    std::shared_ptr<Figures::ShaderProgram> _lighting_shader_program;
-    std::shared_ptr<Figures::ShaderProgram> _light_source_shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _lighting_shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _light_source_shader_program;
 
-    std::shared_ptr<Objects::Camera> _camera;
+    std::shared_ptr<Tools::Objects::Camera> _camera;
     std::shared_ptr<Tools::CameraController> _camera_controller;
 
-    Figures::Drawer _drawer{};
+    Tools::Drawer _drawer{};
 };
 
 #endif    //INC_2_SHADERS_PROGRAM5_HPP

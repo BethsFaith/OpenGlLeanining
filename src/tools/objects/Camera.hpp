@@ -8,7 +8,7 @@
 #include "libHeadears/glm.hpp"
 #include "libHeadears/glfw.hpp"
 
-namespace Objects {
+namespace Tools::Objects {
     class Camera {
     public:
         Camera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up);

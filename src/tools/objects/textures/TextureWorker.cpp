@@ -2,14 +2,16 @@
 // Created by VerOchka on 19.08.2023.
 //
 
-#include "Texture.hpp"
+#include "TextureWorker.hpp"
 
-namespace Figures {
-    Texture::Texture(unsigned int id) : _id(id) {
+#include <utility>
+
+namespace Tools::Objects::Textures {
+    TextureWorker::TextureWorker(unsigned int id, std::string name) : _textureData(Texture{.id = id, .name = std::move(name)}) {
         glGenTextures(1, &_texture);
     }
 
-    bool Texture::bind2d(const char source[]) const {
+    bool TextureWorker::bind2d(const char source[]) const {
         bool res = false;
 
         for (const auto& param : _params) {
@@ -36,12 +38,16 @@ namespace Figures {
         return res;
     }
 
-    void Texture::bind() const {
-        glActiveTexture(_id);
+    void TextureWorker::bind() const {
+        glActiveTexture(_textureData.id);
         glBindTexture(GL_TEXTURE_2D, _texture);
     }
 
-    void Texture::addParam(Texture::Param param) {
+    void TextureWorker::addParam(TextureWorker::Param param) {
         _params.push_back(param);
+    }
+
+    const Texture& TextureWorker::getTextureData() const {
+        return _textureData;
     }
 }    //namespace Figures

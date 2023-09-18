@@ -9,9 +9,10 @@
 
 #include "tools/objects/libHeadears/glm.hpp"
 #include "Program.hpp"
-#include "tools/objects/figures/Rectangle.hpp"
-#include "tools/objects/figures/textures/Texture.hpp"
+#include "tools/objects/faces/Rectangle.hpp"
+#include "tools/objects/textures/TextureWorker.hpp"
 
+// Устаревшее, не использовать без переписывания!!!
 class Program2 : public Program{
 public:
     Program2();
@@ -28,10 +29,10 @@ private:
     void setMixValue(float x);
     void setTransform(glm::mat4 trans);
 
-    std::shared_ptr<Figures::ShaderProgram> _shader_program;
-    Figures::Drawer _drawer{};
-    Figures::Texture _texture1{GL_TEXTURE0};
-    Figures::Texture _texture2{GL_TEXTURE1};
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _shader_program;
+    Tools::Drawer _drawer{};
+    Tools::Objects::Textures::TextureWorker _texture1{GL_TEXTURE0};
+    Tools::Objects::Textures::TextureWorker _texture2{GL_TEXTURE1};
 
     float _mix_value = 0.2;
 };

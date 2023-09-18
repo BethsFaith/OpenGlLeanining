@@ -7,7 +7,7 @@
 
 #include "constants/Shaders.hpp"
 #include "constants/Textures.hpp"
-#include "tools/objects/figures/Drawer.hpp"
+#include "tools/Drawer.hpp"
 
 class Program {
 public:

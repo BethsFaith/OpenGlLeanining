@@ -5,22 +5,24 @@
 #include "Program2.hpp"
 
 Program2::Program2() {
-    using namespace Figures;
     using namespace Constants;
 
-    _shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::TEXTURE_VERT),
+    _shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(Shaders::getPath(Shaders::Sources::TEXTURE_VERT),
                                                       Shaders::getPath(Shaders::Sources::TEXTURE_FRAG));
 
-    auto rectangle = std::make_shared<Figures::Rectangle>(_shader_program, std::vector<float>{
-                                                                      // координаты        // цвета            // текстурные координаты
-                                                                      0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // верхняя правая
-                                                                      0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // нижняя правая
-                                                                      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f,   // нижняя левая
-                                                                      -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,  0.0f, 1.0f    // верхняя левая
-                                                                  });
-    rectangle->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = true});
+    std::vector<float> old_data{
+        // координаты        // цвета            // текстурные координаты
+        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // верхняя правая
+            0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // нижняя правая
+            -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f,   // нижняя левая
+            -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,  0.0f, 1.0f    // верхняя левая
+    };
 
-    _drawer.addPrimitive(rectangle);
+
+    auto rectangle = std::make_shared<Tools::Objects::Faces::Rectangle>(Tools::Objects::Faces::Settings{.with_normals = false, .with_texture = true});
+    rectangle->bind(GL_STATIC_DRAW);
+
+    _drawer.addPrimitive(rectangle, _shader_program);
 
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_S, .value = GL_REPEAT});
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_T, .value = GL_REPEAT});

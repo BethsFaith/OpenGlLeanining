@@ -6,8 +6,10 @@
 #define INC_2_SHADERS_PROGRAM1_HPP
 
 #include "Program.hpp"
-#include "tools/objects/figures/Triangle.hpp"
+#include "tools/objects/faces/buffers/Vbo.hpp"
+#include "tools/objects/faces/Triangle.hpp"
 
+// Устаревшее, не использовать без переписывания!!!
 class Program1 : public Program {
 public:
     Program1();
@@ -21,10 +23,10 @@ public:
     void setDeltaTime(const float& delta_time) override;
 
 private:
-    Figures::Drawer* drawer;
+    Tools::Drawer* drawer;
 
-    std::shared_ptr<Figures::ShaderProgram> _shader_program;
-    std::shared_ptr<Figures::ShaderProgram> _color_shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _color_shader_program;
 };
 
 #endif    //INC_2_SHADERS_PROGRAM1_HPP

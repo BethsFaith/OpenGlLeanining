@@ -7,8 +7,9 @@
 
 #include "Program.hpp"
 #include "tools/CameraController.hpp"
-#include "tools/objects/figures/Cube.hpp"
-#include "tools/objects/figures/textures/Texture.hpp"
+#include "tools/objects/faces/Cube.hpp"
+#include "tools/objects/faces/Rectangle.hpp"
+#include "tools/objects/textures/TextureWorker.hpp"
 #include "tools/objects/libHeadears/glm.hpp"
 
 #define DIRECTIONAL_LIGHT 0
@@ -29,20 +30,21 @@ protected:
     void updateView();
 
 private:
-    static glm::vec3 cubePositions[10];
-    static glm::vec3 pointLightPositions[4];
+    static glm::vec3 cube_positions[10];
+    static glm::vec3 point_light_positions[4];
+    static glm::vec3 point_light_colors[4];
 
-    std::shared_ptr<Figures::ShaderProgram> _lighting_shader_program;
-    std::shared_ptr<Figures::ShaderProgram> _light_source_shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _lighting_shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _light_source_shader_program;
 
-    std::shared_ptr<Objects::Camera> _camera;
+    std::shared_ptr<Tools::Objects::Camera> _camera;
     std::shared_ptr<Tools::CameraController> _camera_controller;
 
-    Figures::Texture _texture1{GL_TEXTURE0};
-    Figures::Texture _texture2{GL_TEXTURE1};
+    Tools::Objects::Textures::TextureWorker _texture1{GL_TEXTURE0};
+    Tools::Objects::Textures::TextureWorker _texture2{GL_TEXTURE1};
 
-    Figures::Drawer _cube_drawer{};
-    Figures::Drawer _light_drawer{};
+    Tools::Drawer _cube_drawer{};
+    Tools::Drawer _light_drawer{};
 };
 
 #endif    //INC_2_SHADERS_PROGRAM7_HPP

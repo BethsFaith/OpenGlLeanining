@@ -6,68 +6,26 @@
 
 // базовое освещение, материалы
 Program5::Program5() {
-    using namespace Figures;
     using namespace Constants;
 
-    _light_source_shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_VERT),
+    _light_source_shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_VERT),
                                                            Shaders::getPath(Shaders::Sources::STATIC_LIGHT_FRAG));
-    _lighting_shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_VERT),
+    _lighting_shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_VERT),
                                                       Shaders::getPath(Shaders::Sources::THIRDD_LIGHT_MAT_FRAG));
 
-    std::vector<float> coords = {-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-                                 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-                                 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-                                 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-                                 -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-                                 -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    Tools::Objects::Faces::Settings settings = {.with_normals = true, .with_texture = true};
+    auto cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
 
-                                 -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-                                 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-                                 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-                                 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-                                 -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-                                 -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    settings = {.with_normals = false, .with_texture = false};
+    auto light_cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
 
-                                 -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-                                 -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-                                 -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-                                 -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-                                 -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-                                 -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    light_cube->bind(GL_STATIC_DRAW);
+    cube->bind(GL_STATIC_DRAW);
 
-                                 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-                                 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-                                 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-                                 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-                                 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-                                 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+    _drawer.addPrimitive(light_cube, _light_source_shader_program);
+    _drawer.addPrimitive(cube, _lighting_shader_program);
 
-                                 -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-                                 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-                                 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-                                 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-                                 -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-                                 -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-                                 -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-                                 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-                                 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-                                 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-                                 -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-                                 -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-    };
-    auto vbo = std::make_shared<VBO>(coords);
-
-    auto cube = std::make_shared<Cube>(_lighting_shader_program, vbo);
-    auto light_cube = std::make_shared<Cube>(_light_source_shader_program, vbo);
-
-    light_cube->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = false, .with_color = false, .offset = 3});
-    cube->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = false, .with_color = false, .with_normal_vectors = true});
-
-    _drawer.addPrimitive(light_cube);
-    _drawer.addPrimitive(cube);
-
-    _camera = std::make_shared<Objects::Camera>(glm::vec3(0.0f, 0.0f, 3.0f),
+    _camera = std::make_shared<Tools::Objects::Camera>(glm::vec3(0.0f, 0.0f, 3.0f),
                                                 glm::vec3(0.0f, 0.0f, -1.0f),
                                                 glm::vec3(0.0f, 1.0f, 0.0f));
     _camera_controller = std::make_shared<Tools::CameraController>(_camera, 4.0f);

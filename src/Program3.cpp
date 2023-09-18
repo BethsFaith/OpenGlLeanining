@@ -5,66 +5,18 @@
 #include "Program3.hpp"
 
 Program3::Program3() {
-    using namespace Figures;
     using namespace Constants;
 
-    _shader_program = std::make_shared<ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_TEXTURE_VERT),
+    _shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_TEXTURE_VERT),
                                                       Shaders::getPath(Shaders::Sources::TEXTURE_FRAG));
 
-//    auto rectangle = std::make_shared<Rectangle>(_shader_program, std::vector<float>{
-//                                                                      // координаты        // текстурные координаты
-//                                                                      0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // верхняя правая вершина
-//                                                                      0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // нижняя правая вершина
-//                                                                      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // нижняя левая вершина
-//                                                                      -0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // верхняя левая вершина
-//                                                                  });
-//    rectangle->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = false});
+//    auto rectangle = std::make_shared<Rectangle>();
+//    rectangle->bind(GL_STATIC_DRAW);
 
-    auto cube = std::make_shared<Cube>(_shader_program, std::vector<float>{// координаты        // текстурные координаты
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-                                                                           0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-                                                                           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-                                                        });
-    cube->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = false});
-    _drawer.addPrimitive(cube);
+    Tools::Objects::Faces::Settings settings = {.with_normals = false, .with_texture = true};
+    auto cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
+    cube->bind(GL_STATIC_DRAW);
+    _drawer.addPrimitive(cube, _shader_program);
 
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_S, .value = GL_CLAMP_TO_EDGE});
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_T, .value = GL_CLAMP_TO_EDGE});

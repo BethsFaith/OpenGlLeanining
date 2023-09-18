@@ -4,7 +4,7 @@
 
 #include "Camera.hpp"
 
-namespace Objects {
+namespace Tools::Objects {
     Camera::Camera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up) : _position(position), _up(up), _front(target) {
         // процесс Грамма-Шмидта
         _reverse_direction = glm::normalize(position - target);
