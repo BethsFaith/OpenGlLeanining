@@ -117,13 +117,43 @@ Program7::Program7() {
     // свойства источника (точечного) света
     _light_source_shader_program->use();
     _light_source_shader_program->set3FloatVector("Color", white_light_color);
+
+    cube->setDrawCallback([this]() {
+        glm::vec3 light_pos(1.2f, 1.0f, 2.0f);
+
+        int width, height;
+        ProgramData::pullDesktopResolution(width, height);
+
+        auto projection = glm::perspective(glm::radians(_camera->getZoom()),
+                                           (float)width / (float)height, 0.1f, 100.0f);
+        // расположение объекта
+        _lighting_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
+        _lighting_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
+        _lighting_shader_program->set3FloatVector("viewPos", _camera->getPosition());
+
+        // свойства света
+        _lighting_shader_program->set3FloatVector("spotLight.position",_camera->getPosition());
+        _lighting_shader_program->set3FloatVector("spotLight.direction",_camera->getFront());
+    });
+
+    light_cube->setDrawCallback([this]() {
+        // расположение источника (точечного) света
+        glm::vec3 light_pos(1.2f, 1.0f, 2.0f);
+
+        int width, height;
+        ProgramData::pullDesktopResolution(width, height);
+
+        auto projection = glm::perspective(glm::radians(_camera->getZoom()),
+                                           (float)width / (float)height, 0.1f, 100.0f);
+
+        _light_source_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
+        _light_source_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
+    });
 }
 
 void Program7::run() {
     _texture1.bind();
     _texture2.bind();
-
-    updateView();
 
     _lighting_shader_program->use();
     for (unsigned int i = 0; i < 10; ++i) {
@@ -153,28 +183,6 @@ void Program7::run() {
 }
 
 void Program7::updateView() {
-    glm::vec3 light_pos(1.2f, 1.0f, 2.0f);
-
-    int width, height;
-    ProgramData::pullDesktopResolution(width, height);
-
-    auto projection = glm::perspective(glm::radians(_camera->getZoom()),
-                                       (float)width / (float)height, 0.1f, 100.0f);
-
-    // расположение объектов
-    _lighting_shader_program->use();
-    _lighting_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
-    _lighting_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
-    _lighting_shader_program->set3FloatVector("viewPos", _camera->getPosition());
-
-    // свойства света
-    _lighting_shader_program->set3FloatVector("spotLight.position",_camera->getPosition());
-    _lighting_shader_program->set3FloatVector("spotLight.direction",_camera->getFront());
-
-    // расположение источника (точечного) света
-    _light_source_shader_program->use();
-    _light_source_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
-    _light_source_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
 }
 
 void Program7::processKeyboardInput(GLFWwindow* window) {
