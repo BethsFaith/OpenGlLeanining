@@ -36,7 +36,7 @@ namespace Tools::Objects::Faces {
                                (int)(sizeof(Buffers::Vertex)),
                                (void*)(offsetof(Buffers::Vertex, tex_coords)));
         }
-//        _vao->unbind();
+        _vao->unbind();
     }
 
     void BasePrimitive::setVertexAttribute(const int& index, const int& size, const int& stride, void* offset) {
