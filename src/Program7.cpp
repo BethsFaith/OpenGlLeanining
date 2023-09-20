@@ -152,8 +152,8 @@ Program7::Program7() {
 }
 
 void Program7::run() {
-    _texture1.bind();
-    _texture2.bind();
+    _texture1.activate();
+    _texture2.activate();
 
     _lighting_shader_program->use();
     for (unsigned int i = 0; i < 10; ++i) {

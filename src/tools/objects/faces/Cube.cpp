@@ -5,7 +5,7 @@
 #include "Cube.hpp"
 
 namespace Tools::Objects::Faces {
-    Cube::Cube(const Settings &settings) : BasePrimitive(36, settings) {
+    Cube::Cube(const Settings &settings) : Primitive(36, settings) {
         std::vector<glm::vec3> position = getPosition();
         std::vector<glm::vec3> normals = settings.with_normals ? getNormals() : std::vector<glm::vec3>();
         std::vector<glm::vec2> texture_coordinates = settings.with_texture ? getTextureCoordinates() : std::vector<glm::vec2>();
@@ -54,7 +54,7 @@ namespace Tools::Objects::Faces {
     }
 
     void Cube::draw() {
-        BasePrimitive::draw();
+        Primitive::draw();
 
         glDrawArrays(GL_TRIANGLES, 0, vertex_number);
     }

@@ -11,7 +11,7 @@ Program3::Program3() {
                                                       Shaders::getPath(Shaders::Sources::TEXTURE_FRAG));
 
 //    auto rectangle = std::make_shared<Rectangle>();
-//    rectangle->bind(GL_STATIC_DRAW);
+//    rectangle->activate(GL_STATIC_DRAW);
 
     Tools::Objects::Faces::Settings settings = {.with_normals = false, .with_texture = true};
     auto cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
@@ -59,8 +59,8 @@ void Program3::processKeyboardInput(GLFWwindow* window) {
 }
 
 void Program3::run() {
-    _texture1.bind();
-    _texture2.bind();
+    _texture1.activate();
+    _texture2.activate();
 
     glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),

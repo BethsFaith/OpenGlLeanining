@@ -5,7 +5,7 @@
 #include "Rectangle.hpp"
 
 namespace Tools::Objects::Faces {
-    Rectangle::Rectangle(const Settings &settings) : BasePrimitive(4, settings) {
+    Rectangle::Rectangle(const Settings &settings) : Primitive(4, settings) {
         std::vector<glm::vec3> position = getPosition();
         std::vector<glm::vec2> texture_coordinates = settings.with_texture ? getTextureCoordinates() : std::vector<glm::vec2>();
 
@@ -32,7 +32,7 @@ namespace Tools::Objects::Faces {
     }
 
     void Rectangle::draw() {
-        BasePrimitive::draw();
+        Primitive::draw();
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }

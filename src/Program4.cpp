@@ -56,8 +56,8 @@ Program4::Program4() {
 }
 
 void Program4::run() {
-    _texture1.bind();
-    _texture2.bind();
+    _texture1.activate();
+    _texture2.activate();
 
     updateView();
 

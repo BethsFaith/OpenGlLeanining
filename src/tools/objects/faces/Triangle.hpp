@@ -5,11 +5,11 @@
 #ifndef INC_2_SHADERS_TRIANGLE_HPP
 #define INC_2_SHADERS_TRIANGLE_HPP
 
-#include "BasePrimitive.hpp"
+#include "Primitive.hpp"
 #include "buffers/Vbo.hpp"
 
 namespace Tools::Objects::Faces {
-    class Triangle : public BasePrimitive {
+    class Triangle : public Primitive {
     public:
         explicit Triangle();
 

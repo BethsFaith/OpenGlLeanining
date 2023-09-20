@@ -31,7 +31,7 @@ add_executable(2_shaders
         src/constants/Shaders.cpp
         src/constants/Textures.cpp
         src/tools/shaders/ShaderProgram.cpp
-        src/tools/objects/faces/BasePrimitive.cpp
+        src/tools/objects/faces/Primitive.cpp
         src/tools/objects/faces/Triangle.cpp
         src/tools/objects/faces/Rectangle.cpp
         src/tools/objects/faces/buffers/RaiiBuffer.cpp

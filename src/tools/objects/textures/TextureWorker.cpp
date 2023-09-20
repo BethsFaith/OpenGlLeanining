@@ -38,9 +38,13 @@ namespace Tools::Objects::Textures {
         return res;
     }
 
-    void TextureWorker::bind() const {
+    void TextureWorker::activate() const {
         glActiveTexture(_textureData.id);
         glBindTexture(GL_TEXTURE_2D, _texture);
+    }
+
+    void TextureWorker::deactivate() {
+        glActiveTexture(GL_TEXTURE0);
     }
 
     void TextureWorker::addParam(TextureWorker::Param param) {

@@ -5,12 +5,12 @@
 #include "Drawer.hpp"
 
 namespace Tools {
-    void Drawer::addPrimitive(const std::shared_ptr<Tools::Objects::Faces::BasePrimitive>& primitive,
+    void Drawer::addPrimitive(const std::shared_ptr<Tools::Objects::Faces::Primitive>& primitive,
                               const std::shared_ptr<Tools::Shaders::ShaderProgram>& shader_program) {
         _primitives.push_back(DrawablePrimitive{.primitive = primitive, .shader = shader_program});
     }
 
-    void Drawer::removePrimitive(std::shared_ptr<Tools::Objects::Faces::BasePrimitive> primitive) {
+    void Drawer::removePrimitive(std::shared_ptr<Tools::Objects::Faces::Primitive> primitive) {
         auto elem = std::find_if(_primitives.begin(), _primitives.end(),
                                  [&](const DrawablePrimitive &elem) {
             return elem.primitive->getUid() == primitive->getUid();

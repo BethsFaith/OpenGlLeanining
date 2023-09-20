@@ -2,19 +2,21 @@
 // Created by VerOchka on 16.08.2023.
 //
 
-#include "BasePrimitive.hpp"
+#include "Primitive.hpp"
 
 namespace Tools::Objects::Faces {
-    BasePrimitive::BasePrimitive(const int& vertex_number_, const Settings &settings)
+    Primitive::Primitive(const int &vertex_number_) : vertex_number(vertex_number_), _settings({}){}
+
+    Primitive::Primitive(const int& vertex_number_, const Settings &settings)
         : vertex_number(vertex_number_),
           _settings(settings) {
-        drawCallback = []() {};
+        _drawCallback = []() {};
 
         _vao = std::make_shared<Buffers::VAO>();
         add(_vao);
     }
 
-    void BasePrimitive::bind(const unsigned int& bind_flag) {
+    void Primitive::bind(const unsigned int& bind_flag) {
         for (auto& buffer : buffers) {
             buffer->bind(bind_flag);
         }
@@ -39,12 +41,12 @@ namespace Tools::Objects::Faces {
         _vao->unbind();
     }
 
-    void BasePrimitive::setVertexAttribute(const int& index, const int& size, const int& stride, void* offset) {
+    void Primitive::setVertexAttribute(const int& index, const int& size, const int& stride, void* offset) {
         glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, offset);
         glEnableVertexAttribArray(index);
     }
 
-    void BasePrimitive::add(std::shared_ptr<Buffers::RaiiBuffer> raii_buffer) {
+    void Primitive::add(std::shared_ptr<Buffers::RaiiBuffer> raii_buffer) {
         buffers.push_back(std::move(raii_buffer));
 
         std::sort(buffers.begin(),
@@ -54,17 +56,17 @@ namespace Tools::Objects::Faces {
                   });
     }
 
-    void BasePrimitive::draw() {
+    void Primitive::draw() {
         glBindVertexArray(_vao->get());
 
-        drawCallback();
+        _drawCallback();
     }
 
-    void BasePrimitive::setDrawCallback(std::function<void()> function) {
-        drawCallback = std::move(function);
+    void Primitive::setDrawCallback(std::function<void()> function) {
+        _drawCallback = std::move(function);
     }
 
-    unsigned int BasePrimitive::getUid() const {
+    unsigned int Primitive::getUid() const {
         return _vao->get();
     }
 }

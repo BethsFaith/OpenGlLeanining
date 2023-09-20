@@ -5,12 +5,12 @@
 #ifndef INC_2_SHADERS_RECTANGLE_HPP
 #define INC_2_SHADERS_RECTANGLE_HPP
 
-#include "BasePrimitive.hpp"
+#include "Primitive.hpp"
 #include "buffers/Ebo.hpp"
 #include "buffers/Vbo.hpp"
 
 namespace Tools::Objects::Faces {
-    class Rectangle : public BasePrimitive {
+    class Rectangle : public Primitive {
     public:
         explicit Rectangle(const Settings &settings);
 

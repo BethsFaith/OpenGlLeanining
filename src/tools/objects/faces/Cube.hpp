@@ -5,12 +5,12 @@
 #ifndef INC_2_SHADERS_CUBE_HPP
 #define INC_2_SHADERS_CUBE_HPP
 
-#include "BasePrimitive.hpp"
+#include "Primitive.hpp"
 #include "buffers/Ebo.hpp"
 #include "buffers/Vbo.hpp"
 
 namespace Tools::Objects::Faces {
-    class Cube : public BasePrimitive {
+    class Cube : public Primitive {
     public:
         explicit Cube(const Settings &settings);
 

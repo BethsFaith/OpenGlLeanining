@@ -68,9 +68,9 @@ Program6::Program6() {
 }
 
 void Program6::run() {
-    _texture1.bind();
-    _texture2.bind();
-//    _texture3.bind();
+    _texture1.activate();
+    _texture2.activate();
+//    _texture3.activate();
 
     updateView();
     _drawer.draw();

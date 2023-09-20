@@ -2,8 +2,8 @@
 // Created by VerOchka on 16.08.2023.
 //
 
-#ifndef INC_2_SHADERS_BASEPRIMITIVE_HPP
-#define INC_2_SHADERS_BASEPRIMITIVE_HPP
+#ifndef INC_2_SHADERS_PRIMITIVE_HPP
+#define INC_2_SHADERS_PRIMITIVE_HPP
 
 #include <algorithm>
 #include <format>
@@ -16,10 +16,11 @@
 #include "buffers/Vertex.hpp"
 
 namespace Tools::Objects::Faces {
-    class BasePrimitive : public AbstractPrimitive {
+    class Primitive : public AbstractPrimitive {
     public:
-        explicit BasePrimitive(const int& vertex_number, const Settings &settings);
-        ~BasePrimitive() override = default;
+        explicit Primitive(const int& vertex_number);
+        explicit Primitive(const int& vertex_number, const Settings &settings);
+        ~Primitive() override = default;
 
         void setDrawCallback(std::function<void()> function) override;
 
@@ -35,17 +36,17 @@ namespace Tools::Objects::Faces {
 
         std::vector<std::shared_ptr<Buffers::RaiiBuffer>> buffers{};
 
-        std::function<void()> drawCallback;
-
         const int vertex_number;
 
         std::vector<Buffers::Vertex> vertices;
         std::vector<unsigned int> indices;
     private:
+        std::function<void()> _drawCallback;
+
         std::shared_ptr<Buffers::VAO> _vao;
 
         Settings _settings;
     };
 }
 
-#endif    //INC_2_SHADERS_BASEPRIMITIVE_HPP
+#endif    //INC_2_SHADERS_PRIMITIVE_HPP
