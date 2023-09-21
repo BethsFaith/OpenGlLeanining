@@ -6,6 +6,7 @@
 #define INC_2_SHADERS_PROGRAM8_HPP
 
 #include "Program.hpp"
+#include "constants/Models.hpp"
 #include "tools/objects/Model.hpp"
 #include "tools/CameraController.hpp"
 
@@ -28,7 +29,7 @@ private:
 
     std::shared_ptr<Tools::Objects::Model> _model;
 
-    std::shared_ptr<Tools::Shaders::ShaderProgram> _lighting_shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _shader_program;
 
     std::shared_ptr<Tools::Objects::Camera> _camera;
     std::shared_ptr<Tools::CameraController> _camera_controller;

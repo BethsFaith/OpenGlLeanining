@@ -5,14 +5,13 @@
 #include "Model.hpp"
 
 namespace Tools::Objects {
-    Model::Model(const std::string &path) {
-        loadModel(path);
+    Model::Model(const std::string& path_to_model) {
+        loadModel(path_to_model);
     }
 
     void Model::loadModel(const std::string& path) {
         Assimp::Importer importer;
-        const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs
-                                                           | aiProcess_GenNormals);
+        const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
         if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
@@ -84,15 +83,30 @@ namespace Tools::Objects {
             // Обрабатываем материал
             if(mesh->mMaterialIndex >= 0) {
                 aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+
+                // 1. Диффузные карты
                 std::vector<Textures::TextureWorker> diffuseMaps = loadMaterialTextures(material,
                                                                                   aiTextureType_DIFFUSE,
                                                                                   "texture_diffuse");
                 textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
+                // 2. Карты отражения
                 std::vector<Textures::TextureWorker> specularMaps = loadMaterialTextures(material,
                                                                                    aiTextureType_SPECULAR,
                                                                                    "texture_specular");
                 textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
+                // 3. Карты нормалей
+                std::vector<Textures::TextureWorker> normalMaps = loadMaterialTextures(material,
+                                                                                       aiTextureType_HEIGHT,
+                                                                                       "texture_normal");
+                textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+
+                // 4. Карты высот
+                std::vector<Textures::TextureWorker> heightMaps = loadMaterialTextures(material,
+                                                                                       aiTextureType_AMBIENT,
+                                                                                       "texture_height");
+                textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
             }
         }
 
@@ -105,24 +119,40 @@ namespace Tools::Objects {
         static int index = 0;
 
         std::vector<Textures::TextureWorker> textures;
+
         for(unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
             aiString str;
             mat->GetTexture(type, i, &str);
 
-            Textures::TextureWorker texture_worker(GL_TEXTURE0 + i, typeName);
+            std::string path(str.C_Str());
+            path = _directory + "/" + path;
 
-            texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
-                                     .value = GL_CLAMP_TO_EDGE});
-            texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
-                                     .value = GL_CLAMP_TO_EDGE});
-            texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
-                                     .value = GL_NEAREST});
-            texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
-                                     .value = GL_NEAREST});
+            bool skip = false;
+            for(const auto & loaded : textures_loaded) {
+                if(std::strcmp(loaded.getTextureData().path.data(), path.data()) == 0) {
+                    textures.push_back(loaded);
+                    skip = true;
+                    break;
+                }
+            }
 
-            texture_worker.bind2d(_directory.c_str());
+            if (!skip) {
+                Textures::TextureWorker texture_worker(GL_TEXTURE0 + i, typeName);
 
-            textures.push_back(texture_worker);
+                texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
+                                         .value = GL_CLAMP_TO_EDGE});
+                texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
+                                         .value = GL_CLAMP_TO_EDGE});
+                texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
+                                         .value = GL_NEAREST});
+                texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
+                                         .value = GL_NEAREST});
+
+                texture_worker.bind2d(path.c_str());
+
+                textures.push_back(texture_worker);
+                textures_loaded.push_back(texture_worker);
+            }
         }
         return textures;
     }

@@ -47,7 +47,8 @@ add_executable(2_shaders
         src/tools/objects/Camera.cpp
         src/tools/CameraController.cpp
         src/tools/objects/Mesh.cpp
+        src/tools/objects/Model.cpp
         src/Program8.cpp
-        )
+        src/constants/Models.cpp src/constants/Models.hpp)
 
 target_link_libraries(2_shaders ${CONAN_LIBS} assimp::assimp)

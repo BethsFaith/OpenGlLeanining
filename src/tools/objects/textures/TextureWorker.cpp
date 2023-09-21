@@ -11,8 +11,10 @@ namespace Tools::Objects::Textures {
         glGenTextures(1, &_texture);
     }
 
-    bool TextureWorker::bind2d(const char source[]) const {
+    bool TextureWorker::bind2d(const char source[]) {
         bool res = false;
+
+        _textureData.path = source;
 
         for (const auto& param : _params) {
             glTexParameteri(param.target, param.name, param.value);
@@ -23,10 +25,16 @@ namespace Tools::Objects::Textures {
         unsigned char* data = stbi_load(source, &width, &height, &nrChannels, 0);
 
         if (data) {
-            int flag = (nrChannels == 3 ? GL_RGB : GL_RGBA);
+            GLenum format;
+            if (nrChannels == 1)
+                format = GL_RED;
+            else if (nrChannels == 3)
+                format = GL_RGB;
+            else if (nrChannels == 4)
+                format = GL_RGBA;
 
             glBindTexture(GL_TEXTURE_2D, _texture);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, flag, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
 
             res = true;

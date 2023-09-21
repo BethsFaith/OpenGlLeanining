@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <functional>
 
 #include "../objects/libHeadears/glfw.hpp"
 #include "../objects/libHeadears/glm.hpp"
@@ -22,6 +23,8 @@ namespace Tools::Shaders {
         // Использование/активация шейдера
         void use();
 
+        void setCallbackUse(std::function<void()> callback);
+
         // Полезные uniform-функции
         void setBool(const std::string& name, bool value) const;
         void setInt(const std::string& name, int value) const;
@@ -34,6 +37,9 @@ namespace Tools::Shaders {
 
         // ID - идентификатор программы
         unsigned int ID;
+
+    private:
+        std::function<void()> _useCallback;
     };
 }
 

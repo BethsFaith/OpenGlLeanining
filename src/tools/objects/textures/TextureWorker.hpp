@@ -30,9 +30,9 @@ namespace Tools::Objects::Textures {
 
         void addParam(Param param);
 
-        bool bind2d(const char source[]) const;
-        void activate() const;
+        bool bind2d(const char source[]);
 
+        void activate() const;
         static void deactivate();
 
         [[nodiscard]] const Texture& getTextureData() const;

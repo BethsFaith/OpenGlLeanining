@@ -82,10 +82,14 @@ namespace Tools::Shaders {
         // После того, как мы связали шейдеры с нашей программой, удаляем их, так как они нам больше не нужны
         glDeleteShader(vertex);
         glDeleteShader(fragment);
+
+        _useCallback = {};
     }
 
     void ShaderProgram::use() {
         glUseProgram(ID);
+
+        _useCallback();
     }
 
     void ShaderProgram::setBool(const std::string& name, bool value) const {
@@ -118,5 +122,9 @@ namespace Tools::Shaders {
 
     void ShaderProgram::set3FloatVector(const std::string &name, const glm::vec3 &vector) const {
         glUniform3f(glGetUniformLocation(ID, name.c_str()), vector.x, vector.y, vector.z);
+    }
+
+    void ShaderProgram::setCallbackUse(std::function<void()> callback) {
+        _useCallback = callback;
     }
 }

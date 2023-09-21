@@ -11,6 +11,7 @@ namespace Tools::Objects::Textures{
     struct Texture {
         unsigned int id{};
         std::string name;
+        std::string path;
     };
 }
 

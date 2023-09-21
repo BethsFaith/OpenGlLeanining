@@ -14,7 +14,7 @@
 namespace Tools::Objects {
     class Model {
     public:
-        explicit Model(const std::string &path);
+        explicit Model(const std::string& path_to_model);
         ~Model() = default;
 
         void draw(const std::shared_ptr<Shaders::ShaderProgram> &shader);
@@ -32,6 +32,7 @@ namespace Tools::Objects {
 
         std::vector<Mesh> _meshes;
         std::string _directory;
+        std::vector<Textures::TextureWorker> textures_loaded;
     };
 }
 

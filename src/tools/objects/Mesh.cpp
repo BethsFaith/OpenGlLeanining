@@ -23,6 +23,8 @@ namespace Tools::Objects {
 
             unsigned int diffuse_number = 1;
             unsigned int specular_number = 1;
+            unsigned int normal_number = 1;
+            unsigned int height_number = 1;
 
             for (unsigned int i = 0; i < (int)_textures.size(); ++i) {
                 _textures.at(i).activate();
@@ -32,9 +34,13 @@ namespace Tools::Objects {
 
                 if (name == "texture_diffuse") {
                     number = std::to_string(diffuse_number++);
-                } else if (name == "specular_diffuse"){
+                } else if (name == "texture_specular"){
                     number = std::to_string(specular_number++);
-                } else {
+                }  else if (name == "texture_normal")
+                    number = std::to_string(normal_number++); // конвертируем unsigned int в строку
+                else if (name == "texture_height")
+                    number = std::to_string(height_number++); // конвертируем unsigned int в строку
+                else {
                     std::cout << "ERROR: NAME OF TEXTURE UNKNOWN" << std::endl;
                 }
 

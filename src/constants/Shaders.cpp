@@ -23,7 +23,9 @@ namespace Constants {
         {Shaders::Sources::THIRDD_LIGHT_TEXT_VERT, "thirdd_light_texture.vert"},
         {Shaders::Sources::THIRDD_LIGHT_DIR_TEXT_FRAG, "thirdd_dir_light_text.frag"},
         {Shaders::Sources::SEARCHLIGHT_FRAG, "searchlight_text.frag"},
-        {Shaders::Sources::COMBINED_LIGHT_FRAG, "combined_light_tex.frag"}
+        {Shaders::Sources::COMBINED_LIGHT_FRAG, "combined_light_tex.frag"},
+        {Shaders::Sources::LOAD_MODULE_FRAG, "model_loading.frag"},
+        {Shaders::Sources::LOAD_MODULE_VERT, "model_loading.vert"}
     };
 
     std::string Shaders::shaders_path = ProgramData::getValue<std::string>("shaders");

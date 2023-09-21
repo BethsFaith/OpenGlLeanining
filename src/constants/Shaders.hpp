@@ -28,7 +28,9 @@ namespace Constants {
             SIMPLE_FRAG,
             STATIC_LIGHT_FRAG,
             SEARCHLIGHT_FRAG,
-            COMBINED_LIGHT_FRAG
+            COMBINED_LIGHT_FRAG,
+            LOAD_MODULE_FRAG,
+            LOAD_MODULE_VERT
         };
 
         [[maybe_unused]] static std::string getPath(Sources name);

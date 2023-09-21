@@ -87,6 +87,8 @@ void GlfwWindow::setProgram(Program* program) {
 void GlfwWindow::updateDeltaTime() {
     auto currentFrame = (float)glfwGetTime();
 
+    std::cout << std::endl << currentFrame << std::endl;
+
     _delta_time = currentFrame - _last_frame;
     _last_frame = currentFrame;
 }

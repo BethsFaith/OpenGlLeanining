@@ -5,7 +5,7 @@
 #include "Primitive.hpp"
 
 namespace Tools::Objects::Faces {
-    Primitive::Primitive(const int &vertex_number_) : vertex_number(vertex_number_), _settings({}){}
+    Primitive::Primitive(const int &vertex_number_) : Primitive(vertex_number_, {}){}
 
     Primitive::Primitive(const int& vertex_number_, const Settings &settings)
         : vertex_number(vertex_number_),
