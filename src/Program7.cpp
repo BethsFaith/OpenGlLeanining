@@ -20,10 +20,10 @@ glm::vec3 Program7::point_light_positions[4] = {glm::vec3(0.7f, 0.2f, 2.0f),
     glm::vec3(0.0f, 0.0f, -3.0f),
 };
 glm::vec3 Program7::point_light_colors[4] = {
-    {0.32, 0.77, 0.31},
-    {0.32, 0.77, 0.31},
-    {0.32, 0.77, 0.31},
-    {0.32, 0.77, 0.31}
+    {0.05, 0.0, 1.0},
+    {0.05, 0.0, 1.0},
+    {0.05, 0.0, 1.0},
+    {0.05, 0.0, 1.0}
 };
 
 Program7::Program7() {
@@ -84,15 +84,15 @@ Program7::Program7() {
 
     // свойства света
     _lighting_shader_program->set3FloatVector("dirLight.direction",  -0.2f, -1.0f, -0.3f);
-    _lighting_shader_program->set3FloatVector("dirLight.ambient", white_light_color * glm::vec3(1.0f));
-    _lighting_shader_program->set3FloatVector("dirLight.diffuse", white_light_color * glm::vec3(1.0f));
-    _lighting_shader_program->set3FloatVector("dirLight.specular", white_light_color * glm::vec3(1.0f));
+    _lighting_shader_program->set3FloatVector("dirLight.ambient", white_light_color * glm::vec3(0.1f));
+    _lighting_shader_program->set3FloatVector("dirLight.diffuse", white_light_color * glm::vec3(0.2f));
+    _lighting_shader_program->set3FloatVector("dirLight.specular", white_light_color * glm::vec3(0.2f));
 
     for (unsigned int i = 0; i < 4; ++i) {
         std::string elem_name = "pointLights[" + std::to_string(i) + "].";
 
         glm::vec3 ambient_color = point_light_colors[i] * glm::vec3(0.2f); // 0.2f
-        glm::vec3 diffuse_color = point_light_colors[i] * glm::vec3(0.9f); // 0.5f
+        glm::vec3 diffuse_color = point_light_colors[i] * glm::vec3(0.3f); // 0.5f
         glm::vec3 specular_color = point_light_colors[i] * glm::vec3(0.5f); // 0.5f
 
         _lighting_shader_program->set3FloatVector(elem_name + "ambient", ambient_color);

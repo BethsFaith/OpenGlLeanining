@@ -13,9 +13,9 @@ int main() {
     GlfwWindow::init(width, height, "MyWindow");
 
     auto window = GlfwWindow::get();
-
-    window->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-//    window->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//
+//    window->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    window->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     window->setProgram(new Program7);
 

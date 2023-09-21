@@ -15,11 +15,13 @@ namespace Tools::Objects {
     class Mesh : public Faces::Primitive {
     public:
         Mesh(const std::vector<Faces::Buffers::Vertex> &vertices, const std::vector<unsigned int> &indices,
-             const std::vector<Textures::TextureWorker>& textures, const std::shared_ptr<Shaders::ShaderProgram> &shader);
+             const std::vector<Textures::TextureWorker>& textures);
 
         ~Mesh() override = default;
 
         void draw() override;
+
+        void setShader(const std::shared_ptr<Shaders::ShaderProgram> &shader);
 
     protected:
         void bind(const unsigned int &bind_flag) override;
