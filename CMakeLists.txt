@@ -45,6 +45,6 @@ add_executable(2_shaders
         src/tools/objects/Camera.cpp
         src/tools/CameraController.cpp
         src/tools/objects/Mesh.cpp
-        )
+        src/tools/objects/Model.cpp)
 
 target_link_libraries(2_shaders ${CONAN_LIBS})
