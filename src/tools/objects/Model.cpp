@@ -6,10 +6,118 @@
 
 namespace Tools::Objects {
     Model::Model(const std::string &path) {
-
+        loadModel(path);
     }
 
     void Model::draw(const std::shared_ptr<Shaders::ShaderProgram> &shader) {
+        for (auto & mesh : _meshes) {
+            mesh.setShader(shader);
+            mesh.draw();
+        }
+    }
 
+    void Model::loadModel(const std::string& path) {
+        Assimp::Importer importer;
+        const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs
+                                                           | aiProcess_GenNormals);
+
+        if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+        {
+            std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+            return;
+        }
+        _directory = path.substr(0, path.find_last_of('/'));
+
+        processNode(scene->mRootNode, scene);
+    }
+
+    void Model::processNode(aiNode* node, const aiScene* scene) {
+        // Обрабатываем все меши (если они есть) у выбранного узла
+        for(unsigned int i = 0; i < node->mNumMeshes; i++) {
+            aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+            _meshes.push_back(processMesh(mesh, scene));
+        }
+        // И проделываем то же самое для всех дочерних узлов
+        for(unsigned int i = 0; i < node->mNumChildren; i++) {
+            processNode(node->mChildren[i], scene);
+        }
+    }
+
+    Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
+        std::vector<Faces::Buffers::Vertex> vertices;
+        std::vector<unsigned int> indices;
+        std::vector<Textures::TextureWorker> textures;
+
+        for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
+            Faces::Buffers::Vertex vertex{};
+            // Обрабатываем координаты вершин, нормали и текстурные координаты
+            glm::vec3 vector;
+
+            vector.x = mesh->mVertices[i].x;
+            vector.y = mesh->mVertices[i].y;
+            vector.z = mesh->mVertices[i].z;
+            vertex.position = vector;
+
+            vector.x = mesh->mNormals[i].x;
+            vector.y = mesh->mNormals[i].y;
+            vector.z = mesh->mNormals[i].z;
+            vertex.normal = vector;
+
+            if(mesh->mTextureCoords[0]) { // действительно ли меш содержит текстурные координаты?
+                glm::vec2 vec;
+                vec.x = mesh->mTextureCoords[0][i].x;
+                vec.y = mesh->mTextureCoords[0][i].y;
+                vertex.tex_coords = vec;
+            }
+            else {
+                vertex.tex_coords = glm::vec2(0.0f, 0.0f);
+            }
+
+            vertices.push_back(vertex);
+
+            // Обрабатываем индексы
+            for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
+                aiFace face = mesh->mFaces[i];
+
+                for(unsigned int j = 0; j < face.mNumIndices; j++) {
+                    indices.push_back(face.mIndices[j]);
+                }
+            }
+
+            // Обрабатываем материал
+            if(mesh->mMaterialIndex >= 0) {
+                aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+                std::vector<Textures::TextureWorker> diffuseMaps = loadMaterialTextures(material,
+                                                                                  aiTextureType_DIFFUSE,
+                                                                                  "texture_diffuse");
+                textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+
+                std::vector<Textures::TextureWorker> specularMaps = loadMaterialTextures(material,
+                                                                                   aiTextureType_SPECULAR,
+                                                                                   "texture_specular");
+                textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+            }
+        }
+
+        return {vertices, indices, textures};
+    }
+
+    std::vector<Textures::TextureWorker> Model::loadMaterialTextures(aiMaterial* mat,
+                                                               const aiTextureType& type,
+                                                               const std::string& typeName) {
+        static int index = 0;
+
+        std::vector<Textures::TextureWorker> textures;
+        for(unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
+            aiString str;
+            mat->GetTexture(type, i, &str);
+
+            Textures::TextureWorker texture_worker(GL_TEXTURE0 + i, typeName);
+
+            texture_worker.bind2d(_directory.c_str());
+
+            textures.push_back(texture_worker);
+        }
+        return textures;
     }
 }

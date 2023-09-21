@@ -7,10 +7,12 @@
 
 #include "Mesh.hpp"
 #include "../shaders/ShaderProgram.hpp"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 namespace Tools::Objects {
-    class Model
-    {
+    class Model {
     public:
         explicit Model(const std::string &path);
         ~Model() = default;
@@ -19,9 +21,15 @@ namespace Tools::Objects {
 
     private:
         void loadModel(const std::string& path);
-        void processNode();
+
+        std::vector<Textures::TextureWorker> loadMaterialTextures(aiMaterial *mat, const aiTextureType& type,
+                                                            const std::string& typeName);
+
+        void processNode(aiNode *node, const aiScene *scene);
+        Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 
         std::vector<Mesh> _meshes;
+        std::string _directory;
     };
 }
 
