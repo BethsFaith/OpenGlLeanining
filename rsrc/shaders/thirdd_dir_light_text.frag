@@ -37,7 +37,7 @@ void main() {
     vec3 lightDir;
 
     if (light.type == 0) { // направленный свет
-        lightDir = normalize(-light.position);
+        lightDir = normalize(-light.direction);
     } else if (light.type == 1) { // по положению в пространстве
         vec3 d = light.position - FragPos;
         lightDir = normalize(d);

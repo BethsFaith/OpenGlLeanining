@@ -3,6 +3,8 @@ project(2_shaders)
 
 set(CMAKE_CXX_STANDARD 20)
 
+add_subdirectory(libs/assimp EXCLUDE_FROM_ALL)
+
 if (NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
     message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
     file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/0.18.1/conan.cmake"
@@ -45,6 +47,6 @@ add_executable(2_shaders
         src/tools/objects/Camera.cpp
         src/tools/CameraController.cpp
         src/tools/objects/Mesh.cpp
-        src/tools/objects/Model.cpp)
+        src/tools/objects/Model.cpp src/Program8.cpp src/Program8.hpp)
 
-target_link_libraries(2_shaders ${CONAN_LIBS})
+target_link_libraries(2_shaders ${CONAN_LIBS} assimp::assimp)

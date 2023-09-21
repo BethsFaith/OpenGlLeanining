@@ -23,9 +23,6 @@ namespace Tools::Objects {
 
         void setShader(const std::shared_ptr<Shaders::ShaderProgram> &shader);
 
-    protected:
-        void bind(const unsigned int &bind_flag) override;
-
     private:
         std::vector<Textures::TextureWorker> _textures;
         std::shared_ptr<Shaders::ShaderProgram> _shader;

@@ -18,7 +18,9 @@ namespace Tools::Objects {
         ~Model() = default;
 
         void draw(const std::shared_ptr<Shaders::ShaderProgram> &shader);
+        void draw();
 
+        void setShaderProgram(const std::shared_ptr<Shaders::ShaderProgram>& shader);
     private:
         void loadModel(const std::string& path);
 

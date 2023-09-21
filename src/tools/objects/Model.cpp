@@ -9,13 +9,6 @@ namespace Tools::Objects {
         loadModel(path);
     }
 
-    void Model::draw(const std::shared_ptr<Shaders::ShaderProgram> &shader) {
-        for (auto & mesh : _meshes) {
-            mesh.setShader(shader);
-            mesh.draw();
-        }
-    }
-
     void Model::loadModel(const std::string& path) {
         Assimp::Importer importer;
         const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs
@@ -34,8 +27,12 @@ namespace Tools::Objects {
     void Model::processNode(aiNode* node, const aiScene* scene) {
         // Обрабатываем все меши (если они есть) у выбранного узла
         for(unsigned int i = 0; i < node->mNumMeshes; i++) {
-            aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-            _meshes.push_back(processMesh(mesh, scene));
+            aiMesh * ai_mesh = scene->mMeshes[node->mMeshes[i]];
+
+            auto mesh = processMesh(ai_mesh, scene);
+            mesh.bind(GL_STATIC_DRAW);
+
+            _meshes.push_back(mesh);
         }
         // И проделываем то же самое для всех дочерних узлов
         for(unsigned int i = 0; i < node->mNumChildren; i++) {
@@ -114,10 +111,38 @@ namespace Tools::Objects {
 
             Textures::TextureWorker texture_worker(GL_TEXTURE0 + i, typeName);
 
+            texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
+                                     .value = GL_CLAMP_TO_EDGE});
+            texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
+                                     .value = GL_CLAMP_TO_EDGE});
+            texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
+                                     .value = GL_NEAREST});
+            texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
+                                     .value = GL_NEAREST});
+
             texture_worker.bind2d(_directory.c_str());
 
             textures.push_back(texture_worker);
         }
         return textures;
+    }
+
+    void Model::draw(const std::shared_ptr<Shaders::ShaderProgram> &shader) {
+        for (auto & mesh : _meshes) {
+            mesh.setShader(shader);
+            mesh.draw();
+        }
+    }
+
+    void Model::draw() {
+        for (auto & mesh : _meshes) {
+            mesh.draw();
+        }
+    }
+
+    void Model::setShaderProgram(const std::shared_ptr<Shaders::ShaderProgram>& shader) {
+        for (auto & mesh : _meshes) {
+            mesh.setShader(shader);
+        }
     }
 }

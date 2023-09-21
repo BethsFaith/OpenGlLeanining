@@ -49,10 +49,6 @@ namespace Tools::Objects {
         glBindVertexArray(0);
     }
 
-    void Mesh::bind(const unsigned int &bind_flag) {
-        Primitive::bind(bind_flag);
-    }
-
     void Mesh::setShader(const std::shared_ptr<Shaders::ShaderProgram> &shader) {
         _shader = shader;
     }
