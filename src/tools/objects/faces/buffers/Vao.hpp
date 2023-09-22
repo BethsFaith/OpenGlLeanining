@@ -13,10 +13,12 @@ namespace Tools::Objects::Faces::Buffers {
         VAO();
         ~VAO() override;
 
-        void bind(const unsigned int& bind_flag) override;
-        [[nodiscard]] unsigned int get() const override;
+        void bindData(const unsigned int& bind_flag) override;
+
+        void bind() override;
         void unbind() override;
 
+        [[nodiscard]] unsigned int get() const override;
     private:
         unsigned int _vao{};
     };

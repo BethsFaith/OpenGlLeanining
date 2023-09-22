@@ -10,6 +10,8 @@ namespace Tools::Objects::Faces {
         std::vector<glm::vec3> normals = settings.with_normals ? getNormals() : std::vector<glm::vec3>();
         std::vector<glm::vec2> texture_coordinates = settings.with_texture ? getTextureCoordinates() : std::vector<glm::vec2>();
 
+        std::vector<Buffers::Vertex> vertices;
+
         if (settings.with_texture && settings.with_normals) {
             for (int i{}; i < 6; ++i) {
                 for (int j{}; j < 6; ++j) {
@@ -46,10 +48,9 @@ namespace Tools::Objects::Faces {
                 });
             }
         }
+        auto indices = std::vector<unsigned int>{{0, 1, 3, 1, 2, 3}};
 
-        indices = std::vector<unsigned int>{{0, 1, 3, 1, 2, 3}};
-
-        add(std::make_shared<Buffers::VBO>(vertices));
+        add(std::make_shared<Buffers::VBO<Buffers::Vertex>>(vertices));
         add(std::make_shared<Buffers::EBO>(indices));
     }
 
@@ -57,6 +58,28 @@ namespace Tools::Objects::Faces {
         Primitive::draw();
 
         glDrawArrays(GL_TRIANGLES, 0, vertex_number);
+    }
+
+    void Cube::bindData(const unsigned int& bind_flag) {
+        Primitive::bindData(bind_flag);
+
+        int index = 0;
+
+        Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, position));
+        if (settings.with_normals) {
+            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, normal));
+        }
+        if (settings.with_texture) {
+            Buffers::setVertexAttribute(index++, 2, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, tex_coords));
+        }
+        if (settings.with_tangent) {
+            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, tangent));
+        }
+        if (settings.with_bitangent) {
+            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, bitangent));
+        }
+
+        unbind();
     }
 
     std::vector<glm::vec3> Cube::getPosition() {

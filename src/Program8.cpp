@@ -35,23 +35,23 @@ void Program8::configureShaders() {
     //    _shader_program->set3FloatVector("light.diffuse", white_light_color * glm::vec3(0.2f));
     //    _shader_program->set3FloatVector("light.specular", white_light_color * glm::vec3(0.2f));
 
-    _shader_program->setCallbackUse([this](){
-        int width, height;
-        ProgramData::pullDesktopResolution(width, height);
+    // Рендеринг загруженной модели
+    _shader_program->use();
 
-        glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()),
-                                                (float)width / (float)height, 0.1f, 100.0f);
-        glm::mat4 view = _camera->getView();
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // смещаем вниз чтобы быть в центре сцены
+    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// объект слишком большой для нашей сцены, поэтому немного уменьшим его
+    _shader_program->set4FloatMat("model", glm::value_ptr(model));
 
-        _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
-        _shader_program->set4FloatMat("view", glm::value_ptr(view));
-
-        // Рендеринг загруженной модели
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // смещаем вниз чтобы быть в центре сцены
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// объект слишком большой для нашей сцены, поэтому немного уменьшим его
-        _shader_program->set4FloatMat("model", glm::value_ptr(model));
-    });
+//    _shader_program->setCallbackUse([this](){
+//        int width, height;
+//        ProgramData::pullDesktopResolution(width, height);
+//
+//        glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()),
+//                                                (float)width / (float)height, 0.1f, 100.0f);
+//        glm::mat4 view = _camera->getView();
+//
+//    });
 }
 
 void Program8::configureCamera() {
@@ -67,6 +67,14 @@ void Program8::configureCamera() {
 }
 
 void Program8::run() {
+    _shader_program->use();
+    int width, height;
+    ProgramData::pullDesktopResolution(width, height);
+
+    glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()),
+                                            (float)width / (float)height, 0.1f, 100.0f);
+    glm::mat4 view = _camera->getView();
+
     _model->draw();
 }
 

@@ -18,6 +18,7 @@ namespace Tools::Objects::Faces {
 
         void draw() override;
 
+        void bindData(const unsigned int& bind_flag) override;
     private:
         static std::vector<glm::vec3> getPosition();
         static std::vector<glm::vec3> getNormals();

@@ -9,8 +9,8 @@
 #include "tools/CameraController.hpp"
 #include "tools/objects/faces/Cube.hpp"
 #include "tools/objects/faces/Rectangle.hpp"
-#include "tools/objects/textures/TextureWorker.hpp"
 #include "tools/objects/libHeadears/glm.hpp"
+#include "tools/objects/textures/Loader.hpp"
 
 class Program6 : public Program {
 public:
@@ -37,8 +37,8 @@ private:
 
     Tools::Drawer _drawer{};
 
-    Tools::Objects::Textures::TextureWorker _texture1{GL_TEXTURE0};
-    Tools::Objects::Textures::TextureWorker _texture2{GL_TEXTURE1};
+    Tools::Objects::Textures::TextureLoader _texture1{GL_TEXTURE0};
+    Tools::Objects::Textures::TextureLoader _texture2{GL_TEXTURE1};
 };
 
 

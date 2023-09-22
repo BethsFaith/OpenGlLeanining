@@ -7,10 +7,10 @@
 
 #include <filesystem>
 
-#include "tools/objects/libHeadears/glm.hpp"
 #include "Program.hpp"
 #include "tools/objects/faces/Rectangle.hpp"
-#include "tools/objects/textures/TextureWorker.hpp"
+#include "tools/objects/libHeadears/glm.hpp"
+#include "tools/objects/textures/Loader.hpp"
 
 // Устаревшее, не использовать без переписывания!!!
 class Program2 : public Program{
@@ -31,8 +31,8 @@ private:
 
     std::shared_ptr<Tools::Shaders::ShaderProgram> _shader_program;
     Tools::Drawer _drawer{};
-    Tools::Objects::Textures::TextureWorker _texture1{GL_TEXTURE0};
-    Tools::Objects::Textures::TextureWorker _texture2{GL_TEXTURE1};
+    Tools::Objects::Textures::TextureLoader _texture1{GL_TEXTURE0};
+    Tools::Objects::Textures::TextureLoader _texture2{GL_TEXTURE1};
 
     float _mix_value = 0.2;
 };

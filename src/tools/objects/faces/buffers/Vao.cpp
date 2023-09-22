@@ -13,9 +13,11 @@ namespace Tools::Objects::Faces::Buffers {
         glDeleteBuffers(1, &_vao);
     }
 
-    void VAO::bind(const unsigned int& bind_flag) {
+    void VAO::bind() {
         glBindVertexArray(_vao);
     }
+
+    void VAO::bindData(const unsigned int& bind_flag) {}
 
     void VAO::unbind() {
         glBindVertexArray(0);

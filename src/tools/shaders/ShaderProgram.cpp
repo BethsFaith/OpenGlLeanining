@@ -83,7 +83,7 @@ namespace Tools::Shaders {
         glDeleteShader(vertex);
         glDeleteShader(fragment);
 
-        _useCallback = {};
+        _useCallback = []() {};
     }
 
     void ShaderProgram::use() {

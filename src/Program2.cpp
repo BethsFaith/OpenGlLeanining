@@ -34,8 +34,8 @@ Program2::Program2() {
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_LINEAR});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_LINEAR});
 
-    _texture1.bind2d(Textures::getPath(Textures::Sources::CONTAINER).c_str());
-    _texture2.bind2d(Textures::getPath(Textures::Sources::FACE).c_str());
+    _texture1.load2d(Textures::getPath(Textures::Sources::CONTAINER).c_str());
+    _texture2.load2d(Textures::getPath(Textures::Sources::FACE).c_str());
 
     _shader_program->use();
     _shader_program->setInt("texture1",0);

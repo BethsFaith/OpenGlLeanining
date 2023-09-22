@@ -7,6 +7,7 @@
 namespace Tools::Objects {
     Model::Model(const std::string& path_to_model) {
         loadModel(path_to_model);
+        textures_loaded.clear();
     }
 
     void Model::loadModel(const std::string& path) {
@@ -26,10 +27,10 @@ namespace Tools::Objects {
     void Model::processNode(aiNode* node, const aiScene* scene) {
         // Обрабатываем все меши (если они есть) у выбранного узла
         for(unsigned int i = 0; i < node->mNumMeshes; i++) {
-            aiMesh * ai_mesh = scene->mMeshes[node->mMeshes[i]];
+            aiMesh *ai_mesh = scene->mMeshes[node->mMeshes[i]];
 
             auto mesh = processMesh(ai_mesh, scene);
-            mesh.bind(GL_STATIC_DRAW);
+            mesh.bindData(GL_STATIC_DRAW);
 
             _meshes.push_back(mesh);
         }
@@ -42,7 +43,7 @@ namespace Tools::Objects {
     Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
         std::vector<Faces::Buffers::Vertex> vertices;
         std::vector<unsigned int> indices;
-        std::vector<Textures::TextureWorker> textures;
+        std::vector<Textures::Texture::Ptr> textures;
 
         for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
             Faces::Buffers::Vertex vertex{};
@@ -85,25 +86,25 @@ namespace Tools::Objects {
                 aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
                 // 1. Диффузные карты
-                std::vector<Textures::TextureWorker> diffuseMaps = loadMaterialTextures(material,
+                std::vector<Textures::Texture::Ptr> diffuseMaps = loadMaterialTextures(material,
                                                                                   aiTextureType_DIFFUSE,
                                                                                   "texture_diffuse");
                 textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
                 // 2. Карты отражения
-                std::vector<Textures::TextureWorker> specularMaps = loadMaterialTextures(material,
+                std::vector<Textures::Texture::Ptr> specularMaps = loadMaterialTextures(material,
                                                                                    aiTextureType_SPECULAR,
                                                                                    "texture_specular");
                 textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
                 // 3. Карты нормалей
-                std::vector<Textures::TextureWorker> normalMaps = loadMaterialTextures(material,
+                std::vector<Textures::Texture::Ptr> normalMaps = loadMaterialTextures(material,
                                                                                        aiTextureType_HEIGHT,
                                                                                        "texture_normal");
                 textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
                 // 4. Карты высот
-                std::vector<Textures::TextureWorker> heightMaps = loadMaterialTextures(material,
+                std::vector<Textures::Texture::Ptr> heightMaps = loadMaterialTextures(material,
                                                                                        aiTextureType_AMBIENT,
                                                                                        "texture_height");
                 textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
@@ -113,12 +114,10 @@ namespace Tools::Objects {
         return {vertices, indices, textures};
     }
 
-    std::vector<Textures::TextureWorker> Model::loadMaterialTextures(aiMaterial* mat,
+    std::vector<Textures::Texture::Ptr> Model::loadMaterialTextures(aiMaterial* mat,
                                                                const aiTextureType& type,
                                                                const std::string& typeName) {
-        static int index = 0;
-
-        std::vector<Textures::TextureWorker> textures;
+        std::vector<Textures::Texture::Ptr> textures;
 
         for(unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
             aiString str;
@@ -128,8 +127,8 @@ namespace Tools::Objects {
             path = _directory + "/" + path;
 
             bool skip = false;
-            for(const auto & loaded : textures_loaded) {
-                if(std::strcmp(loaded.getTextureData().path.data(), path.data()) == 0) {
+            for(const auto& loaded : textures_loaded) {
+                if(std::strcmp(loaded->getPath().data(), path.data()) == 0) {
                     textures.push_back(loaded);
                     skip = true;
                     break;
@@ -137,31 +136,24 @@ namespace Tools::Objects {
             }
 
             if (!skip) {
-                Textures::TextureWorker texture_worker(GL_TEXTURE0 + i, typeName);
+                auto texture = std::make_shared<Textures::Texture>(typeName, path);
 
-                texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
-                                         .value = GL_CLAMP_TO_EDGE});
-                texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
-                                         .value = GL_CLAMP_TO_EDGE});
-                texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
-                                         .value = GL_NEAREST});
-                texture_worker.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
-                                         .value = GL_NEAREST});
+                Textures::Loader::load2d(*texture, {
+                                              {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
+                                               .value = GL_CLAMP_TO_EDGE},
+                                              {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
+                                               .value = GL_CLAMP_TO_EDGE},
+                                              {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
+                                               .value = GL_NEAREST},
+                                              {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
+                                               .value = GL_NEAREST}
+                                          });
 
-                texture_worker.bind2d(path.c_str());
-
-                textures.push_back(texture_worker);
-                textures_loaded.push_back(texture_worker);
+                textures.push_back(texture);
+                textures_loaded.push_back(texture);
             }
         }
         return textures;
-    }
-
-    void Model::draw(const std::shared_ptr<Shaders::ShaderProgram> &shader) {
-        for (auto & mesh : _meshes) {
-            mesh.setShader(shader);
-            mesh.draw();
-        }
     }
 
     void Model::draw() {

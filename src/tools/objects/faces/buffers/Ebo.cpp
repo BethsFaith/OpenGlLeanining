@@ -13,16 +13,23 @@ namespace Tools::Objects::Faces::Buffers {
         glDeleteBuffers(1, &_ebo);
     }
 
-    void EBO::bind(const unsigned int& bind_flag) {
+    void EBO::bind() {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(float), _indices.data(), bind_flag);
     }
 
     void EBO::unbind() {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
+    void EBO::bindData(const unsigned int& bind_flag) {
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indices.size() * sizeof(float), &_indices[0], bind_flag);
+    }
+
     unsigned int EBO::get() const {
         return _ebo;
+    }
+
+    const std::vector<unsigned int>& EBO::getIndices() const {
+        return _indices;
     }
 }

@@ -17,14 +17,14 @@ namespace Tools::Objects {
         explicit Model(const std::string& path_to_model);
         ~Model() = default;
 
-        void draw(const std::shared_ptr<Shaders::ShaderProgram> &shader);
+//        void draw(const std::shared_ptr<Shaders::ShaderProgram> &shader);
         void draw();
 
         void setShaderProgram(const std::shared_ptr<Shaders::ShaderProgram>& shader);
     private:
         void loadModel(const std::string& path);
 
-        std::vector<Textures::TextureWorker> loadMaterialTextures(aiMaterial *mat, const aiTextureType& type,
+        std::vector<Textures::Texture::Ptr> loadMaterialTextures(aiMaterial *mat, const aiTextureType& type,
                                                             const std::string& typeName);
 
         void processNode(aiNode *node, const aiScene *scene);
@@ -32,7 +32,7 @@ namespace Tools::Objects {
 
         std::vector<Mesh> _meshes;
         std::string _directory;
-        std::vector<Textures::TextureWorker> textures_loaded;
+        std::vector<Textures::Texture::Ptr> textures_loaded;
     };
 }
 

@@ -66,8 +66,8 @@ Program7::Program7() {
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
 
-    _texture1.bind2d(Textures::getPath(Textures::Sources::CONTAINER_2).c_str());
-    _texture2.bind2d(Textures::getPath(Textures::Sources::CONTAINER_2_SPECULAR).c_str());
+    _texture1.load2d(Textures::getPath(Textures::Sources::CONTAINER_2).c_str());
+    _texture2.load2d(Textures::getPath(Textures::Sources::CONTAINER_2_SPECULAR).c_str());
 
     int width, height;
     ProgramData::pullDesktopResolution(width, height);

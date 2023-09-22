@@ -14,6 +14,8 @@ namespace Tools::Objects::Faces {
         explicit Triangle();
 
         void draw() override;
+
+        void bindData(const unsigned int& bind_flag) override;
     };
 }
 

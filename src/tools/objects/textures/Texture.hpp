@@ -1,5 +1,5 @@
 //
-// Created by VerOchka on 18.09.2023.
+// Created by VerOchka on 22.09.2023.
 //
 
 #ifndef INC_2_SHADERS_TEXTURE_HPP
@@ -7,11 +7,31 @@
 
 #include <iostream>
 
+#ifndef GLFW
+#include <glad/glad.h> // подключаем glad для активации всех заголовочных файлов OpenGL
+#include <GLFW/glfw3.h>
+#define GLFW
+#endif //GLFW
+
 namespace Tools::Objects::Textures{
-    struct Texture {
-        unsigned int id{};
-        std::string name;
-        std::string path;
+    class Texture {
+    public:
+        using Ptr = std::shared_ptr<Texture>;
+
+        explicit Texture(std::string  name, std::string  path);
+        ~Texture();
+
+        void activate() const;
+        static void deactivate();
+
+        [[nodiscard]] unsigned int getId() const;
+        [[nodiscard]] const std::string& getName() const;
+        [[nodiscard]] const std::string& getPath() const;
+
+    private:
+        unsigned int _id{};
+        std::string _name;
+        std::string _path;
     };
 }
 

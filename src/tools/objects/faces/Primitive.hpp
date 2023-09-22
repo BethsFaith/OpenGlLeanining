@@ -24,28 +24,26 @@ namespace Tools::Objects::Faces {
 
         void setDrawCallback(std::function<void()> function) override;
 
-        void bind(const unsigned int& bind_flag) override;
+        void bind() override;
+        void unbind() override;
+
+        void bindData(const unsigned int& bind_flag) override;
+
         void draw() override;
 
         [[nodiscard]] unsigned int getUid() const override;
-
     protected:
         void add(std::shared_ptr<Buffers::RaiiBuffer> raii_buffer);
-
-        virtual void setVertexAttribute(const int& index, const int& size, const int& stride, void* offset);
 
         std::vector<std::shared_ptr<Buffers::RaiiBuffer>> buffers{};
 
         const int vertex_number;
 
-        std::vector<Buffers::Vertex> vertices;
-        std::vector<unsigned int> indices;
+        Settings settings;
     private:
         std::function<void()> _drawCallback;
 
         std::shared_ptr<Buffers::VAO> _vao;
-
-        Settings _settings;
     };
 }
 

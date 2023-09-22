@@ -7,24 +7,39 @@
 #include <iostream>
 
 namespace Tools::Objects::Faces::Buffers {
-    VBO::VBO(const std::vector<Vertex>& data) : RaiiBuffer(1), _data(data) {
+    template <typename T>
+    VBO<T>::VBO(const std::vector<T>& data) : RaiiBuffer(1), _vertices(data) {
         glGenBuffers(1, &_vbo);
     }
 
-    VBO::~VBO() {
+    template <typename T>
+    VBO<T>::~VBO() {
         glDeleteBuffers(1, &_vbo);
     }
 
-    void VBO::bind(const unsigned int& bind_flag) {
+    template <typename T>
+    void VBO<T>::bind() {
         glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-        glBufferData(GL_ARRAY_BUFFER, int(_data.size() * sizeof(Vertex)), _data.data(), bind_flag);//_data.data(), bind_flag);
     }
 
-    void VBO::unbind() {
+    template <typename T>
+    void VBO<T>::bindData(const unsigned int& bind_flag) {
+        glBufferData(GL_ARRAY_BUFFER, int(_vertices.size() * sizeof(T)),
+                     &_vertices[0], bind_flag); //_data.data(), bind_flag);
+    }
+
+    template <typename T>
+    void VBO<T>::unbind() {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    unsigned int VBO::get() const {
+    template <typename T>
+    unsigned int VBO<T>::get() const {
         return _vbo;
+    }
+
+    template <typename T>
+    const std::vector<T>& VBO<T>::getVertices() const {
+        return _vertices;
     }
 }

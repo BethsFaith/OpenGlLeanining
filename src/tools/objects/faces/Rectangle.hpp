@@ -21,6 +21,9 @@ namespace Tools::Objects::Faces {
         static std::vector<glm::vec3> getPosition();
         static std::vector<glm::vec3> getNormals();
         static std::vector<glm::vec2> getTextureCoordinates();
+
+    protected:
+        void bindData(const unsigned int& bind_flag) override;
     };
 }
 

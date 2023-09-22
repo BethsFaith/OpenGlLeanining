@@ -15,7 +15,11 @@ namespace Tools::Objects::Faces {
 
         virtual void setDrawCallback(std::function<void()> function) = 0;
 
-        virtual void bind(const unsigned int& bind_flag) = 0;
+        virtual void bind() = 0;
+        virtual void unbind() = 0;
+
+        virtual void bindData(const unsigned int& bind_flag) = 0;
+
         virtual void draw() = 0;
 
         [[nodiscard]] virtual unsigned int getUid() const = 0;

@@ -9,9 +9,8 @@
 #include "tools/CameraController.hpp"
 #include "tools/objects/faces/Cube.hpp"
 #include "tools/objects/faces/Rectangle.hpp"
-#include "tools/objects/textures/TextureWorker.hpp"
 #include "tools/objects/libHeadears/glm.hpp"
-
+#include "tools/objects/textures/Loader.hpp"
 
 class Program5 : public Program {
 public:

@@ -4,19 +4,18 @@
 
 #include "Mesh.hpp"
 namespace Tools::Objects {
-    Mesh::Mesh(const std::vector<Faces::Buffers::Vertex> &vertices_, const std::vector<unsigned int> &indices_,
-                               const std::vector<Textures::TextureWorker> &textures)
-            : Faces::Primitive((int)vertices_.size()),
+    Mesh::Mesh(const std::vector<Faces::Buffers::Vertex> &vertices, const std::vector<unsigned int> &indices,
+                               const std::vector<Textures::Texture::Ptr> &textures)
+            : Faces::Primitive((int)vertices.size()),
               _textures(textures) {
-        indices = indices_;
-        vertices = vertices_;
-
-        add(std::make_shared<Faces::Buffers::VBO>(vertices));
+        add(std::make_shared<Faces::Buffers::VBO<Faces::Buffers::Vertex>>(vertices));
         add(std::make_shared<Faces::Buffers::EBO>(indices));
     }
 
     void Mesh::draw() {
         Primitive::draw();
+
+        glDrawElements(GL_TRIANGLES, (int)vertex_number, GL_UNSIGNED_INT, 0);
 
         if (_shader != nullptr) {
             _shader->use();
@@ -27,10 +26,10 @@ namespace Tools::Objects {
             unsigned int height_number = 1;
 
             for (unsigned int i = 0; i < (int)_textures.size(); ++i) {
-                _textures.at(i).activate();
+                _textures.at(i)->activate();
 
                 std::string number;
-                std::string name = _textures[i].getTextureData().name;
+                std::string name = _textures[i]->getName();
 
                 if (name == "texture_diffuse") {
                     number = std::to_string(diffuse_number++);
@@ -45,17 +44,39 @@ namespace Tools::Objects {
                 }
 
                 // в шейдер засунуть текстуру
-                _shader->setFloat("material." + name + number, (float)i);
+                _shader->setInt(name + number, _textures[i]->getId());
             }
-            Textures::TextureWorker::deactivate();
         }
 
-        glDrawElements(GL_TRIANGLES, (int)indices.size(), GL_UNSIGNED_INT, 0);
-
-        glBindVertexArray(0);
+        unbind();
     }
 
     void Mesh::setShader(const std::shared_ptr<Shaders::ShaderProgram> &shader) {
         _shader = shader;
+    }
+
+    void Mesh::bindData(const unsigned int& bind_flag) {
+        Primitive::bindData(bind_flag);
+
+        bind();
+
+        using namespace Faces;
+        int index = 0;
+
+        Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, position));
+        if (settings.with_normals) {
+            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, normal));
+        }
+        if (settings.with_texture) {
+            Buffers::setVertexAttribute(index++, 2, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, tex_coords));
+        }
+        if (settings.with_tangent) {
+            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, tangent));
+        }
+        if (settings.with_bitangent) {
+            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, bitangent));
+        }
+
+        unbind();
     }
 }

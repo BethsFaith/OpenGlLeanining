@@ -12,16 +12,23 @@ namespace Tools::Objects::Faces {
             {-0.5f, -0.5f, 0.0f}
         };
 
-        for (int i{}; i < vertex_number; ++i) {
-            vertices.push_back({.position = position.at(i)});
-        }
-
-        add(std::make_shared<Buffers::VBO>(vertices));
+        add(std::make_shared<Buffers::VBO<glm::vec3>>(position));
     }
 
     void Triangle::draw() {
         Primitive::draw();
 
         glDrawArrays(GL_TRIANGLES, 0, vertex_number);
+    }
+
+    void Triangle::bindData(const unsigned int& bind_flag) {
+        Primitive::bindData(bind_flag);
+
+        Buffers::setVertexAttribute(0,
+                           3,
+                           (int)(sizeof(glm::vec3)),
+                           (void*)nullptr);
+
+        unbind();
     }
 }

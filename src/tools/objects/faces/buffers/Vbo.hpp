@@ -12,18 +12,23 @@
 #include "Vertex.hpp"
 
 namespace Tools::Objects::Faces::Buffers{
+    template <typename T>
     class VBO : public RaiiBuffer {
     public:
-        explicit VBO(const std::vector<Vertex>& data);
+        explicit VBO(const std::vector<T>& data);
         ~VBO() override;
 
-        void bind(const unsigned int& bind_flag) override;
-        [[nodiscard]] unsigned int get() const override;
+        void bind() override;
         void unbind() override;
+
+        void bindData(const unsigned int& bind_flag) override;
+
+        [[nodiscard]] unsigned int get() const override;
+        [[nodiscard]] const std::vector<T>& getVertices() const;
 
     private:
         unsigned int _vbo{};
-        std::vector<Vertex> _data;
+        std::vector<T> _vertices;
     };
 }
 

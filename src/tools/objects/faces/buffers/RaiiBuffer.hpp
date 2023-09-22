@@ -17,12 +17,12 @@ namespace Tools::Objects::Faces::Buffers {
         explicit RaiiBuffer(const int& priority);
         virtual ~RaiiBuffer() = default;
 
-        virtual void bind(const unsigned int& bind_flag) = 0;
-
+        virtual void bind() = 0;
         virtual void unbind() = 0;
 
-        [[nodiscard]] unsigned int getPriority() const;
+        virtual void bindData(const unsigned int& bind_flag) = 0;
 
+        [[nodiscard]] unsigned int getPriority() const;
         [[nodiscard]] virtual unsigned int get() const = 0;
 
     private:
