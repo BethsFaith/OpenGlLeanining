@@ -9,6 +9,8 @@
 #include "constants/Models.hpp"
 #include "tools/objects/Model.hpp"
 #include "tools/CameraController.hpp"
+#include "tools/lights/SpotLight.hpp"
+#include "tools/lights/DirectionalLight.hpp"
 
 class Program8 : public Program{
 public:
@@ -33,6 +35,9 @@ private:
 
     std::shared_ptr<Tools::Objects::Camera> _camera;
     std::shared_ptr<Tools::CameraController> _camera_controller;
+
+    Tools::Lights::DirectionalLight _dirLight{};
+    Tools::Lights::SpotLight _spot_light{};
 };
 
 #endif    //INC_2_SHADERS_PROGRAM8_HPP

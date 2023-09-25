@@ -35,19 +35,19 @@ void Program8::configureShaders() {
 
      //свойства света
     glm::vec3 white_light_color = {1.0, 1.0, 1.0};
-    _shader_program->set3FloatVector("dirLight.direction",  -0.2f, -1.0f, -0.3f);
-    _shader_program->set3FloatVector("dirLight.ambient", white_light_color * glm::vec3(0.1f));
-    _shader_program->set3FloatVector("dirLight.diffuse", white_light_color * glm::vec3(0.2f));
-    _shader_program->set3FloatVector("dirLight.specular", white_light_color * glm::vec3(0.2f));
+    _dirLight.setDirection({-0.2f, -1.0f, -0.3f});
+    _dirLight.setAmbient({white_light_color * glm::vec3(0.1f)});
+    _dirLight.setDiffuse({white_light_color * glm::vec3(0.2f)});
+    _dirLight.setDiffuse({white_light_color * glm::vec3(0.2f)});
 
-    _shader_program->set3FloatVector("spotLight.ambient", white_light_color * glm::vec3(0.0f));
-    _shader_program->set3FloatVector("spotLight.diffuse", white_light_color * glm::vec3(1.0f));
-    _shader_program->set3FloatVector("spotLight.specular", glm::vec3(1.0f));
-    _shader_program->setFloat("spotLight.constant", 1.0f);
-    _shader_program->setFloat("spotLight.linear", 0.09f);
-    _shader_program->setFloat("spotLight.quadratic", 0.032f);
-    _shader_program->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-    _shader_program->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(14.0f)));
+    _spot_light.setAmbient(white_light_color * glm::vec3(0.0f));
+    _spot_light.setDiffuse(white_light_color * glm::vec3(1.0f));
+    _spot_light.setSpecular(glm::vec3(1.0f));
+    _spot_light.setConstant(1.0f);
+    _spot_light.setLinear(0.09f);
+    _spot_light.setQuadratic(0.032f);
+    _spot_light.setCutOff(glm::cos(glm::radians(12.5f)));
+    _spot_light.setOuterCutOff(glm::cos(glm::radians(14.0f)));
 }
 
 void Program8::configureCamera() {
@@ -75,9 +75,11 @@ void Program8::run() {
     _shader_program->set4FloatMat("view", glm::value_ptr(view));
     _shader_program->set3FloatVector("viewPos", _camera->getPosition());
 
-    // свойства света
-    _shader_program->set3FloatVector("spotLight.position",_camera->getPosition());
-    _shader_program->set3FloatVector("spotLight.direction",_camera->getFront());
+    _spot_light.setPosition(_camera->getPosition());
+    _spot_light.setDirection(_camera->getFront());
+
+    _spot_light.serialize(_shader_program, 1);
+    _dirLight.serialize(_shader_program, 1);
 
     _model->draw(_shader_program);
 }

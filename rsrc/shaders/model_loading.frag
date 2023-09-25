@@ -41,17 +41,17 @@ vec3 calculateSpotLight(SpotLight light, vec3 norm, vec3 viewDir);
 
 uniform vec3 viewPos;
 uniform Material material;
-uniform DirLight dirLight;
-uniform SpotLight spotLight;
+uniform DirLight dirLight1;
+uniform SpotLight spotLight1;
 
 void main()
 {
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
-    vec3 outputVec = calculateDirLight(dirLight, norm, viewDir);
+    vec3 outputVec = calculateDirLight(dirLight1, norm, viewDir);
 
-    outputVec += calculateSpotLight(spotLight, norm, viewDir);
+    outputVec += calculateSpotLight(spotLight1, norm, viewDir);
 
     FragColor = vec4(outputVec, 1.0);
     //    FragColor = texture(material.texture_diffuse1, TexCoords);

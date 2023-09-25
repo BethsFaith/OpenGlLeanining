@@ -17,6 +17,8 @@
 namespace Tools::Shaders {
     class ShaderProgram {
     public:
+        using Ptr = std::shared_ptr<ShaderProgram>;
+
         // Конструктор считывает данные и выполняет построение шейдера
         ShaderProgram(const std::string& vertexPath, const std::string& fragmentPath);
 
