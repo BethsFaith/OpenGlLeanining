@@ -1,3 +1,6 @@
 {
-  "path":""
+  "path":"D:/CPlusPlus/Projects/OpenGL/2_shaders",
+  "shaders":"rsrc/shaders",
+  "textures":"rsrc/textures",
+  "models":"rsrc/models"
 }

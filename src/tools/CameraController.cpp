@@ -47,6 +47,50 @@ namespace Tools {
         return _camera_speed * deltaTime;
     }
 
+    void CameraController::rotate(float x_offset, float y_offset) {
+        yaw(x_offset);
+        pitch(y_offset);
+        rotate();
+    }
+
+    void CameraController::yaw(float offset) {
+        _yaw += offset;
+    }
+
+    void CameraController::pitch(float offset) {
+        _pitch += offset;
+
+        if (_pitch > 89.0f)
+            _pitch = 89.0f;
+        if (_pitch < -89.0f)
+            _pitch = -89.0f;
+    }
+
+    void CameraController::rotate() {
+        glm::vec3 direction;
+        direction.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+        direction.y = sin(glm::radians(_pitch));
+        direction.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+
+        _camera->setFront(glm::normalize(direction));
+    }
+
+    void CameraController::zoom(float y_offset) {
+        auto zoom = _camera->getZoom();
+
+        if (zoom >= 1.0f && zoom <= 45.0f) {
+            zoom -= y_offset;
+        }
+        if (zoom <= 1.0f) {
+            zoom = 1.0f;
+        }
+        if (zoom >= 45.0f) {
+            zoom = 45.0f;
+        }
+
+        _camera->setZoom(zoom);
+    }
+
     void CameraController::setCamera(const std::shared_ptr<Objects::Camera>& camera) {
         _camera = camera;
     }

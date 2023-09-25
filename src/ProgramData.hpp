@@ -39,6 +39,10 @@ namespace ProgramData {
         horizontal = desktop.right;
         vertical = desktop.bottom;
     }
+
+    static std::string project_path = getValue<std::string>("path");
+
+    static char separator = '/';
 }
 
 #endif    //INC_2_SHADERS_PROGRAMDATA_HPP

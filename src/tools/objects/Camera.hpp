@@ -8,23 +8,25 @@
 #include "libHeadears/glm.hpp"
 #include "libHeadears/glfw.hpp"
 
-namespace Objects {
+namespace Tools::Objects {
     class Camera {
     public:
         Camera(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up);
         ~Camera() = default;
 
         [[nodiscard]] const glm::mat4& getView() const;
+        [[nodiscard]] const glm::vec3& getPosition() const;
+        [[nodiscard]] const glm::vec3& getUp() const;
+        [[nodiscard]] const glm::vec3& getFront() const;
+        [[nodiscard]] const float& getZoom() const;
 
         void setPosition(const glm::vec3& position);
         void setUp(const glm::vec3& up);
         void setFront(const glm::vec3& front);
-
-        const glm::vec3& getPosition() const;
-        const glm::vec3& getUp() const;
-        const glm::vec3& getFront() const;
+        void setZoom(float zoom);
 
     private:
+        void lookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up);
         void updateView();
 
         glm::vec3 _position;
@@ -36,6 +38,7 @@ namespace Objects {
         glm::vec3 _right_direction{};
 
         glm::mat4 _view{};
+        float _zoom = 45.0f;
     };
 }    //namespace Tools
 

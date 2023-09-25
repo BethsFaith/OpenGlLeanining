@@ -5,63 +5,18 @@
 #include "Program3.hpp"
 
 Program3::Program3() {
-    using namespace Figures;
-    _shader_program = std::make_shared<ShaderProgram>(ShaderSources::thirdd_vertex_shader_source, ShaderSources::texture_fragment_shader_source);
+    using namespace Constants;
 
-//    auto rectangle = std::make_shared<Rectangle>(_shader_program, std::vector<float>{
-//                                                                      // координаты        // текстурные координаты
-//                                                                      0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // верхняя правая вершина
-//                                                                      0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // нижняя правая вершина
-//                                                                      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // нижняя левая вершина
-//                                                                      -0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // верхняя левая вершина
-//                                                                  });
-//    rectangle->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = false});
+    _shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_TEXTURE_VERT),
+                                                      Shaders::getPath(Shaders::Sources::TEXTURE_FRAG));
 
-    auto cube = std::make_shared<Cube>(_shader_program, std::vector<float>{// координаты        // текстурные координаты
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-                                                                           0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+//    auto rectangle = std::make_shared<Rectangle>();
+//    rectangle->activate(GL_STATIC_DRAW);
 
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-                                                                           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-                                                        });
-    cube->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = false});
-    _drawer.addPrimitive(cube);
+    Tools::Objects::Faces::Settings settings = {.with_normals = false, .with_texture = true};
+    auto cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
+    cube->bind(GL_STATIC_DRAW);
+    _drawer.addPrimitive(cube, _shader_program);
 
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_S, .value = GL_CLAMP_TO_EDGE});
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_T, .value = GL_CLAMP_TO_EDGE});
@@ -73,8 +28,8 @@ Program3::Program3() {
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
 
-    _texture1.bind2d(TextureSources::container_path.c_str());
-    _texture2.bind2d(TextureSources::face_path.c_str());
+    _texture1.load2d(Textures::getPath(Textures::Sources::CONTAINER).c_str());
+    _texture2.load2d(Textures::getPath(Textures::Sources::FACE).c_str());
 
     _shader_program->use();
     _shader_program->setInt("texture1",0);
@@ -90,22 +45,22 @@ Program3::Program3() {
 
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    projection = glm::perspective(glm::radians(45.0f), (float)700 / (float)height, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
     _shader_program->set4FloatMat("model", glm::value_ptr(model));
     _shader_program->set4FloatMat("view",  glm::value_ptr(view));
     _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
 }
 
-void Program3::processUserInput(GLFWwindow* window) {
+void Program3::processKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
 }
 
 void Program3::run() {
-    _texture1.bind();
-    _texture2.bind();
+    _texture1.activate();
+    _texture2.activate();
 
     glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
@@ -140,3 +95,9 @@ void Program3::run() {
 //
 //    _drawer.draw();
 }
+
+void Program3::processMouseInput(double x_pos, double y_pos) {}
+
+void Program3::processMouseScroll(double x_offset, double y_offset) {}
+
+void Program3::setDeltaTime(const float& delta_time) {}

@@ -6,8 +6,10 @@
 #define INC_2_SHADERS_PROGRAM1_HPP
 
 #include "Program.hpp"
-#include "tools/objects/figures/Triangle.hpp"
+#include "tools/objects/faces/buffers/Vbo.hpp"
+#include "tools/objects/faces/Triangle.hpp"
 
+// Устаревшее, не использовать без переписывания!!!
 class Program1 : public Program {
 public:
     Program1();
@@ -15,12 +17,16 @@ public:
 
     void run() override;
 
-    void processUserInput(GLFWwindow* window) override;
-private:
-    Figures::Drawer* drawer;
+    void processKeyboardInput(GLFWwindow* window) override;
+    void processMouseInput(double x_pos, double y_pos) override;
+    void processMouseScroll(double x_offset, double y_offset) override;
+    void setDeltaTime(const float& delta_time) override;
 
-    std::shared_ptr<Figures::ShaderProgram> _shader_program;
-    std::shared_ptr<Figures::ShaderProgram> _color_shader_program;
+private:
+    Tools::Drawer* drawer;
+
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _color_shader_program;
 };
 
 #endif    //INC_2_SHADERS_PROGRAM1_HPP

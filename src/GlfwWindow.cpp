@@ -4,6 +4,8 @@
 
 #include "GlfwWindow.hpp"
 
+GlfwWindow* GlfwWindow::_instance = nullptr;
+
 GlfwWindow::GlfwWindow(const int& width, const int& height, const char* title) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -24,6 +26,7 @@ GlfwWindow::GlfwWindow(const int& width, const int& height, const char* title) {
     }
 
     glEnable(GL_DEPTH_TEST);
+    glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 GlfwWindow::~GlfwWindow() {
@@ -33,13 +36,17 @@ GlfwWindow::~GlfwWindow() {
     }
 }
 
+void GlfwWindow::init(const int& width, const int& height, const char* title) {
+    _instance = new GlfwWindow(width, height, title);
+}
+
 void GlfwWindow::run() {
     while (!shouldClose()) {
         clearColor();
         updateDeltaTime();
 
         if (_program != nullptr) {
-            _program->processUserInput(_window);
+            _program->processKeyboardInput(_window);
             _program->setDeltaTime(_delta_time);
             _program->run();
         }
@@ -48,7 +55,6 @@ void GlfwWindow::run() {
         glfwPollEvents();
     }
 }
-
 
 void GlfwWindow::frameBufferSizeCallback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -63,8 +69,8 @@ void GlfwWindow::clearColor() const {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-GLFWwindow* GlfwWindow::get() const {
-    return _window;
+GlfwWindow* GlfwWindow::get() {
+    return _instance;
 }
 
 void GlfwWindow::setClearColor(float r, float g, float b, float a) {
@@ -73,11 +79,24 @@ void GlfwWindow::setClearColor(float r, float g, float b, float a) {
 
 void GlfwWindow::setProgram(Program* program) {
     _program = program;
+
+    glfwSetCursorPosCallback(_window, mouseCallback);
+    glfwSetScrollCallback(_window, scrollCallback);
 }
 
 void GlfwWindow::updateDeltaTime() {
     auto currentFrame = (float)glfwGetTime();
 
+//    std::cout << std::endl << currentFrame << std::endl;
+
     _delta_time = currentFrame - _last_frame;
     _last_frame = currentFrame;
+}
+
+void GlfwWindow::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+    _instance->_program->processMouseInput(xpos, ypos);
+}
+
+void GlfwWindow::scrollCallback(GLFWwindow* window, double x_offset, double y_offset) {
+    _instance->_program->processMouseScroll(x_offset, y_offset);
 }

@@ -5,20 +5,24 @@
 #include "Program2.hpp"
 
 Program2::Program2() {
-    using namespace Figures;
+    using namespace Constants;
 
-    _shader_program = std::make_shared<ShaderProgram>(ShaderSources::texture_vertex_shader_source, ShaderSources::texture_fragment_shader_source);
+    _shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(Shaders::getPath(Shaders::Sources::TEXTURE_VERT),
+                                                      Shaders::getPath(Shaders::Sources::TEXTURE_FRAG));
 
-    auto rectangle = std::make_shared<Figures::Rectangle>(_shader_program, std::vector<float>{
-                                                                      // координаты        // цвета            // текстурные координаты
-                                                                      0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // верхняя правая
-                                                                      0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // нижняя правая
-                                                                      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f,   // нижняя левая
-                                                                      -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,  0.0f, 1.0f    // верхняя левая
-                                                                  });
-    rectangle->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = true});
+    std::vector<float> old_data{
+        // координаты        // цвета            // текстурные координаты
+        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // верхняя правая
+            0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // нижняя правая
+            -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f,   // нижняя левая
+            -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,  0.0f, 1.0f    // верхняя левая
+    };
 
-    _drawer.addPrimitive(rectangle);
+
+    auto rectangle = std::make_shared<Tools::Objects::Faces::Rectangle>(Tools::Objects::Faces::Settings{.with_normals = false, .with_texture = true});
+    rectangle->bind(GL_STATIC_DRAW);
+
+    _drawer.addPrimitive(rectangle, _shader_program);
 
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_S, .value = GL_REPEAT});
     _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_T, .value = GL_REPEAT});
@@ -30,8 +34,8 @@ Program2::Program2() {
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_LINEAR});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_LINEAR});
 
-    _texture1.bind2d("D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/textures/src/container.jpg");
-    _texture2.bind2d("D:/CPlusPlus/Projects/OpenGL/2_shaders/src/figures/textures/src/awesomeface.png");
+    _texture1.load2d(Textures::getPath(Textures::Sources::CONTAINER).c_str());
+    _texture2.load2d(Textures::getPath(Textures::Sources::FACE).c_str());
 
     _shader_program->use();
     _shader_program->setInt("texture1",0);
@@ -45,8 +49,8 @@ Program2::Program2() {
 }
 
 void Program2::run() {
-    _texture1.bind();
-    _texture2.bind();
+    _texture1.activate();
+    _texture2.activate();
 
     glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
@@ -68,7 +72,7 @@ void Program2::setMixValue(float x) {
     _shader_program->setFloat("mix_value", x);
 }
 
-void Program2::processUserInput(GLFWwindow* window) {
+void Program2::processKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     } else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
@@ -87,3 +91,9 @@ void Program2::processUserInput(GLFWwindow* window) {
 void Program2::setTransform(glm::mat4 trans) {
     _shader_program->set4FloatMat("transform", glm::value_ptr(trans));
 }
+
+void Program2::processMouseInput(double x_pos, double y_pos) {}
+
+void Program2::processMouseScroll(double x_offset, double y_offset) {}
+
+void Program2::setDeltaTime(const float& delta_time) {}

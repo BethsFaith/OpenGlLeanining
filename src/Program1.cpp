@@ -4,27 +4,35 @@
 
 #include "Program1.hpp"
 
-#include "tools/objects/figures/buffers/Vbo.hpp"
-
 Program1::Program1() {
-    using namespace Figures;
+    using namespace Tools;
+    using namespace Constants;
 
-    _shader_program = std::make_shared<ShaderProgram>(ShaderSources::vertex_shader_source, ShaderSources::uniform_fragment_shader_source);
-    _color_shader_program = std::make_shared<ShaderProgram>(ShaderSources::color_vertex_shader_source, ShaderSources::color_fragment_shader_source);
+    _shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(
+        Constants::Shaders::getPath(Constants::Shaders::Sources::SIMPLE_VERT),
+        Constants::Shaders::getPath(Constants::Shaders::Sources::UNIF_FRAG));
 
-    auto triangle = std::make_shared<Triangle>(_shader_program, std::vector<float>{
-                                                                                                        0.6f, 0.8f, 0.0f,    // верхняя вершина
-                                                                                                        0.6f, -0.5f, 0.0f,    // нижняя правая вершина
-                                                                                                        0.2f, 0.1f, 0.0f,    // нижняя левая вершина
-                                                                                                        });
-    auto color_triangle = std::make_shared<Triangle>(_color_shader_program, std::vector<float>{
-                                                                                -0.2f, -0.3f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
-                                                                                -0.9f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,   // нижняя левая вершина
-                                                                                -0.5f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f    // верхняя вершина
-                                                                            });
+    _color_shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(
+        Constants::Shaders::getPath(Constants::Shaders::Sources::COLOR_VERT),
+        Constants::Shaders::getPath(Constants::Shaders::Sources::COLOR_FRAG));
 
-    triangle->bind(Settings{.bind_flag = GL_STATIC_DRAW});
-    color_triangle->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_color = true});
+    auto coords = std::vector<float>{
+        0.6f, 0.8f, 0.0f,    // верхняя вершина
+            0.6f, -0.5f, 0.0f,    // нижняя правая вершина
+            0.2f, 0.1f, 0.0f,    // нижняя левая вершина
+    };
+    auto coords2 = std::vector<float>{
+        // координаты       // цвета
+        -0.2f, -0.3f, 0.0f,  1.0f, 0.0f, 0.0f,   // нижняя правая вершина
+        -0.9f, 0.4f, 0.0f,  0.0f, 1.0f, 0.0f,   // нижняя левая вершина
+        -0.5f,  0.8f, 0.0f,  0.0f, 0.0f, 1.0f    // верхняя вершина
+    };
+
+    auto triangle = std::make_shared<Objects::Faces::Triangle>();
+    auto color_triangle = std::make_shared<Objects::Faces::Triangle>();
+
+    triangle->bind(GL_STATIC_DRAW);
+    color_triangle->bind(GL_STATIC_DRAW);
 
     triangle->setDrawCallback([this](){
         // Обновление шейдерных uniform-переменных
@@ -34,8 +42,8 @@ Program1::Program1() {
     });
 
     drawer = new Drawer;
-    drawer->addPrimitive(color_triangle);
-    drawer->addPrimitive(triangle);
+    drawer->addPrimitive(color_triangle, _shader_program);
+    drawer->addPrimitive(triangle, _color_shader_program);
 
     color_triangle.reset();
     triangle.reset();
@@ -49,8 +57,14 @@ void Program1::run() {
     drawer->draw();
 }
 
-void Program1::processUserInput(GLFWwindow* window) {
+void Program1::processKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
 }
+
+void Program1::processMouseInput(double x_pos, double y_pos) {}
+
+void Program1::processMouseScroll(double x_offset, double y_offset) {}
+
+void Program1::setDeltaTime(const float& delta_time) {}

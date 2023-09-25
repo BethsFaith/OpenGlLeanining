@@ -4,94 +4,60 @@
 
 #include "Program4.hpp"
 
+// движение камеры
 Program4::Program4() {
-    using namespace Figures;
-    _shader_program = std::make_shared<ShaderProgram>(ShaderSources::thirdd_vertex_shader_source, ShaderSources::texture_fragment_shader_source);
+    using namespace Constants;
 
-    auto cube = std::make_shared<Cube>(_shader_program, std::vector<float>{// координаты        // текстурные координаты
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-                                                                           0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    _shader_program = std::make_shared<Tools::Shaders::ShaderProgram>(Shaders::getPath(Shaders::Sources::THIRDD_UNIF_TEXTURE_VERT),
+                                                      Shaders::getPath(Shaders::Sources::TEXTURE_FRAG));
 
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    Tools::Objects::Faces::Settings settings = {.with_normals = false, .with_texture = true};
+    auto cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
+    cube->bind(GL_STATIC_DRAW);
+    _drawer.addPrimitive(cube, _shader_program);
 
-                                                                           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-                                                                           0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-                                                                           -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-                                                                           -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-                                                        });
-    cube->bind(Settings{.bind_flag = GL_STATIC_DRAW, .with_texture = true, .with_color = false});
-    _drawer.addPrimitive(cube);
-
-    _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_S, .value = GL_CLAMP_TO_EDGE});
-    _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_WRAP_T, .value = GL_CLAMP_TO_EDGE});
-    _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
-    _texture1.addParam({.target = GL_TEXTURE_2D, .name =GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
+    _texture1.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S, .value = GL_CLAMP_TO_EDGE});
+    _texture1.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T, .value = GL_CLAMP_TO_EDGE});
+    _texture1.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
+    _texture1.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
 
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S, .value = GL_REPEAT});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T, .value = GL_REPEAT});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
     _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
 
-    _texture1.bind2d(TextureSources::container_path.c_str());
-    _texture2.bind2d(TextureSources::face_path.c_str());
+    _texture1.load2d(Textures::getPath(Textures::Sources::CONTAINER).c_str());
+    _texture2.load2d(Textures::getPath(Textures::Sources::FACE).c_str());
 
     _shader_program->use();
-    _shader_program->setInt("texture1",0);
+    _shader_program->setInt("texture1", 0);
     _shader_program->setInt("texture2", 1);
 
-    glm::mat4 model = glm::mat4(1.0f); // сначала инициализируем единичную матрицу
+    glm::mat4 model = glm::mat4(1.0f);    // сначала инициализируем единичную матрицу
     glm::mat4 projection = glm::mat4(1.0f);
 
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
     int width, height;
     ProgramData::pullDesktopResolution(width, height);
+    last_x = (float)width / 2;
+    last_y = (float)height / 2;
     projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
 
-    _camera = std::make_shared<Objects::Camera>(glm::vec3(0.0f, 0.0f,  3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f,  0.0f));
+    _camera = std::make_shared<Tools::Objects::Camera>(glm::vec3(0.0f, 0.0f, 3.0f),
+                                                glm::vec3(0.0f, 0.0f, -1.0f),
+                                                glm::vec3(0.0f, 1.0f, 0.0f));
 
     _shader_program->set4FloatMat("model", glm::value_ptr(model));
-    _shader_program->set4FloatMat("view",  glm::value_ptr(_camera->getView()));
+    _shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
     _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
 
     _camera_controller = std::make_shared<Tools::CameraController>(_camera, 4.0f);
 }
 
 void Program4::run() {
-    _texture1.bind();
-    _texture2.bind();
+    _texture1.activate();
+    _texture2.activate();
 
     updateView();
 
@@ -118,23 +84,64 @@ void Program4::run() {
     }
 }
 
-void Program4::processUserInput(GLFWwindow* window) {
+void Program4::updateView() {
+    int width, height;
+    ProgramData::pullDesktopResolution(width, height);
+
+    auto projection = glm::perspective(glm::radians(_camera->getZoom()), (float)width / (float)height, 0.1f, 100.0f);
+
+    _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
+
+    _shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
+}
+
+void Program4::processKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
         _camera_controller->forward();
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
         _camera_controller->back();
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
         _camera_controller->left();
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
         _camera_controller->right();
+    }
 }
 
-void Program4::updateView() {
-    _shader_program->set4FloatMat("view",  glm::value_ptr(_camera->getView()));
+void Program4::processMouseInput(double x_pos, double y_pos) {
+    if (first_mouse)    // изначально установлено значение true
+    {
+        last_x = x_pos;
+        last_y = y_pos;
+
+        first_mouse = false;
+
+        return;
+    }
+
+    float x_offset = x_pos - last_x;
+    float y_offset =
+        last_y
+        - y_pos;    // уменьшаемое и вычитаемое поменяны местами, так как диапазон y-координаты определяется снизу вверх
+
+    last_x = x_pos;
+    last_y = y_pos;
+
+    const float sensitivity = 0.05f;    // чувствительность мыши
+    x_offset *= sensitivity;
+    y_offset *= sensitivity;
+
+    _camera_controller->rotate(x_offset, y_offset);
+}
+
+void Program4::processMouseScroll(double x_offset, double y_offset) {
+    _camera_controller->zoom((float)y_offset);
 }
 
 void Program4::setDeltaTime(const float& delta_time) {

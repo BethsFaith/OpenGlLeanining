@@ -6,12 +6,11 @@
 #define INC_2_SHADERS_PROGRAM3_HPP
 
 #include "Program.hpp"
-#include "tools/objects/figures/Cube.hpp"
-#include "tools/objects/figures/Rectangle.hpp"
-#include "tools/objects/figures/textures/Texture.hpp"
-#include "tools/objects/figures/textures/TextureSources.hpp"
-#include "tools/objects/libHeadears/glm.hpp"
 #include "tools/objects/Camera.hpp"
+#include "tools/objects/faces/Cube.hpp"
+#include "tools/objects/faces/Rectangle.hpp"
+#include "tools/objects/libHeadears/glm.hpp"
+#include "tools/objects/textures/Loader.hpp"
 
 class Program3 : public Program{
 public:
@@ -19,14 +18,17 @@ public:
     ~Program3() override = default;
 
     void run() override;
-    void processUserInput(GLFWwindow* window) override;
+    void processKeyboardInput(GLFWwindow* window) override;
+    void processMouseInput(double x_pos, double y_pos) override;
+    void processMouseScroll(double x_offset, double y_offset) override;
+    void setDeltaTime(const float& delta_time) override;
 
 private:
-    std::shared_ptr<Figures::ShaderProgram> _shader_program;
+    std::shared_ptr<Tools::Shaders::ShaderProgram> _shader_program;
 
-    Figures::Drawer _drawer{};
-    Figures::Texture _texture1{GL_TEXTURE0};
-    Figures::Texture _texture2{GL_TEXTURE1};
+    Tools::Drawer _drawer{};
+    Tools::Objects::Textures::TextureLoader _texture1{GL_TEXTURE0};
+    Tools::Objects::Textures::TextureLoader _texture2{GL_TEXTURE1};
 };
 
 #endif    //INC_2_SHADERS_PROGRAM3_HPP

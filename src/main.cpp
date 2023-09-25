@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "GlfwWindow.hpp"
-#include "Program4.hpp"
+#include "Program8.hpp"
 
 int main() {
     int width, height;
@@ -10,13 +10,19 @@ int main() {
 
     std::cout << ProgramData::getValue<std::string>("path") << std::endl;
 
-    GlfwWindow window(width, height, "MyWindow");
+    GlfwWindow::init(width, height, "OpenGL!!!");
 
-    window.setClearColor(0.35f, 0.44f, 0.44f, 1.0f);
+    stbi_set_flip_vertically_on_load(true);
 
-    window.setProgram(new Program4);
+    auto window = GlfwWindow::get();
 
-    window.run();
+//    window->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+//    window->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    window->setClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+
+    window->setProgram(new Program8);
+
+    window->run();
 
     return 0;
 }
