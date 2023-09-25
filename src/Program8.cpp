@@ -22,18 +22,6 @@ void Program8::configureShaders() {
         Shaders::getPath(Shaders::Sources::LOAD_MODULE_VERT),
         Shaders::getPath(Shaders::Sources::LOAD_MODULE_FRAG));
 
-    //    _shader_program->setInt("material.diffuse", 0);
-    //    _shader_program->setInt("material.specular", 1);
-    //    _shader_program->setFloat("material.shininess", 32.0f);
-    //
-    //    // свойства света
-    //    glm::vec3 white_light_color = {1.0, 1.0, 1.0};
-    //    _shader_program->setInt("light.type", 0);
-    //    _shader_program->set3FloatVector("light.direction",  -0.2f, -1.0f, -0.3f);
-    //    _shader_program->set3FloatVector("light.ambient", white_light_color * glm::vec3(0.1f));
-    //    _shader_program->set3FloatVector("light.diffuse", white_light_color * glm::vec3(0.2f));
-    //    _shader_program->set3FloatVector("light.specular", white_light_color * glm::vec3(0.2f));
-
     // Рендеринг загруженной модели
     _shader_program->use();
 
@@ -42,15 +30,24 @@ void Program8::configureShaders() {
     model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// объект слишком большой для нашей сцены, поэтому немного уменьшим его
     _shader_program->set4FloatMat("model", glm::value_ptr(model));
 
-//    _shader_program->setCallbackUse([this](){
-//        int width, height;
-//        ProgramData::pullDesktopResolution(width, height);
-//
-//        glm::mat4 projection = glm::perspective(glm::radians(_camera->getZoom()),
-//                                                (float)width / (float)height, 0.1f, 100.0f);
-//        glm::mat4 view = _camera->getView();
-//
-//    });
+    // свойства материала
+    _shader_program->setFloat("material.shininess", 32.0f);
+
+     //свойства света
+    glm::vec3 white_light_color = {1.0, 1.0, 1.0};
+    _shader_program->set3FloatVector("dirLight.direction",  -0.2f, -1.0f, -0.3f);
+    _shader_program->set3FloatVector("dirLight.ambient", white_light_color * glm::vec3(0.1f));
+    _shader_program->set3FloatVector("dirLight.diffuse", white_light_color * glm::vec3(0.2f));
+    _shader_program->set3FloatVector("dirLight.specular", white_light_color * glm::vec3(0.2f));
+
+    _shader_program->set3FloatVector("spotLight.ambient", white_light_color * glm::vec3(0.0f));
+    _shader_program->set3FloatVector("spotLight.diffuse", white_light_color * glm::vec3(1.0f));
+    _shader_program->set3FloatVector("spotLight.specular", glm::vec3(1.0f));
+    _shader_program->setFloat("spotLight.constant", 1.0f);
+    _shader_program->setFloat("spotLight.linear", 0.09f);
+    _shader_program->setFloat("spotLight.quadratic", 0.032f);
+    _shader_program->setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+    _shader_program->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(14.0f)));
 }
 
 void Program8::configureCamera() {
@@ -76,6 +73,11 @@ void Program8::run() {
 
     _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
     _shader_program->set4FloatMat("view", glm::value_ptr(view));
+    _shader_program->set3FloatVector("viewPos", _camera->getPosition());
+
+    // свойства света
+    _shader_program->set3FloatVector("spotLight.position",_camera->getPosition());
+    _shader_program->set3FloatVector("spotLight.direction",_camera->getFront());
 
     _model->draw(_shader_program);
 }

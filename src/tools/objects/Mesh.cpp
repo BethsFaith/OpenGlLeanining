@@ -41,9 +41,8 @@ namespace Tools::Objects {
                 }
 
                 // в шейдер засунуть текстуру
-                shader->setInt(name + number, i);
+                shader->setInt("material." + name + number, i);
                 _textures.at(i)->activate(GL_TEXTURE0 + i);
-//                glBindTexture(GL_TEXTURE_2D, _textures.at(i)->getId());
             }
         }
 
