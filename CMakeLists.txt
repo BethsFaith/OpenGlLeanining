@@ -44,6 +44,7 @@ add_executable(2_shaders
         src/tools/objects/Mesh.cpp
         src/tools/objects/Model.cpp
         src/constants/Models.cpp
-        src/tools/objects/faces/buffers/VboT.cpp)
+        src/tools/objects/faces/buffers/VboT.cpp
+       )
 
 target_link_libraries(2_shaders ${CONAN_LIBS} assimp::assimp)

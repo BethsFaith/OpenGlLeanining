@@ -21,7 +21,7 @@ namespace Tools::Objects::Textures{
         explicit Texture(std::string  name, std::string  path);
         ~Texture();
 
-        void activate() const;
+        void activate(unsigned int gl_int) const;
         static void deactivate();
 
         [[nodiscard]] unsigned int getId() const;

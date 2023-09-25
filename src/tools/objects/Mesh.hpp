@@ -12,22 +12,21 @@
 #include "textures/Loader.hpp"
 
 namespace Tools::Objects {
-    class Mesh : public Faces::Primitive {
+    class Mesh : public Faces::Primitive{
     public:
         Mesh(const std::vector<Faces::Buffers::Vertex> &vertices, const std::vector<unsigned int> &indices,
              const std::vector<Textures::Texture::Ptr>& textures);
 
         ~Mesh() override = default;
 
-        void draw() override;
-
-        void setShader(const std::shared_ptr<Shaders::ShaderProgram> &shader);
+        void draw(const std::shared_ptr<Shaders::ShaderProgram>& shader);
 
         void bindData(const unsigned int& bind_flag) override;
 
     private:
+        void draw() override;
+
         std::vector<Textures::Texture::Ptr> _textures;
-        std::shared_ptr<Shaders::ShaderProgram> _shader;
     };
 }
 

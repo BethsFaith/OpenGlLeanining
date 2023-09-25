@@ -15,8 +15,8 @@ namespace Tools::Objects::Textures {
         glDeleteTextures(1, &_id);
     }
 
-    void Texture::activate() const {
-        glActiveTexture(_id);
+    void Texture::activate(unsigned int gl_int) const {
+        glActiveTexture(gl_int);
         glBindTexture(GL_TEXTURE_2D, _id);
     }
 

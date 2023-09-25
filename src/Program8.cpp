@@ -13,7 +13,6 @@ Program8::Program8() {
     auto model_paths = Models::getPath(Models::Sources::GUITAR_BACKPACK);
 
     _model = std::make_shared<Tools::Objects::Model>(model_paths.object);
-    _model->setShaderProgram(_shader_program);
 }
 
 void Program8::configureShaders() {
@@ -75,7 +74,10 @@ void Program8::run() {
                                             (float)width / (float)height, 0.1f, 100.0f);
     glm::mat4 view = _camera->getView();
 
-    _model->draw();
+    _shader_program->set4FloatMat("projection", glm::value_ptr(projection));
+    _shader_program->set4FloatMat("view", glm::value_ptr(view));
+
+    _model->draw(_shader_program);
 }
 
 void Program8::processKeyboardInput(GLFWwindow* window) {

@@ -12,13 +12,11 @@ namespace Tools::Objects {
         add(std::make_shared<Faces::Buffers::EBO>(indices));
     }
 
-    void Mesh::draw() {
+    void Mesh::draw(const std::shared_ptr<Shaders::ShaderProgram>& shader) {
         Primitive::draw();
 
-        glDrawElements(GL_TRIANGLES, (int)vertex_number, GL_UNSIGNED_INT, 0);
-
-        if (_shader != nullptr) {
-            _shader->use();
+        if (shader != nullptr) {
+            shader->use();
 
             unsigned int diffuse_number = 1;
             unsigned int specular_number = 1;
@@ -26,8 +24,6 @@ namespace Tools::Objects {
             unsigned int height_number = 1;
 
             for (unsigned int i = 0; i < (int)_textures.size(); ++i) {
-                _textures.at(i)->activate();
-
                 std::string number;
                 std::string name = _textures[i]->getName();
 
@@ -35,24 +31,26 @@ namespace Tools::Objects {
                     number = std::to_string(diffuse_number++);
                 } else if (name == "texture_specular"){
                     number = std::to_string(specular_number++);
-                }  else if (name == "texture_normal")
+                }  else if (name == "texture_normal") {
                     number = std::to_string(normal_number++); // конвертируем unsigned int в строку
-                else if (name == "texture_height")
-                    number = std::to_string(height_number++); // конвертируем unsigned int в строку
-                else {
+                } else if (name == "texture_height") {
+                    number = std::to_string(height_number++);    // конвертируем unsigned int в строку
+                } else {
                     std::cout << "ERROR: NAME OF TEXTURE UNKNOWN" << std::endl;
+                    continue;
                 }
 
                 // в шейдер засунуть текстуру
-                _shader->setInt(name + number, _textures[i]->getId());
+                shader->setInt(name + number, i);
+                _textures.at(i)->activate(GL_TEXTURE0 + i);
+//                glBindTexture(GL_TEXTURE_2D, _textures.at(i)->getId());
             }
         }
 
-        unbind();
-    }
+        draw();
 
-    void Mesh::setShader(const std::shared_ptr<Shaders::ShaderProgram> &shader) {
-        _shader = shader;
+        Primitive::unbind();
+        Textures::Texture::deactivate();
     }
 
     void Mesh::bindData(const unsigned int& bind_flag) {
@@ -78,5 +76,11 @@ namespace Tools::Objects {
         }
 
         unbind();
+    }
+
+    void Mesh::draw() {
+        Primitive::draw();
+
+        glDrawElements(GL_TRIANGLES, (int)vertex_number, GL_UNSIGNED_INT, 0);
     }
 }

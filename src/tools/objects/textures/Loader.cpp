@@ -10,13 +10,10 @@ namespace Tools::Objects::Textures::Loader {
     bool load2d(Texture& texture, const std::vector<Param>& params) {
         bool res = false;
 
-        for (const auto& param : params) {
-            glTexParameteri(param.target, param.name, param.value);
-        }
-
-        stbi_set_flip_vertically_on_load(true);
+//        stbi_set_flip_vertically_on_load(true);
         int width, height, nrChannels;
-        unsigned char* data = stbi_load(texture.getPath().c_str(), &width, &height, &nrChannels, 0);
+        unsigned char* data = stbi_load(texture.getPath().c_str(), &width, &height,
+                                        &nrChannels,0);
 
         if (data) {
             GLenum format;
@@ -28,8 +25,12 @@ namespace Tools::Objects::Textures::Loader {
                 format = GL_RGBA;
 
             glBindTexture(GL_TEXTURE_2D, texture.getId());
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
+
+            for (const auto& param : params) {
+                glTexParameteri(param.target, param.name, param.value);
+            }
 
             res = true;
         } else {
