@@ -7,9 +7,11 @@
 #include <utility>
 
 namespace Tools {
-    CameraController::CameraController(std::shared_ptr<Objects::Camera> camera, const float& camera_speed) : _camera(std::move(camera)), _camera_speed(camera_speed) {}
+    CameraController::CameraController(std::shared_ptr<Objects::Camera> camera, const float& camera_speed)
+        : _camera(std::move(camera)), _camera_speed(camera_speed) {}
 
-    CameraController::CameraController(std::shared_ptr<Objects::Camera> camera) : CameraController(std::move(camera), 0.05f){}
+    CameraController::CameraController(std::shared_ptr<Objects::Camera> camera)
+        : CameraController(std::move(camera), 0.05f){}
 
     void CameraController::forward() {
         auto camera_pos = _camera->getPosition();
