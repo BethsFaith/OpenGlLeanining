@@ -5,12 +5,12 @@
 #ifndef INC_2_SHADERS_PROGRAM8_HPP
 #define INC_2_SHADERS_PROGRAM8_HPP
 
+#include "../constants/Models.hpp"
+#include "../tools/CameraController.hpp"
+#include "../tools/lights/DirectionalLight.hpp"
+#include "../tools/lights/SpotLight.hpp"
+#include "../tools/objects/Model.hpp"
 #include "Program.hpp"
-#include "constants/Models.hpp"
-#include "tools/objects/Model.hpp"
-#include "tools/CameraController.hpp"
-#include "tools/lights/SpotLight.hpp"
-#include "tools/lights/DirectionalLight.hpp"
 
 class Program8 : public Program{
 public:

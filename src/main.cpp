@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "GlfwWindow.hpp"
-#include "Program8.hpp"
+#include "programs/Program8.hpp"
 
 int main() {
     int width, height;

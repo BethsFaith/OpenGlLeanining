@@ -5,9 +5,9 @@
 #ifndef INC_2_SHADERS_PROGRAM_HPP
 #define INC_2_SHADERS_PROGRAM_HPP
 
-#include "constants/Shaders.hpp"
-#include "constants/Textures.hpp"
-#include "tools/Drawer.hpp"
+#include "../constants/Shaders.hpp"
+#include "../constants/Textures.hpp"
+#include "../tools/Drawer.hpp"
 
 class Program {
 public:

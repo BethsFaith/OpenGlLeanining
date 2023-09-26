@@ -22,7 +22,7 @@ conan_cmake_run(CONANFILE conanfile.txt
 add_executable(2_shaders
         src/main.cpp
         src/GlfwWindow.cpp
-        src/Program8.cpp
+        src/programs/Program8.cpp
         src/constants/Shaders.cpp
         src/constants/Textures.cpp
         src/tools/shaders/ShaderProgram.cpp
@@ -45,6 +45,9 @@ add_executable(2_shaders
         src/tools/objects/Model.cpp
         src/constants/Models.cpp
         src/tools/objects/faces/buffers/VboT.cpp
-        src/tools/lights/SerializableLight.hpp src/tools/lights/DirectionalLight.cpp src/tools/lights/DirectionalLight.hpp src/tools/lights/SpotLight.cpp src/tools/lights/SpotLight.hpp src/tools/lights/PointLight.cpp src/tools/lights/PointLight.hpp)
+        src/tools/lights/DirectionalLight.cpp
+        src/tools/lights/SpotLight.cpp
+        src/tools/lights/PointLight.cpp
+        )
 
 target_link_libraries(2_shaders ${CONAN_LIBS} assimp::assimp)

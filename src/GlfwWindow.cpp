@@ -26,6 +26,7 @@ GlfwWindow::GlfwWindow(const int& width, const int& height, const char* title) {
     }
 
     glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
     glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 

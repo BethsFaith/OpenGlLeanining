@@ -1,21 +1,21 @@
 //
-// Created by VerOchka on 10.09.2023.
+// Created by VerOchka on 14.09.2023.
 //
 
-#ifndef INC_2_SHADERS_PROGRAM5_HPP
-#define INC_2_SHADERS_PROGRAM5_HPP
+#ifndef INC_2_SHADERS_PROGRAM6_HPP
+#define INC_2_SHADERS_PROGRAM6_HPP
 
+#include "../tools/CameraController.hpp"
+#include "../tools/objects/faces/Cube.hpp"
+#include "../tools/objects/faces/Rectangle.hpp"
+#include "../tools/objects/libHeadears/glm.hpp"
+#include "../tools/objects/textures/Loader.hpp"
 #include "Program.hpp"
-#include "tools/CameraController.hpp"
-#include "tools/objects/faces/Cube.hpp"
-#include "tools/objects/faces/Rectangle.hpp"
-#include "tools/objects/libHeadears/glm.hpp"
-#include "tools/objects/textures/Loader.hpp"
 
-class Program5 : public Program {
+class Program6 : public Program {
 public:
-    Program5();
-    ~Program5() override = default;
+    Program6();
+    ~Program6() override = default;
 
     void run() override;
 
@@ -36,6 +36,10 @@ private:
     std::shared_ptr<Tools::CameraController> _camera_controller;
 
     Tools::Drawer _drawer{};
+
+    Tools::Objects::Textures::TextureLoader _texture1{GL_TEXTURE0};
+    Tools::Objects::Textures::TextureLoader _texture2{GL_TEXTURE1};
 };
 
-#endif    //INC_2_SHADERS_PROGRAM5_HPP
+
+#endif    //INC_2_SHADERS_PROGRAM6_HPP

@@ -5,12 +5,12 @@
 #ifndef INC_2_SHADERS_PROGRAM3_HPP
 #define INC_2_SHADERS_PROGRAM3_HPP
 
+#include "../tools/objects/Camera.hpp"
+#include "../tools/objects/faces/Cube.hpp"
+#include "../tools/objects/faces/Rectangle.hpp"
+#include "../tools/objects/libHeadears/glm.hpp"
+#include "../tools/objects/textures/Loader.hpp"
 #include "Program.hpp"
-#include "tools/objects/Camera.hpp"
-#include "tools/objects/faces/Cube.hpp"
-#include "tools/objects/faces/Rectangle.hpp"
-#include "tools/objects/libHeadears/glm.hpp"
-#include "tools/objects/textures/Loader.hpp"
 
 class Program3 : public Program{
 public:

@@ -7,10 +7,10 @@
 
 #include <filesystem>
 
+#include "../tools/objects/faces/Rectangle.hpp"
+#include "../tools/objects/libHeadears/glm.hpp"
+#include "../tools/objects/textures/Loader.hpp"
 #include "Program.hpp"
-#include "tools/objects/faces/Rectangle.hpp"
-#include "tools/objects/libHeadears/glm.hpp"
-#include "tools/objects/textures/Loader.hpp"
 
 // Устаревшее, не использовать без переписывания!!!
 class Program2 : public Program{

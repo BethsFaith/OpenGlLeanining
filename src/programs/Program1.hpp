@@ -5,9 +5,9 @@
 #ifndef INC_2_SHADERS_PROGRAM1_HPP
 #define INC_2_SHADERS_PROGRAM1_HPP
 
+#include "../tools/objects/faces/Triangle.hpp"
+#include "../tools/objects/faces/buffers/Vbo.hpp"
 #include "Program.hpp"
-#include "tools/objects/faces/buffers/Vbo.hpp"
-#include "tools/objects/faces/Triangle.hpp"
 
 // Устаревшее, не использовать без переписывания!!!
 class Program1 : public Program {
