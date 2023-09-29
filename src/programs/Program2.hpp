@@ -13,7 +13,7 @@
 #include "Program.hpp"
 
 // Устаревшее, не использовать без переписывания!!!
-class Program2 : public Program{
+class Program2 : public Program {
 public:
     Program2();
     ~Program2() override = default;

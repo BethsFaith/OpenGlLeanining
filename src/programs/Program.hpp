@@ -1,34 +1,26 @@
 //
-// Created by VerOchka on 23.08.2023.
+// Created by VerOchka on 29.09.2023.
 //
 
 #ifndef INC_2_SHADERS_PROGRAM_HPP
 #define INC_2_SHADERS_PROGRAM_HPP
 
-#include "../constants/Shaders.hpp"
-#include "../constants/Textures.hpp"
-#include "../tools/Drawer.hpp"
+#include "../tools/CameraController.hpp"
+#include "AbstractProgram.hpp"
 
-class Program {
+class Program : public AbstractProgram {
 public:
-    Program() = default;
-    virtual ~Program() = default;
+    Program();
+    ~Program() override = default;
 
-    virtual void run() = 0;
-
-    virtual void processKeyboardInput(GLFWwindow* window) = 0;
-
-    virtual void processMouseInput(double x_pos, double y_pos) = 0;
-
-    virtual void processMouseScroll(double x_offset, double y_offset) = 0;
-
-    virtual void setDeltaTime(const float& delta_time) = 0;
+    void processKeyboardInput(GLFWwindow* window) override;
+    void processMouseInput(double x_pos, double y_pos) override;
+    void processMouseScroll(double x_offset, double y_offset) override;
+    void setDeltaTime(const float& delta_time) override;
 
 protected:
-    float last_x{};
-    float last_y{};
-
-    bool first_mouse = true;
+    std::shared_ptr<Tools::Objects::Camera> camera;
+    std::shared_ptr<Tools::CameraController> camera_controller;
 };
 
 #endif    //INC_2_SHADERS_PROGRAM_HPP

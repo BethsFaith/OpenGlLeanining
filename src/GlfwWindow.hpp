@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "programs/Program.hpp"
+#include "programs/AbstractProgram.hpp"
 #include "tools/objects/libHeadears/glfw.hpp"
 #include "tools/objects/libHeadears/glm.hpp"
 
@@ -20,7 +20,7 @@ public:
     void run();
 
     void setClearColor(float r, float g, float b, float a);
-    void setProgram(Program* program);
+    void setProgram(AbstractProgram* program);
 
 protected:
     static void frameBufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -41,7 +41,7 @@ private:
     static GlfwWindow* _instance;
 
     GLFWwindow* _window = nullptr;
-    Program* _program = nullptr;
+    AbstractProgram* _program = nullptr;
 
     glm::vec4 _clear_color{};
 };

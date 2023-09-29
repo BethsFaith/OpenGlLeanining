@@ -78,7 +78,7 @@ void GlfwWindow::setClearColor(float r, float g, float b, float a) {
     _clear_color = glm::vec4{r,g,b,a};
 }
 
-void GlfwWindow::setProgram(Program* program) {
+void GlfwWindow::setProgram(AbstractProgram* program) {
     _program = program;
 
     glfwSetCursorPosCallback(_window, mouseCallback);
@@ -87,8 +87,6 @@ void GlfwWindow::setProgram(Program* program) {
 
 void GlfwWindow::updateDeltaTime() {
     auto currentFrame = (float)glfwGetTime();
-
-//    std::cout << std::endl << currentFrame << std::endl;
 
     _delta_time = currentFrame - _last_frame;
     _last_frame = currentFrame;

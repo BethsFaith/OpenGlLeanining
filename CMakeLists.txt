@@ -48,6 +48,6 @@ add_executable(2_shaders
         src/tools/lights/DirectionalLight.cpp
         src/tools/lights/SpotLight.cpp
         src/tools/lights/PointLight.cpp
-        )
+        src/programs/Program.cpp)
 
 target_link_libraries(2_shaders ${CONAN_LIBS} assimp::assimp)

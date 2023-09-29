@@ -12,7 +12,7 @@
 #include "../tools/objects/textures/Loader.hpp"
 #include "Program.hpp"
 
-class Program3 : public Program{
+class Program3 : public Program {
 public:
     Program3();
     ~Program3() override = default;
