@@ -48,8 +48,17 @@ namespace Tools::Objects {
 
         draw();
 
+        std::vector<GLenum> deactivated_types;
+        for (const auto& texture : _textures) {
+            auto type = texture->getType();
+
+            if (std::find(deactivated_types.begin(), deactivated_types.end(), type) != deactivated_types.end()) {
+                texture->deactivate();
+                deactivated_types.push_back(type);
+            }
+        }
+
         Primitive::unbind();
-        Textures::Texture::deactivate();
     }
 
     void Mesh::bindData(const unsigned int& bind_flag) {

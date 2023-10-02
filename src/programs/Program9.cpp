@@ -65,6 +65,8 @@ void Program9::run() {
     _shader_program->set4FloatMat("model", glm::value_ptr(model));
     _floor_drawer->draw();
 
+    _floor_texture->deactivate();
+
     // кубы
     _cube_texture->activate(GL_TEXTURE0);
 
@@ -76,5 +78,5 @@ void Program9::run() {
     _shader_program->set4FloatMat("model", glm::value_ptr(model));
     _cube_drawer->draw();
 
-    Tools::Objects::Textures::Texture::deactivate();
+    _cube_texture->deactivate();
 }

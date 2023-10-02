@@ -5,12 +5,6 @@
 #ifndef INC_2_SHADERS_LOADER_HPP
 #define INC_2_SHADERS_LOADER_HPP
 
-#ifndef GLFW
-#include <glad/glad.h> // подключаем glad для активации всех заголовочных файлов OpenGL
-#include <GLFW/glfw3.h>
-#define GLFW
-#endif //GLFW
-
 #include <iostream>
 #include <stb_image.h>
 #include <vector>
@@ -24,6 +18,7 @@ namespace Tools::Objects::Textures::Loader {
     };
 
     bool load2d(Texture& texture, const std::vector<Param>& params);
+    bool loadCubeMap2d(std::vector<Texture::Ptr>& textures_faces, const std::vector<Param>& params);
 }
 
 #endif    //INC_2_SHADERS_LOADER_HPP

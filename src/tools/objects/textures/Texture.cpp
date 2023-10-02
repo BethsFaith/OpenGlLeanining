@@ -7,7 +7,7 @@
 #include <utility>
 
 namespace Tools::Objects::Textures {
-    Texture::Texture(std::string  name, std::string  path) : _name(std::move(name)), _path(std::move(path)) {
+    Texture::Texture(std::string name, std::string path, GLenum type) : _name(std::move(name)), _path(std::move(path)), _type(type) {
         glGenTextures(1, &_id);
     }
 
@@ -17,12 +17,12 @@ namespace Tools::Objects::Textures {
 
     void Texture::activate(unsigned int gl_int) const {
         glActiveTexture(gl_int);
-        glBindTexture(GL_TEXTURE_2D, _id);
+        glBindTexture(_type, _id);
     }
 
-    void Texture::deactivate() {
+    void Texture::deactivate() const {
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindTexture(_type, 0);
     }
 
     unsigned int Texture::getId() const {
@@ -35,5 +35,9 @@ namespace Tools::Objects::Textures {
 
     const std::string& Texture::getPath() const {
         return _path;
+    }
+
+    GLenum Texture::getType() const {
+        return _type;
     }
 }

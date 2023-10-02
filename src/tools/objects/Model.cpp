@@ -149,13 +149,13 @@ namespace Tools::Objects {
                 auto texture = std::make_shared<Textures::Texture>(typeName, path);
 
                 Textures::Loader::load2d(*texture, {
-                                              {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
+                                              {.name = GL_TEXTURE_WRAP_S,
                                                .value =  GL_REPEAT},
-                                              {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
+                                              {.name = GL_TEXTURE_WRAP_T,
                                                .value = GL_REPEAT},
-                                              {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
+                                              {.name = GL_TEXTURE_MIN_FILTER,
                                                .value =  GL_LINEAR_MIPMAP_LINEAR},
-                                              {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
+                                              {.name = GL_TEXTURE_MAG_FILTER,
                                                .value =  GL_LINEAR}
                                           });
 
