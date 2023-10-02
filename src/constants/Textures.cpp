@@ -11,7 +11,9 @@ namespace Constants {
         {Textures::Sources::CONTAINER_2, "container_2.png"},
         {Textures::Sources::CONTAINER_2_SPECULAR, "container_2_specular.png"},
         {Textures::Sources::CONTAINER_2_SPECULAR_RAINBOW, "container_2_specular_2.png"},
-        {Textures::Sources::EMISSION, "emission.jpg"}
+        {Textures::Sources::EMISSION, "emission.jpg"},
+        {Textures::Sources::MARBLE, "marble.jpg"},
+        {Textures::Sources::METAL, "metal.jpg"}
     };
 
     std::string Textures::textures_path = ProgramData::getValue<std::string>("textures");

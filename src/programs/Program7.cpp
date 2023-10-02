@@ -45,29 +45,30 @@ Program7::Program7() {
     settings = {.with_normals = false, .with_texture = false};
     auto light_cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
 
-    light_cube->bind(GL_STATIC_DRAW);
-    cube->bind(GL_STATIC_DRAW);
+    light_cube->bindData(GL_STATIC_DRAW);
+    cube->bindData(GL_STATIC_DRAW);
 
     _cube_drawer.addPrimitive(cube, _lighting_shader_program);
     _light_drawer.addPrimitive(light_cube, _light_source_shader_program);
 
-    _camera = std::make_shared<Tools::Objects::Camera>(glm::vec3(0.0f, 0.0f, 3.0f),
-                                                glm::vec3(0.0f, 0.0f, -1.0f),
-                                                glm::vec3(0.0f, 1.0f, 0.0f));
-    _camera_controller = std::make_shared<Tools::CameraController>(_camera, 4.0f);
+    _texture1 = std::make_shared<Tools::Objects::Textures::Texture>
+                ("",Textures::getPath(Textures::Sources::CONTAINER_2).c_str());
+    _texture2 = std::make_shared<Tools::Objects::Textures::Texture>
+        ("",Textures::getPath(Textures::Sources::CONTAINER_2_SPECULAR).c_str());
 
-    _texture1.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S, .value = GL_CLAMP_TO_EDGE});
-    _texture1.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T, .value = GL_CLAMP_TO_EDGE});
-    _texture1.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
-    _texture1.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
+    std::vector<Tools::Objects::Textures::Loader::Param> params = {
+        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
+         .value =  GL_CLAMP_TO_EDGE},
+        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
+         .value = GL_CLAMP_TO_EDGE},
+        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
+         .value =  GL_NEAREST},
+        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
+         .value =  GL_NEAREST}
+    };
 
-    _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S, .value = GL_CLAMP_TO_EDGE});
-    _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T, .value = GL_CLAMP_TO_EDGE});
-    _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER, .value = GL_NEAREST});
-    _texture2.addParam({.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER, .value = GL_NEAREST});
-
-    _texture1.load2d(Textures::getPath(Textures::Sources::CONTAINER_2).c_str());
-    _texture2.load2d(Textures::getPath(Textures::Sources::CONTAINER_2_SPECULAR).c_str());
+    Tools::Objects::Textures::Loader::load2d(*_texture1, params);
+    Tools::Objects::Textures::Loader::load2d(*_texture2, params);
 
     int width, height;
     ProgramData::pullDesktopResolution(width, height);
@@ -124,16 +125,16 @@ Program7::Program7() {
         int width, height;
         ProgramData::pullDesktopResolution(width, height);
 
-        auto projection = glm::perspective(glm::radians(_camera->getZoom()),
+        auto projection = glm::perspective(glm::radians(camera->getZoom()),
                                            (float)width / (float)height, 0.1f, 100.0f);
         // расположение объекта
-        _lighting_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
+        _lighting_shader_program->set4FloatMat("view", glm::value_ptr(camera->getView()));
         _lighting_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
-        _lighting_shader_program->set3FloatVector("viewPos", _camera->getPosition());
+        _lighting_shader_program->set3FloatVector("viewPos", camera->getPosition());
 
         // свойства света
-        _lighting_shader_program->set3FloatVector("spotLight.position",_camera->getPosition());
-        _lighting_shader_program->set3FloatVector("spotLight.direction",_camera->getFront());
+        _lighting_shader_program->set3FloatVector("spotLight.position",camera->getPosition());
+        _lighting_shader_program->set3FloatVector("spotLight.direction",camera->getFront());
     });
 
     light_cube->setDrawCallback([this]() {
@@ -143,17 +144,17 @@ Program7::Program7() {
         int width, height;
         ProgramData::pullDesktopResolution(width, height);
 
-        auto projection = glm::perspective(glm::radians(_camera->getZoom()),
+        auto projection = glm::perspective(glm::radians(camera->getZoom()),
                                            (float)width / (float)height, 0.1f, 100.0f);
 
-        _light_source_shader_program->set4FloatMat("view", glm::value_ptr(_camera->getView()));
+        _light_source_shader_program->set4FloatMat("view", glm::value_ptr(camera->getView()));
         _light_source_shader_program->set4FloatMat("projection", glm::value_ptr(projection));
     });
 }
 
 void Program7::run() {
-    _texture1.activate();
-    _texture2.activate();
+    _texture1->activate(GL_TEXTURE0);
+    _texture2->activate(GL_TEXTURE1);
 
     _lighting_shader_program->use();
     for (unsigned int i = 0; i < 10; ++i) {
@@ -184,57 +185,3 @@ void Program7::run() {
 
 void Program7::updateView() {
 }
-
-void Program7::processKeyboardInput(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        _camera_controller->forward();
-    }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        _camera_controller->back();
-    }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        _camera_controller->left();
-    }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        _camera_controller->right();
-    }
-}
-
-void Program7::processMouseInput(double x_pos, double y_pos) {
-    if (first_mouse)    // изначально установлено значение true
-    {
-        last_x = x_pos;
-        last_y = y_pos;
-
-        first_mouse = false;
-
-        return;
-    }
-
-    float x_offset = x_pos - last_x;
-    float y_offset =
-        last_y
-        - y_pos;    // уменьшаемое и вычитаемое поменяны местами, так как диапазон y-координаты определяется снизу вверх
-
-    last_x = x_pos;
-    last_y = y_pos;
-
-    const float sensitivity = 0.04f;    // чувствительность мыши
-    x_offset *= sensitivity;
-    y_offset *= sensitivity;
-
-    _camera_controller->rotate(x_offset, y_offset);
-}
-
-void Program7::processMouseScroll(double x_offset, double y_offset) {
-    _camera_controller->zoom((float)y_offset);
-}
-
-void Program7::setDeltaTime(const float& delta_time) {
-    _camera_controller->setDeltaTime(delta_time);
-}
-

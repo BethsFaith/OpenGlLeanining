@@ -7,8 +7,8 @@
 namespace Tools::Objects::Faces {
     Primitive::Primitive(const int &vertex_number_) : Primitive(vertex_number_, {}){}
 
-    Primitive::Primitive(const int& vertex_number_, const Settings &settings)
-        : vertex_number(vertex_number_) {
+    Primitive::Primitive(const int& vertex_number_, const Settings &settings_)
+        : vertex_number(vertex_number_), settings(settings_) {
         _drawCallback = []() {};
 
         _vao = std::make_shared<Buffers::VAO>();

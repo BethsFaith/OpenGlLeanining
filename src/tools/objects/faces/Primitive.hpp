@@ -19,7 +19,7 @@ namespace Tools::Objects::Faces {
     class Primitive : public AbstractPrimitive {
     public:
         explicit Primitive(const int& vertex_number);
-        explicit Primitive(const int& vertex_number, const Settings &settings);
+        explicit Primitive(const int& vertex_number, const Settings &settings_);
         ~Primitive() override = default;
 
         void setDrawCallback(std::function<void()> function) override;

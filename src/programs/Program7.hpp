@@ -21,10 +21,6 @@ public:
     ~Program7() override = default;
 
     void run() override;
-    void processKeyboardInput(GLFWwindow* window) override;
-    void processMouseInput(double x_pos, double y_pos) override;
-    void processMouseScroll(double x_offset, double y_offset) override;
-    void setDeltaTime(const float& delta_time) override;
 
 protected:
     void updateView();
@@ -37,11 +33,8 @@ private:
     std::shared_ptr<Tools::Shaders::ShaderProgram> _lighting_shader_program;
     std::shared_ptr<Tools::Shaders::ShaderProgram> _light_source_shader_program;
 
-    std::shared_ptr<Tools::Objects::Camera> _camera;
-    std::shared_ptr<Tools::CameraController> _camera_controller;
-
-    Tools::Objects::Textures::TextureLoader _texture1{GL_TEXTURE0};
-    Tools::Objects::Textures::TextureLoader _texture2{GL_TEXTURE1};
+    Tools::Objects::Textures::Texture::Ptr _texture1;
+    Tools::Objects::Textures::Texture::Ptr _texture2;
 
     Tools::Drawer _cube_drawer{};
     Tools::Drawer _light_drawer{};
