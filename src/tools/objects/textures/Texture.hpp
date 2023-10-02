@@ -8,17 +8,17 @@
 #include <iostream>
 
 #ifndef GLFW
-#include <glad/glad.h> // подключаем glad для активации всех заголовочных файлов OpenGL
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>    // подключаем glad для активации всех заголовочных файлов OpenGL
 #define GLFW
-#endif //GLFW
+#endif                    //GLFW
 
-namespace Tools::Objects::Textures{
+namespace Tools::Objects::Textures {
     class Texture {
     public:
         using Ptr = std::shared_ptr<Texture>;
 
-        explicit Texture(std::string  name, std::string  path);
+        explicit Texture(std::string name, std::string path);
         ~Texture();
 
         void activate(unsigned int gl_int) const;
@@ -33,6 +33,6 @@ namespace Tools::Objects::Textures{
         std::string _name;
         std::string _path;
     };
-}
+}    //namespace Tools::Objects::Textures
 
 #endif    //INC_2_SHADERS_TEXTURE_HPP

@@ -29,7 +29,7 @@ namespace Tools::Objects::Textures::Loader {
             glGenerateMipmap(GL_TEXTURE_2D);
 
             for (const auto& param : params) {
-                glTexParameteri(param.target, param.name, param.value);
+                glTexParameteri(GL_TEXTURE_2D, param.name, param.value);
             }
 
             res = true;

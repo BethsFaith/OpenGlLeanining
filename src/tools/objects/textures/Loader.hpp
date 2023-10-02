@@ -19,7 +19,6 @@
 
 namespace Tools::Objects::Textures::Loader {
     struct Param {
-        GLenum target;
         GLenum name;
         GLint value;
     };

@@ -57,14 +57,10 @@ Program7::Program7() {
         ("",Textures::getPath(Textures::Sources::CONTAINER_2_SPECULAR).c_str());
 
     std::vector<Tools::Objects::Textures::Loader::Param> params = {
-        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
-         .value =  GL_CLAMP_TO_EDGE},
-        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
-         .value = GL_CLAMP_TO_EDGE},
-        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
-         .value =  GL_NEAREST},
-        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
-         .value =  GL_NEAREST}
+        {.name = GL_TEXTURE_WRAP_S, .value =  GL_CLAMP_TO_EDGE},
+        {.name = GL_TEXTURE_WRAP_T, .value = GL_CLAMP_TO_EDGE},
+        {.name = GL_TEXTURE_MIN_FILTER, .value =  GL_NEAREST},
+        {.name = GL_TEXTURE_MAG_FILTER, .value =  GL_NEAREST}
     };
 
     Tools::Objects::Textures::Loader::load2d(*_texture1, params);

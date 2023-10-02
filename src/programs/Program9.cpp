@@ -27,14 +27,10 @@ Program9::Program9() {
                                                     Constants::Textures::getPath(Constants::Textures::METAL));
 
     std::vector<Textures::Loader::Param> params = {
-        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_S,
-         .value =  GL_REPEAT},
-        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_WRAP_T,
-         .value = GL_REPEAT},
-        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MIN_FILTER,
-         .value =  GL_LINEAR_MIPMAP_LINEAR},
-        {.target = GL_TEXTURE_2D, .name = GL_TEXTURE_MAG_FILTER,
-         .value =  GL_LINEAR}
+        {.name = GL_TEXTURE_WRAP_S, .value =  GL_REPEAT},
+        {.name = GL_TEXTURE_WRAP_T, .value = GL_REPEAT},
+        {.name = GL_TEXTURE_MIN_FILTER, .value =  GL_LINEAR_MIPMAP_LINEAR},
+        {.name = GL_TEXTURE_MAG_FILTER, .value =  GL_LINEAR}
     };
 
     Textures::Loader::load2d(*_cube_texture, params);
