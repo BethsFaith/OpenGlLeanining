@@ -11,7 +11,7 @@ Program9::Program9() {
     auto cube = std::make_shared<Faces::Cube>
         (Faces::Settings{.with_normals = false, .with_tangent = false, .with_bitangent = false});
     auto plane = std::make_shared<Tools::Objects::Faces::Plane>
-        (Faces::Settings{.with_texture = true});
+        (Faces::Settings{.with_texture_coords = true});
 
     cube->bindData(GL_STATIC_DRAW);
     plane->bindData(GL_STATIC_DRAW);

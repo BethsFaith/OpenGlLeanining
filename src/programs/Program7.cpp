@@ -39,10 +39,10 @@ Program7::Program7() {
 //    auto vbo = std::make_shared<Tools::Objects::Faces::Buffers::VBO>(coords);
 
 
-    Tools::Objects::Faces::Settings settings = {.with_normals = true, .with_texture = true};
+    Tools::Objects::Faces::Settings settings = {.with_normals = true, .with_texture_coords = true};
     auto cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
 
-    settings = {.with_normals = false, .with_texture = false};
+    settings = {.with_normals = false, .with_texture_coords = false};
     auto light_cube = std::make_shared<Tools::Objects::Faces::Cube>(settings);
 
     light_cube->bindData(GL_STATIC_DRAW);

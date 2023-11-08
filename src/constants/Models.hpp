@@ -15,7 +15,8 @@ namespace Constants {
     public:
         enum Sources {
             GUITAR_BACKPACK,
-            AYA_WOMAN
+            AYA_WOMAN,
+            FLOWERS
         };
         struct ModelFiles {
             std::string directory;

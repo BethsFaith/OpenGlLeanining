@@ -73,7 +73,7 @@ namespace Tools::Objects {
         if (settings.with_normals) {
             Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, normal));
         }
-        if (settings.with_texture) {
+        if (settings.with_texture_coords) {
             Buffers::setVertexAttribute(index++, 2, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, tex_coords));
         }
         if (settings.with_tangent) {

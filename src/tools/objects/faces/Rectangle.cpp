@@ -7,11 +7,11 @@
 namespace Tools::Objects::Faces {
     Rectangle::Rectangle(const Settings &settings) : Primitive(4, settings) {
         std::vector<glm::vec3> position = getPosition();
-        std::vector<glm::vec2> texture_coordinates = settings.with_texture ? getTextureCoordinates() : std::vector<glm::vec2>();
+        std::vector<glm::vec2> texture_coordinates = settings.with_texture_coords ? getTextureCoordinates() : std::vector<glm::vec2>();
 
         std::vector<Buffers::Vertex> vertices;
 
-        if (settings.with_texture) {
+        if (settings.with_texture_coords) {
             for (int i{}; i < vertex_number; ++i) {
                 vertices.push_back({
                     .position = position.at(i),
@@ -69,7 +69,7 @@ namespace Tools::Objects::Faces {
         if (settings.with_normals) {
             Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, normal));
         }
-        if (settings.with_texture) {
+        if (settings.with_texture_coords) {
             Buffers::setVertexAttribute(index++, 2, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, tex_coords));
         }
         if (settings.with_tangent) {

@@ -10,7 +10,7 @@ namespace Tools::Objects::Textures::Loader {
     bool load2d(Texture& texture, const std::vector<Param>& params) {
         bool res = false;
 
-        //        stbi_set_flip_vertically_on_load(true);
+                stbi_set_flip_vertically_on_load(true);
         int width, height, nrChannels;
         unsigned char* data = stbi_load(texture.getPath().c_str(), &width, &height, &nrChannels, 0);
 
@@ -43,13 +43,19 @@ namespace Tools::Objects::Textures::Loader {
         return res;
     }
 
-    bool loadCubeMap2d(std::vector<Texture::Ptr>& textures_faces, const std::vector<Param>& params) {
+    bool loadCubeMap2d(Texture& texture,
+                       std::vector<std::string> texture_faces_path,
+                       const std::vector<Param>& params) {
         bool res = false;
+
+        glBindTexture(GL_TEXTURE_CUBE_MAP, texture.getId());
 
         int width, height, nrChannels;
         unsigned char* data;
-        for (int i = 0; i < textures_faces.size(); i++) {
-            data = stbi_load(textures_faces.at(i)->getPath().c_str(), &width, &height, &nrChannels, 0);
+
+        for (int i = 0; i < texture_faces_path.size(); i++) {
+            data = stbi_load((texture.getPath() + texture_faces_path.at(i)).c_str(),
+                             &width, &height, &nrChannels, 0);
 
             if (data) {
                 GLenum format;
@@ -61,7 +67,6 @@ namespace Tools::Objects::Textures::Loader {
                     format = GL_RGBA;
                 }
 
-                glBindTexture(GL_TEXTURE_CUBE_MAP, textures_faces.at(i)->getId());
                 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
                              0,
                              format,
@@ -72,10 +77,6 @@ namespace Tools::Objects::Textures::Loader {
                              GL_UNSIGNED_BYTE,
                              data);
 
-                for (const auto& param : params) {
-                    glTexParameteri(GL_TEXTURE_CUBE_MAP, param.name, param.value);
-                }
-
                 res = true;
 
             } else {
@@ -85,7 +86,11 @@ namespace Tools::Objects::Textures::Loader {
             stbi_image_free(data);
         }
 
-        glBindTexture(GL_TEXTURE_2D, 0);
+        for (const auto& param : params) {
+            glTexParameteri(GL_TEXTURE_CUBE_MAP, param.name, param.value);
+        }
+
+        glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
         return res;
     }

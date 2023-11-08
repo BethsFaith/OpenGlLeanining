@@ -18,7 +18,7 @@ namespace Tools::Objects::Textures::Loader {
     };
 
     bool load2d(Texture& texture, const std::vector<Param>& params);
-    bool loadCubeMap2d(std::vector<Texture::Ptr>& textures_faces, const std::vector<Param>& params);
+    bool loadCubeMap2d(Texture& texture, std::vector<std::string> texture_faces_path, const std::vector<Param>& params);
 }
 
 #endif    //INC_2_SHADERS_LOADER_HPP

@@ -8,7 +8,7 @@
 namespace Tools::Objects::Faces {
     struct Settings {
         bool with_normals = true;
-        bool with_texture = true;
+        bool with_texture_coords = true;
         bool with_tangent = true;
         bool with_bitangent = true;
     };

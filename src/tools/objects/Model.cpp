@@ -56,10 +56,14 @@ namespace Tools::Objects {
             vector.z = mesh->mVertices[i].z;
             vertex.position = vector;
 
-            vector.x = mesh->mNormals[i].x;
-            vector.y = mesh->mNormals[i].y;
-            vector.z = mesh->mNormals[i].z;
-            vertex.normal = vector;
+            if (mesh->mNormals != nullptr) {
+                vector.x = mesh->mNormals[i].x;
+                vector.y = mesh->mNormals[i].y;
+                vector.z = mesh->mNormals[i].z;
+                vertex.normal = vector;
+            } else {
+                vertex.normal = {};
+            }
 
             if (mesh->mTextureCoords[0]) {    // действительно ли меш содержит текстурные координаты?
                 glm::vec2 vec;
@@ -69,18 +73,25 @@ namespace Tools::Objects {
             } else {
                 vertex.tex_coords = glm::vec2(0.0f, 0.0f);
             }
-            // Касательный вектор
-            vector.x = mesh->mTangents[i].x;
-            vector.y = mesh->mTangents[i].y;
-            vector.z = mesh->mTangents[i].z;
-            vertex.tangent = vector;
-
-            // Вектор бинормали
-            vector.x = mesh->mBitangents[i].x;
-            vector.y = mesh->mBitangents[i].y;
-            vector.z = mesh->mBitangents[i].z;
-            vertex.bitangent = vector;
-            vertices.push_back(vertex);
+            if (mesh->mTangents != nullptr) {
+                // Касательный вектор
+                vector.x = mesh->mTangents[i].x;
+                vector.y = mesh->mTangents[i].y;
+                vector.z = mesh->mTangents[i].z;
+                vertex.tangent = vector;
+            } else {
+                vertex.tangent = {};
+            }
+            if (mesh->mBitangents != nullptr) {
+                // Вектор бинормали
+                vector.x = mesh->mBitangents[i].x;
+                vector.y = mesh->mBitangents[i].y;
+                vector.z = mesh->mBitangents[i].z;
+                vertex.bitangent = vector;
+                vertices.push_back(vertex);
+            } else {
+                vertex.bitangent = {};
+            }
         }
 
         // Обрабатываем индексы

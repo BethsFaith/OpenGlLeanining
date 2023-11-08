@@ -9,7 +9,11 @@ namespace Constants {
         {Models::Sources::GUITAR_BACKPACK,
          {"backpack", "backpack.obj", "textures"}},
         {Models::Sources::AYA_WOMAN,
-         {"aya", "scene.gltf", ""}}
+         {"aya", "scene.gltf", ""}},
+        {Models::Sources::FLOWERS,
+         {"Grass", "grass.obj", "Textyres"}}
+//        {Models::Sources::FLOWERS,
+//         {"Flowered", "OD-1898_1281.obj", "Textyres"}}
     };
 
     std::string Models::models_path = ProgramData::getValue<std::string>("models");

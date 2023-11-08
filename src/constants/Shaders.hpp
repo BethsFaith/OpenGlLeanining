@@ -34,6 +34,7 @@ namespace Constants {
         };
 
         [[maybe_unused]] static std::string getPath(Sources name);
+        static std::string getShadersPath();
     private:
         static std::map<Sources, std::string> files;
         static std::string shaders_path;

@@ -25,4 +25,10 @@ namespace Constants {
         std::cout << s << std::endl;
         return s;
     }
+
+    std::string Textures::getTexturesPath() {
+        using namespace ProgramData;
+
+        return project_path + separator + textures_path;
+    }
 }    //namespace Constants

@@ -22,7 +22,8 @@ public:
 private:
     void configureShaders();
 
-    std::shared_ptr<Tools::Objects::Model> _model;
+    std::shared_ptr<Tools::Objects::Model> _grassModel;
+    std::shared_ptr<Tools::Objects::Model> _plantModel;
 
     std::shared_ptr<Tools::Shaders::ShaderProgram> _shader_program;
 

@@ -25,7 +25,7 @@ namespace Tools::Objects::Faces {
 
         std::vector<Buffers::Vertex> vertices;
 
-        if (settings.with_texture) {
+        if (settings.with_texture_coords) {
             for (int i{}; i < vertex_number; ++i) {
                 vertices.push_back({
                     .position = position.at(i),
@@ -51,7 +51,7 @@ namespace Tools::Objects::Faces {
 
         Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)),
                                     (void*)offsetof(Buffers::Vertex, position));
-        if (settings.with_texture) {
+        if (settings.with_texture_coords) {
             Buffers::setVertexAttribute(index++, 2, (int)(sizeof(Buffers::Vertex)),
                                         (void*)offsetof(Buffers::Vertex, tex_coords));
         }

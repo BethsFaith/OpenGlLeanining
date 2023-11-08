@@ -5,7 +5,7 @@
 #include "Triangle.hpp"
 
 namespace Tools::Objects::Faces {
-    Triangle::Triangle()  : Primitive(3, Settings{.with_normals = false, .with_texture = false}) {
+    Triangle::Triangle()  : Primitive(3, Settings{.with_normals = false, .with_texture_coords = false}) {
         std::vector<glm::vec3> position = {
             {0.5f,  0.5f, 0.0f},
             {0.5f, -0.5f, 0.0f},

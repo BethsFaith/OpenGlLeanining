@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "GlfwWindow.hpp"
-#include "programs/Program9.hpp"
+#include "programs/Program8.hpp"
 #include <stb_image.h>
 
 int main() {
@@ -17,11 +17,11 @@ int main() {
 
     auto window = GlfwWindow::get();
 
-    window->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-//    window->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//    window->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    window->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 //    window->setClearColor(0.05f, 0.05f, 0.05f, 1.0f);
 
-    window->setProgram(new Program9);
+    window->setProgram(new Program8);
 
     window->run();
 

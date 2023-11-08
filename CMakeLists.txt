@@ -51,6 +51,6 @@ add_executable(2_shaders
         src/tools/lights/DirectionalLight.cpp
         src/tools/lights/SpotLight.cpp
         src/tools/lights/PointLight.cpp
-        src/tools/objects/faces/Plane.cpp src/tools/objects/faces/Plane.hpp)
+        src/tools/objects/faces/Plane.cpp src/tools/objects/faces/Plane.hpp src/programs/Program10.cpp src/programs/Program10.hpp)
 
 target_link_libraries(2_shaders ${CONAN_LIBS} assimp::assimp)

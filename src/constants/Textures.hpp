@@ -18,10 +18,12 @@ namespace Constants {
             CONTAINER_2_SPECULAR_RAINBOW,
             EMISSION,
             MARBLE,
-            METAL
+            METAL,
+            SKYBOX
         };
 
         [[maybe_unused]] static std::string getPath(Sources name);
+        static std::string getTexturesPath();
     private:
         static std::map<Sources, std::string> paths;
         static std::string textures_path;

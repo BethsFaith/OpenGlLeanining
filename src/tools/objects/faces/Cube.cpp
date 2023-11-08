@@ -5,43 +5,34 @@
 #include "Cube.hpp"
 
 namespace Tools::Objects::Faces {
-    Cube::Cube(const Settings &settings) : Primitive(36, settings) {
+    Cube::Cube(const Settings& settings) : Primitive(36, settings) {
         std::vector<glm::vec3> position = getPosition();
         std::vector<glm::vec3> normals = settings.with_normals ? getNormals() : std::vector<glm::vec3>();
-        std::vector<glm::vec2> texture_coordinates = settings.with_texture ? getTextureCoordinates() : std::vector<glm::vec2>();
+        std::vector<glm::vec2> texture_coordinates = settings.with_texture_coords ? getTextureCoordinates()
+                                                                                  : std::vector<glm::vec2>();
 
         std::vector<Buffers::Vertex> vertices;
 
-        if (settings.with_texture && settings.with_normals) {
+        if (settings.with_texture_coords && settings.with_normals) {
             for (int i{}; i < 6; ++i) {
                 for (int j{}; j < 6; ++j) {
-                    vertices.push_back(Buffers::Vertex{
-                        .position = position.at(i * 6 + j),
-                        .normal = normals.at(i * 6 + j),
-                        .tex_coords = texture_coordinates.at(i / 2 * 6 + j)
-                    });
+                    vertices.push_back(Buffers::Vertex{.position = position.at(i * 6 + j),
+                                                       .normal = normals.at(i * 6 + j),
+                                                       .tex_coords = texture_coordinates.at(i / 2 * 6 + j)});
                 }
             }
-        }
-        else if (settings.with_texture) {
+        } else if (settings.with_texture_coords) {
             for (int i{}; i < 6; ++i) {
                 for (int j{}; j < 6; ++j) {
-                    vertices.push_back(Buffers::Vertex{
-                        .position = position.at(i * 6 + j),
-                        .tex_coords = texture_coordinates.at(i / 2 * 6 + j)
-                    });
+                    vertices.push_back(Buffers::Vertex{.position = position.at(i * 6 + j),
+                                                       .tex_coords = texture_coordinates.at(i / 2 * 6 + j)});
                 }
             }
-        }
-        else if (settings.with_normals) {
+        } else if (settings.with_normals) {
             for (int i{}; i < 36; ++i) {
-                vertices.push_back(Buffers::Vertex{
-                    .position = position.at(i),
-                    .normal = normals.at(i)
-                });
+                vertices.push_back(Buffers::Vertex{.position = position.at(i), .normal = normals.at(i)});
             }
-        }
-        else {
+        } else {
             for (int i{}; i < 36; ++i) {
                 vertices.push_back(Buffers::Vertex{
                     .position = position.at(i),
@@ -65,136 +56,146 @@ namespace Tools::Objects::Faces {
 
         int index = 0;
 
-        Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, position));
+        Buffers::setVertexAttribute(index++,
+                                    3,
+                                    (int)(sizeof(Buffers::Vertex)),
+                                    (void*)offsetof(Buffers::Vertex, position));
         if (settings.with_normals) {
-            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, normal));
+            Buffers::setVertexAttribute(index++,
+                                        3,
+                                        (int)(sizeof(Buffers::Vertex)),
+                                        (void*)offsetof(Buffers::Vertex, normal));
         }
-        if (settings.with_texture) {
-            Buffers::setVertexAttribute(index++, 2, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, tex_coords));
+        if (settings.with_texture_coords) {
+            Buffers::setVertexAttribute(index++,
+                                        2,
+                                        (int)(sizeof(Buffers::Vertex)),
+                                        (void*)offsetof(Buffers::Vertex, tex_coords));
         }
         if (settings.with_tangent) {
-            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, tangent));
+            Buffers::setVertexAttribute(index++,
+                                        3,
+                                        (int)(sizeof(Buffers::Vertex)),
+                                        (void*)offsetof(Buffers::Vertex, tangent));
         }
         if (settings.with_bitangent) {
-            Buffers::setVertexAttribute(index++, 3, (int)(sizeof(Buffers::Vertex)), (void*)offsetof(Buffers::Vertex, bitangent));
+            Buffers::setVertexAttribute(index++,
+                                        3,
+                                        (int)(sizeof(Buffers::Vertex)),
+                                        (void*)offsetof(Buffers::Vertex, bitangent));
         }
 
         unbind();
     }
 
     std::vector<glm::vec3> Cube::getPosition() {
-        return {
-            {-0.5f, -0.5f, -0.5f},
-            {0.5f, -0.5f, -0.5f},
-            {0.5f, 0.5f, -0.5f},
-            {0.5f, 0.5f, -0.5f},
-            {-0.5f, 0.5f, -0.5f},
-            {-0.5f, -0.5f, -0.5f},
+        return {// координаты
+                {-1.0f, 1.0f, -1.0f},  {-1.0f, -1.0f, -1.0f}, {1.0f, -1.0f, -1.0f},
+                {1.0f, -1.0f, -1.0f},  {1.0f, 1.0f, -1.0f},   {-1.0f, 1.0f, -1.0f},
 
-            {-0.5f, -0.5f, 0.5f},
-            {0.5f, -0.5f, 0.5f},
-            {0.5f, 0.5f, 0.5f},
-            {0.5f, 0.5f, 0.5f},
-            {-0.5f, 0.5f, 0.5f},
-            {-0.5f, -0.5f, 0.5f},
+                {-1.0f, -1.0f, 1.0f},  {-1.0f, -1.0f, -1.0f}, {-1.0f, 1.0f, -1.0f},
+                {-1.0f, 1.0f, -1.0f},  {-1.0f, 1.0f, 1.0f},   {-1.0f, -1.0f, 1.0f},
 
-            {-0.5f, 0.5f, 0.5f},
-            {-0.5f, 0.5f, -0.5f},
-            {-0.5f, -0.5f, -0.5f},
-            {-0.5f, -0.5f, -0.5f},
-            {-0.5f, -0.5f, 0.5f},
-            {-0.5f, 0.5f, 0.5f},
+                {1.0f, -1.0f, -1.0f},  {1.0f, -1.0f, 1.0f},   {1.0f, 1.0f, 1.0f},
+                {1.0f, 1.0f, 1.0f},    {1.0f, 1.0f, -1.0f},   {1.0f, -1.0f, -1.0f},
 
-            {0.5f, 0.5f, 0.5f},
-            {0.5f, 0.5f, -0.5f},
-            {0.5f, -0.5f, -0.5f},
-            {0.5f, -0.5f, -0.5f},
-            {0.5f, -0.5f, 0.5f},
-            {0.5f, 0.5f, 0.5f},
+                {-1.0f, -1.0f, 1.0f},  {-1.0f, 1.0f, 1.0f},   {1.0f, 1.0f, 1.0f},
+                {1.0f, 1.0f, 1.0f},    {1.0f, -1.0f, 1.0f},   {-1.0f, -1.0f, 1.0f},
 
-            {-0.5f, -0.5f, -0.5f},
-            {0.5f, -0.5f, -0.5f},
-            {0.5f, -0.5f, 0.5f},
-            {0.5f, -0.5f, 0.5f},
-            {-0.5f, -0.5f, 0.5f},
-            {-0.5f, -0.5f, -0.5f},
+                {-1.0f, 1.0f, -1.0f},  {1.0f, 1.0f, -1.0f},   {1.0f, 1.0f, 1.0f},
+                {1.0f, 1.0f, 1.0f},    {-1.0f, 1.0f, 1.0f},   {-1.0f, 1.0f, -1.0f},
 
-            {-0.5f, 0.5f, -0.5f},
-            {0.5f, 0.5f, -0.5f},
-            {0.5f, 0.5f, 0.5f},
-            {0.5f, 0.5f, 0.5f},
-            {-0.5f, 0.5f, 0.5f},
-            {-0.5f, 0.5f, -0.5f}
-        };
+                {-1.0f, -1.0f, -1.0f}, {-1.0f, -1.0f, 1.0f},  {1.0f, -1.0f, -1.0f},
+                {1.0f, -1.0f, -1.0f},  {-1.0f, -1.0f, 1.0f},  {1.0f, -1.0f, 1.0f}};
+        //        return {
+        //            {-0.5f, -0.5f, -0.5f},
+        //            {0.5f, -0.5f, -0.5f},
+        //            {0.5f, 0.5f, -0.5f},
+        //            {0.5f, 0.5f, -0.5f},
+        //            {-0.5f, 0.5f, -0.5f},
+        //            {-0.5f, -0.5f, -0.5f},
+        //
+        //            {-0.5f, -0.5f, 0.5f},
+        //            {0.5f, -0.5f, 0.5f},
+        //            {0.5f, 0.5f, 0.5f},
+        //            {0.5f, 0.5f, 0.5f},
+        //            {-0.5f, 0.5f, 0.5f},
+        //            {-0.5f, -0.5f, 0.5f},
+        //
+        //            {-0.5f, 0.5f, 0.5f},
+        //            {-0.5f, 0.5f, -0.5f},
+        //            {-0.5f, -0.5f, -0.5f},
+        //            {-0.5f, -0.5f, -0.5f},
+        //            {-0.5f, -0.5f, 0.5f},
+        //            {-0.5f, 0.5f, 0.5f},
+        //
+        //            {0.5f, 0.5f, 0.5f},
+        //            {0.5f, 0.5f, -0.5f},
+        //            {0.5f, -0.5f, -0.5f},
+        //            {0.5f, -0.5f, -0.5f},
+        //            {0.5f, -0.5f, 0.5f},
+        //            {0.5f, 0.5f, 0.5f},
+        //
+        //            {-0.5f, -0.5f, -0.5f},
+        //            {0.5f, -0.5f, -0.5f},
+        //            {0.5f, -0.5f, 0.5f},
+        //            {0.5f, -0.5f, 0.5f},
+        //            {-0.5f, -0.5f, 0.5f},
+        //            {-0.5f, -0.5f, -0.5f},
+        //
+        //            {-0.5f, 0.5f, -0.5f},
+        //            {0.5f, 0.5f, -0.5f},
+        //            {0.5f, 0.5f, 0.5f},
+        //            {0.5f, 0.5f, 0.5f},
+        //            {-0.5f, 0.5f, 0.5f},
+        //            {-0.5f, 0.5f, -0.5f}
+        //        };
     }
 
     std::vector<glm::vec3> Cube::getNormals() {
-        return { {0.0f, 0.0f, -1.0f},
-            {0.0f, 0.0f, -1.0f},
-            {0.0f, 0.0f, -1.0f},
-            {0.0f, 0.0f, -1.0f},
-            {0.0f, 0.0f, -1.0f},
-            {0.0f, 0.0f, -1.0f},
+        return {
+            {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, -1.0f},
+            {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, -1.0f},
 
-            {0.0f, 0.0f, 1.0f},
-            {0.0f, 0.0f, 1.0f},
-            {0.0f, 0.0f, 1.0f},
-            {0.0f, 0.0f, 1.0f},
-            {0.0f, 0.0f, 1.0f},
-            {0.0f, 0.0f, 1.0f},
+            {0.0f, 0.0f, 1.0f},  {0.0f, 0.0f, 1.0f},  {0.0f, 0.0f, 1.0f},
+            {0.0f, 0.0f, 1.0f},  {0.0f, 0.0f, 1.0f},  {0.0f, 0.0f, 1.0f},
 
-            {-1.0f, 0.0f, 0.0f},
-            {-1.0f, 0.0f, 0.0f},
-            {-1.0f, 0.0f, 0.0f},
-            {-1.0f, 0.0f, 0.0f},
-            {-1.0f, 0.0f, 0.0f},
-            {-1.0f, 0.0f, 0.0f},
+            {-1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f},
+            {-1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f},
 
-            {1.0f, 0.0f, 0.0f},
-            {1.0f, 0.0f, 0.0f},
-            {1.0f, 0.0f, 0.0f},
-            {1.0f, 0.0f, 0.0f},
-            {1.0f, 0.0f, 0.0f},
-            {1.0f, 0.0f, 0.0f},
+            {1.0f, 0.0f, 0.0f},  {1.0f, 0.0f, 0.0f},  {1.0f, 0.0f, 0.0f},
+            {1.0f, 0.0f, 0.0f},  {1.0f, 0.0f, 0.0f},  {1.0f, 0.0f, 0.0f},
 
-            {0.0f, -1.0f, 0.0f},
-            {0.0f, -1.0f, 0.0f},
-            {0.0f, -1.0f,  0.0f},
-            {0.0f, -1.0f,  0.0f},
-            {0.0f, -1.0f,  0.0f},
-            {0.0f, -1.0f,  0.0f},
+            {0.0f, -1.0f, 0.0f}, {0.0f, -1.0f, 0.0f}, {0.0f, -1.0f, 0.0f},
+            {0.0f, -1.0f, 0.0f}, {0.0f, -1.0f, 0.0f}, {0.0f, -1.0f, 0.0f},
 
-            {0.0f,  1.0f,  0.0f},
-            {0.0f,  1.0f,  0.0f},
-            {0.0f,  1.0f,  0.0f},
-            {0.0f,  1.0f,  0.0f},
-            {0.0f,  1.0f,  0.0f},
-            {0.0f,  1.0f,  0.0f},
+            {0.0f, 1.0f, 0.0f},  {0.0f, 1.0f, 0.0f},  {0.0f, 1.0f, 0.0f},
+            {0.0f, 1.0f, 0.0f},  {0.0f, 1.0f, 0.0f},  {0.0f, 1.0f, 0.0f},
         };
     }
 
     std::vector<glm::vec2> Cube::getTextureCoordinates() {
         return {
-                {0.0f, 0.0f},
-                {1.0f, 0.0f},
-                {1.0f, 1.0f},
-                {1.0f, 1.0f},
-                {0.0f, 1.0f},
-                {0.0f, 0.0f},
+            {0.0f, 0.0f},
+            {1.0f, 0.0f},
+            {1.0f, 1.0f},
+            {1.0f, 1.0f},
+            {0.0f, 1.0f},
+            {0.0f, 0.0f},
 
-                {1.0f, 0.0f},
-                {1.0f, 1.0f},
-                {0.0f, 1.0f},
-                {0.0f, 1.0f},
-                {0.0f, 0.0f},
-                { 1.0f, 0.0f},
+            {1.0f, 0.0f},
+            {1.0f, 1.0f},
+            {0.0f, 1.0f},
+            {0.0f, 1.0f},
+            {0.0f, 0.0f},
+            {1.0f, 0.0f},
 
-                {0.0f, 1.0f},
-                {1.0f, 1.0f},
-                {1.0f, 0.0f},
-                {1.0f, 0.0f},
-                {0.0f, 0.0f},
-                {0.0f, 1.0f},
+            {0.0f, 1.0f},
+            {1.0f, 1.0f},
+            {1.0f, 0.0f},
+            {1.0f, 0.0f},
+            {0.0f, 0.0f},
+            {0.0f, 1.0f},
         };
     }
 }    //namespace Tools::Objects::Faces
